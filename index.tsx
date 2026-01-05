@@ -33,6 +33,8 @@ declare global {
     handleRegisterSubmit: (e: Event) => void;
     seedInitialBlogs: () => void;
     clearAllStorage: () => void;
+    toggleOrderFake: (orderId: string) => void;
+
   }
 }
 
@@ -90,13 +92,17 @@ let state: any = {
   cart: [],
   user: null,
   pendingCheckout: false,
+
+  // orders (load from localStorage)
+  orders: JSON.parse(localStorage.getItem('handora_orders') || '[]'),
+
   quizLoading: false,
   selectedCategory: 'All',
-  // Load products from localStorage or use INITIAL_PRODUCTS
   products: JSON.parse(localStorage.getItem('handora_products') || JSON.stringify(INITIAL_PRODUCTS)),
-  editingId: null, // Tracks if we are editing an existing product
-  tempImg: '' // Stores base64 of uploaded image
+  editingId: null,
+  tempImg: ''
 };
+
 
 // Blogs stored in localStorage (admin-managed). Use initial posts when none exist or when stored list is empty.
 (() => {
@@ -199,6 +205,26 @@ window.handleImageUpload = (e: any) => {
         };
         reader.readAsDataURL(file);
     }
+};
+
+
+// --- ORDER ADMIN ACTIONS ---
+window.toggleOrderFake = (orderId: string) => {
+  state.orders = (state.orders || []).map((o: any) => {
+    if (o.id !== orderId) return o;
+
+    const nextFake = !o.isFake;
+    return {
+      ...o,
+      isFake: nextFake,
+      status: nextFake ? "fake" : (o.status || "pending")
+    };
+  });
+
+  localStorage.setItem("handora_orders", JSON.stringify(state.orders));
+  localStorage.setItem("orders", JSON.stringify(state.orders)); // mirror (optional)
+
+  renderApp();
 };
 
 window.saveProduct = (e: Event) => {
@@ -367,39 +393,120 @@ const updateCartUI = () => {
     countEl.classList.toggle('hidden', distinctCount === 0);
   }
 };
+const getCartTotal = () =>
+  Number(
+    state.cart.reduce((s: number, i: any) => s + (Number(i.price) * (i.qty || 1)), 0).toFixed(2)
+  );
+
+const createOrderFromCart = () => {
+  if (!state.user) return null;
+  if (!state.cart || state.cart.length === 0) return null;
+
+  const order = {
+    id: 'o_' + Date.now().toString(),
+    createdAt: new Date().toISOString(),
+    status: 'pending',
+   customer: {
+  email: state.user.email || '',
+  name: state.user.name || '',
+  phone: state.user.phone || '',
+  address: state.user.address || ''  // thêm dòng này
+},
+    items: state.cart.map((i: any) => ({
+      id: i.id,
+      name: i.name,
+      price: Number(i.price),
+      qty: i.qty || 1,
+      img: i.img
+    })),
+    total: getCartTotal()
+  };
+
+  // state + localStorage
+  state.orders = [order, ...(state.orders || [])];
+  localStorage.setItem('handora_orders', JSON.stringify(state.orders));
+
+  // (optional) mirror key "orders" đúng như bạn nói
+  localStorage.setItem('orders', JSON.stringify(state.orders));
+
+  return order;
+};
+
 
 window.handleCheckout = () => {
-    // If not logged in, prompt login and mark pending checkout
-    if (!state.user) {
-      state.pendingCheckout = true;
-      window.openAuth();
-      return;
-    }
+  // If cart empty, don't proceed
+  if (!state.cart || state.cart.length === 0) {
+    alert("Your ritual bag is empty.");
+    return;
+  }
 
-    // Proceed with checkout flow for authenticated users
-    const proceedCheckout = () => {
-      alert("Order processed. Nature is on the way.");
-      state.cart = [];
-      updateCartUI();
-      window.navigate('home');
-    };
+  // If not logged in, prompt login and mark pending checkout
+  if (!state.user) {
+    state.pendingCheckout = true;
+    window.openAuth();
+    return;
+  }
 
-    proceedCheckout();
+  // Create order + clear cart
+  const order = createOrderFromCart();
+  if (!order) {
+    alert("Unable to create order.");
+    return;
+  }
+
+  alert("Order placed. Nature is on the way.");
+  state.cart = [];
+  updateCartUI();
+  state.pendingCheckout = false;
+  window.navigate('home');
 };
+
 
 window.openAuth = () => document.getElementById('auth-modal')?.classList.remove('hidden');
 window.closeAuth = () => document.getElementById('auth-modal')?.classList.add('hidden');
 
 window.handleAuth = (e: Event) => {
   e.preventDefault();
+
   const emailInput = document.getElementById('auth-email') as HTMLInputElement;
-  const email = emailInput?.value || '';
-  state.user = { 
-    name: email.split('@')[0], 
-    isAdmin: email.toLowerCase().includes('admin'),
-    email: email
-  };
-  
+  const passInput = document.getElementById('auth-pass') as HTMLInputElement; // theo modal mới
+  const email = (emailInput?.value || '').trim();
+  const pass = (passInput?.value || '').trim();
+
+  if (!email) return;
+
+  // if user exists in localStorage, validate password (demo)
+  const users = JSON.parse(localStorage.getItem('handora_users') || '[]');
+  const found = users.find((u: any) => String(u.email).toLowerCase() === email.toLowerCase());
+
+  // If user found -> check password (stored btoa)
+  if (found) {
+    const ok = found.password === btoa(pass);
+    if (!ok) {
+      alert('Wrong password.');
+      return;
+    }
+  } else {
+    // allow "admin" test login as before (no password checking)
+    // if not admin email, you can choose to block; for now keep simple demo:
+    const isAdminTest = email.toLowerCase().includes('admin');
+    if (!isAdminTest) {
+      alert("Account not found. Please register first.");
+      return;
+    }
+  }
+
+  const isAdmin = email.toLowerCase().includes('admin');
+
+ state.user = {
+  name: found?.name || email.split('@')[0],
+  isAdmin,
+  email,
+  phone: found?.phone || '',
+  address: found?.address || ''
+};
+
+
   // Update Navbar for logged in user
   const authArea = document.getElementById('auth-area');
   if (authArea) {
@@ -423,13 +530,21 @@ window.handleAuth = (e: Event) => {
       navLinks.appendChild(adminBtn);
     }
   }
-  
+
   window.closeAuth();
   updateNavState();
-  
+
+  // If pending checkout -> place order now
+  if (state.pendingCheckout) {
+    state.pendingCheckout = false;
+    window.handleCheckout();
+    return;
+  }
+
   // Optional: Automatically navigate to admin if admin logged in
   if (state.user.isAdmin) window.navigate('admin');
 };
+
 
 // --- REGISTRATION MODAL HANDLERS ---
 window.openRegisterModal = () => document.getElementById('register-modal')?.classList.remove('hidden');
@@ -437,53 +552,123 @@ window.closeRegisterModal = () => document.getElementById('register-modal')?.cla
 
 window.handleRegisterSubmit = (e: Event) => {
   e.preventDefault();
-  const email = (document.getElementById('reg-email') as HTMLInputElement)?.value?.trim() || '';
-  const pass = (document.getElementById('reg-pass') as HTMLInputElement)?.value || '';
-  const repass = (document.getElementById('reg-repass') as HTMLInputElement)?.value || '';
-  const phone = (document.getElementById('reg-phone') as HTMLInputElement)?.value?.trim() || '';
-  const errEl = document.getElementById('reg-error');
-  if (errEl) { errEl.classList.add('hidden'); errEl.textContent = ''; }
 
-  // basic validations
+  const email = (document.getElementById('reg-email') as HTMLInputElement)?.value.trim();
+  const pass = (document.getElementById('reg-pass') as HTMLInputElement)?.value;
+  const repass = (document.getElementById('reg-repass') as HTMLInputElement)?.value;
+  const phone = (document.getElementById('reg-phone') as HTMLInputElement)?.value.trim();
+  const address = (document.getElementById('reg-address') as HTMLTextAreaElement)?.value.trim();
+  const errEl = document.getElementById('reg-error');
+
+  // reset error
+  if (errEl) {
+    errEl.classList.add('hidden');
+    errEl.textContent = '';
+  }
+
+  // === BẮT BUỘC ĐIỀN HẾT ===
+  if (!email || !pass || !repass || !phone || !address) {
+    if (errEl) {
+      errEl.textContent = 'Please fill in all required fields.';
+      errEl.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = 'Please enter a valid email address.'; }
+    if (errEl) {
+      errEl.textContent = 'Invalid email format.';
+      errEl.classList.remove('hidden');
+    }
     return;
   }
+
+  // password length
   if (pass.length < 6) {
-    if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = 'Password must be at least 6 characters.'; }
+    if (errEl) {
+      errEl.textContent = 'Password must be at least 6 characters.';
+      errEl.classList.remove('hidden');
+    }
     return;
   }
+
+  // password match
   if (pass !== repass) {
-    if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = 'Passwords do not match.'; }
+    if (errEl) {
+      errEl.textContent = 'Passwords do not match.';
+      errEl.classList.remove('hidden');
+    }
     return;
   }
 
-  // store user (note: lightweight demo storage)
+  // phone basic validation
+  if (phone.length < 7) {
+    if (errEl) {
+      errEl.textContent = 'Please enter a valid phone number.';
+      errEl.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // === CHECK TRÙNG EMAIL ===
   const users = JSON.parse(localStorage.getItem('handora_users') || '[]');
-  const exists = users.find((u:any) => String(u.email).toLowerCase() === email.toLowerCase());
+  const exists = users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
   if (exists) {
-    if (errEl) { errEl.classList.remove('hidden'); errEl.textContent = 'An account with this email already exists.'; }
+    if (errEl) {
+      errEl.textContent = 'This email is already registered.';
+      errEl.classList.remove('hidden');
+    }
     return;
   }
 
-  const newUser = { id: Date.now().toString(), email, phone, password: btoa(pass) };
+  // === SAVE USER ===
+  const newUser = {
+    id: Date.now().toString(),
+    email,
+    phone,
+    address,
+    password: btoa(pass) // demo only
+  };
+
   users.push(newUser);
   localStorage.setItem('handora_users', JSON.stringify(users));
 
-  // auto-login after register
-  state.user = { name: email.split('@')[0], email, isAdmin: false };
+  // auto login
+  state.user = {
+    name: email.split('@')[0],
+    email,
+    phone,
+    address,
+    isAdmin: false
+  };
+
+  // update navbar
   const authArea = document.getElementById('auth-area');
   if (authArea) {
     authArea.innerHTML = `
       <div class="flex items-center gap-4 bg-handora-light pl-4 pr-1 py-1 rounded-full border border-handora-green/20">
-        <span class="text-[9px] font-black uppercase text-handora-green tracking-widest">${state.user.name}</span>
-        <div onclick="sessionStorage.clear(); location.reload();" class="w-9 h-9 bg-handora-green text-white rounded-full flex items-center justify-center font-bold text-xs shadow-lg cursor-pointer hover:bg-red-400 transition-colors">${state.user.name[0].toUpperCase()}</div>
+        <span class="text-[9px] font-black uppercase text-handora-green tracking-widest">
+          ${state.user.name}
+        </span>
+        <div onclick="location.reload()"
+          class="w-9 h-9 bg-handora-green text-white rounded-full flex items-center justify-center font-bold text-xs shadow-lg cursor-pointer hover:bg-red-400 transition-colors">
+          ${state.user.name[0].toUpperCase()}
+        </div>
       </div>
     `;
   }
 
   window.closeRegisterModal();
+
+  // nếu đang checkout dở
+  if (state.pendingCheckout) {
+    state.pendingCheckout = false;
+    window.handleCheckout();
+    return;
+  }
+
   renderApp();
 };
 

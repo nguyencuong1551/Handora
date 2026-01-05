@@ -638,25 +638,7 @@ export const renderAdmin = (state: any) => {
               <p class="mt-4 text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl">
                 Quản lý sản phẩm, bài viết và đơn hàng — giao diện “high-end”, thao tác nhanh.
               </p>
-            </div>
-
-            <!-- QUICK STATS -->
-            <div class="w-full lg:w-[520px]">
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="rounded-[26px] bg-white/70 backdrop-blur-md border border-white/40 shadow-lg p-6">
-                  <p class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Products</p>
-                  <p class="mt-2 text-3xl font-extrabold text-handora-dark">${productsCount}</p>
-                </div>
-                <div class="rounded-[26px] bg-white/70 backdrop-blur-md border border-white/40 shadow-lg p-6">
-                  <p class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Articles</p>
-                  <p class="mt-2 text-3xl font-extrabold text-handora-dark">${blogsCount}</p>
-                </div>
-                <div class="rounded-[26px] bg-white/70 backdrop-blur-md border border-white/40 shadow-lg p-6">
-                  <p class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Orders</p>
-                  <p class="mt-2 text-3xl font-extrabold text-handora-dark">${ordersCount}</p>
-                </div>
-              </div>
-            </div>
+            </div>            
           </div>
 
           <!-- TABS -->
@@ -685,22 +667,99 @@ export const renderAdmin = (state: any) => {
 
                 <div class="mt-6 space-y-3">
                   ${
-                    (state.orders || []).slice(0, 5).map((o: any) => `
-                      <div class="group p-5 bg-white rounded-[24px] border border-slate-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between">
-                        <div>
-                          <div class="text-sm font-bold text-handora-dark">
-                            Order <span class="text-slate-500 font-semibold">${o.id || "—"}</span>
-                          </div>
-                          <div class="mt-1 text-[11px] font-black uppercase tracking-[0.35em] text-slate-400">
-                            ${o.status || "pending"}
-                          </div>
-                        </div>
-                        <div class="text-lg font-extrabold text-handora-green">
-                          $${(o.total || 0).toFixed(2)}
-                        </div>
-                      </div>
-                    `).join("")
-                  }
+  (state.orders || []).map((o: any) => {
+    const email = o.customer?.email || "—";
+    const phone = o.customer?.phone || "—";
+    const address = o.customer?.address || o.address || "—";
+    const total = Number(o.total || 0).toFixed(2);
+    const isFake = !!o.isFake;
+
+    return `
+      <div class="group p-6 bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between gap-6">
+          <div class="min-w-0">
+            <div class="text-sm font-extrabold text-handora-dark">
+              Order <span class="text-slate-500 font-semibold">${o.id || "—"}</span>
+            </div>
+
+            <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs">
+              <div>
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Email</div>
+                <div class="mt-1 font-semibold text-slate-700 break-all">${email}</div>
+              </div>
+
+              <div>
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Phone</div>
+                <div class="mt-1 font-semibold text-slate-700">${phone}</div>
+              </div>
+
+              <div class="md:col-span-2">
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Address</div>
+                <div class="mt-1 font-semibold text-slate-700">${address}</div>
+              </div>
+
+              <div>
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Status</div>
+                <div class="mt-1">
+                  <span class="
+                    inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.35em]
+                    ${isFake ? "bg-red-50 text-red-600" : "bg-handora-green/10 text-handora-green"}
+                  ">
+                    <span class="w-1.5 h-1.5 rounded-full ${isFake ? "bg-red-500" : "bg-handora-green"}"></span>
+                    ${isFake ? "Fake" : (o.status || "pending")}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Total</div>
+                <div class="mt-1 text-lg font-extrabold ${isFake ? "text-red-500" : "text-handora-green"}">
+                  $${total}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- tick fake -->
+          <button
+            onclick="toggleOrderFake('${o.id}')"
+            class="
+              shrink-0 w-12 h-12 rounded-2xl border flex items-center justify-center font-black text-lg transition-all
+              ${isFake
+                ? "bg-red-50 border-red-200 text-red-600 hover:bg-red-100"
+                : "bg-white border-slate-200 text-handora-green hover:bg-slate-50"}
+            "
+            title="Toggle Fake Order"
+          >
+            ${isFake ? "✓" : "○"}
+          </button>
+        </div>
+
+        <!-- items summary -->
+        <div class="mt-5 pt-5 border-t border-slate-100 text-xs">
+          <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Items</div>
+          <div class="mt-2 space-y-2">
+            ${(o.items || []).slice(0, 3).map((it: any) => `
+              <div class="flex items-center justify-between gap-4">
+                <div class="truncate font-semibold text-slate-700">${it.name || "Item"}</div>
+                <div class="text-slate-500 font-bold">x${it.qty || 1}</div>
+              </div>
+            `).join("")}
+
+            ${(o.items || []).length === 0 ? `
+              <div class="text-slate-500">No items.</div>
+            ` : ""}
+
+            ${(o.items || []).length > 3 ? `
+              <div class="text-[11px] text-slate-400 italic">+ ${(o.items || []).length - 3} more items…</div>
+            ` : ""}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("")
+}
+
                   ${(state.orders || []).length === 0
                     ? `<p class="text-sm text-slate-500 mt-2">No orders yet.</p>`
                     : ``}

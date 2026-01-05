@@ -232,39 +232,194 @@
         </div>
     </footer>
 
-    <!-- Modals -->
-    <div id="auth-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-6">
-        <div class="absolute inset-0 bg-handora-dark/60 backdrop-blur-md" onclick="closeAuth()"></div>
-        <div class="glass w-full max-w-md p-10 rounded-[50px] shadow-2xl relative bg-white/80">
-            <h2 class="text-3xl font-serif text-slate-800 mb-2">Welcome</h2>
-            <p class="text-slate-500 mb-10 text-sm">Join the Handora ritual.</p>
-            <form id="login-form" onsubmit="handleAuth(event)" class="space-y-5">
-                <input type="email" id="auth-email" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Email Address (use 'admin' to test admin)">
-                <input type="password" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Password">
-                <button type="submit" class="w-full btn-shimmer text-white py-4 rounded-2xl font-bold shadow-lg mt-4 uppercase text-xs tracking-widest">Sign In</button>
-            </form>
-        </div>
-    </div>
+<!-- Login Modal -->
+<div id="auth-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-6">
+  <!-- overlay -->
+  <div
+    class="absolute inset-0 bg-handora-dark/60 backdrop-blur-md z-10"
+    onclick="window.closeAuth()"
+  ></div>
 
-    <!-- Register Modal -->
-    <div id="register-modal" class="fixed inset-0 z-[210] hidden flex items-center justify-center p-6">
-        <div class="absolute inset-0 bg-handora-dark/60 backdrop-blur-md" onclick="closeRegisterModal()"></div>
-        <div class="glass w-full max-w-md p-8 rounded-[40px] shadow-2xl relative bg-white/90">
-            <h2 class="text-2xl font-serif text-slate-800 mb-2">Create an account</h2>
-            <p class="text-slate-500 mb-6 text-sm">Join the Handora ritual — quick sign up.</p>
-            <form id="register-form" onsubmit="handleRegisterSubmit(event)" class="space-y-4">
-                <input type="email" id="reg-email" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-3 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Email Address">
-                <input type="password" id="reg-pass" required minlength="6" class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-3 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Password (min 6 chars)">
-                <input type="password" id="reg-repass" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-3 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Confirm Password">
-                <input type="tel" id="reg-phone" pattern="[0-9+\-() ]{7,20}" class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-3 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Phone Number (optional)">
-                <div id="reg-error" class="text-sm text-red-500 hidden"></div>
-                <div class="flex gap-4 mt-2">
-                    <button type="submit" class="btn-shimmer text-white py-3 px-6 rounded-2xl font-bold uppercase text-xs tracking-widest">Create</button>
-                    <button type="button" onclick="closeRegisterModal()" class="text-sm px-5 py-3 rounded-2xl border border-slate-200">Cancel</button>
-                </div>
-            </form>
+  <!-- panel -->
+  <div class="relative z-20 w-full max-w-md overflow-hidden rounded-[44px] shadow-2xl border border-white/40 bg-white/80 backdrop-blur-xl">
+    <!-- top subtle gradient -->
+    <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-handora-green/10 to-transparent pointer-events-none"></div>
+
+    <!-- close -->
+    <button
+      type="button"
+      onclick="window.closeAuth()"
+      class="absolute z-30 top-5 right-5 w-10 h-10 rounded-full bg-white/60 border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white transition"
+    >
+      ✕
+    </button>
+
+    <div class="relative p-10">
+      <h2 class="text-3xl font-serif text-slate-800">Welcome back</h2>
+      <p class="text-slate-500 mt-2 text-sm">Sign in to complete your ritual.</p>
+
+      <form id="login-form" onsubmit="window.handleAuth(event)" class="mt-8 space-y-4">
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Email</label>
+          <input
+            type="email"
+            id="auth-email"
+            required
+            class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20"
+            placeholder="Email Address (use 'admin' to test admin)"
+          />
         </div>
+
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Password</label>
+          <input
+            type="password"
+            id="auth-pass"
+            required
+            class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20"
+            placeholder="Password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full btn-shimmer text-white py-4 rounded-2xl font-bold shadow-lg mt-2 uppercase text-xs tracking-widest"
+        >
+          Sign In
+        </button>
+
+        <!-- switch to register -->
+        <div class="pt-4 flex items-center justify-center gap-2 text-sm">
+          <span class="text-slate-500 text-xs">No account?</span>
+          <button
+            type="button"
+            onclick="window.closeAuth(); window.openRegisterModal();"
+            class="text-[10px] font-black uppercase tracking-[0.35em] text-handora-green hover:underline"
+          >
+            Create account
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div id="register-modal" class="fixed inset-0 z-[210] hidden flex items-center justify-center p-6">
+  <!-- overlay -->
+  <div
+    class="absolute inset-0 bg-handora-dark/60 backdrop-blur-md z-10"
+    onclick="window.closeRegisterModal()"
+  ></div>
+
+  <!-- panel -->
+  <div class="relative z-20 w-full max-w-md overflow-hidden rounded-[44px] shadow-2xl border border-white/40 bg-white/90 backdrop-blur-xl">
+    <!-- top subtle gradient -->
+    <div class="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-handora-accent/20 via-handora-green/10 to-transparent pointer-events-none"></div>
+
+    <!-- close -->
+    <button
+      type="button"
+      onclick="window.closeRegisterModal()"
+      class="absolute z-30 top-5 right-5 w-10 h-10 rounded-full bg-white/70 border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-white transition"
+    >
+      ✕
+    </button>
+
+    <div class="relative p-10">
+      <h2 class="text-3xl font-serif text-slate-800">Create account</h2>
+      <p class="text-slate-500 mt-2 text-sm">Join the Handora ritual — quick sign up.</p>
+
+      <form id="register-form" onsubmit="window.handleRegisterSubmit(event)" class="mt-8 space-y-4">
+        <!-- Email -->
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Email</label>
+          <input
+            type="email"
+            id="reg-email"
+            required
+            class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20"
+            placeholder="Email Address"
+          />
+        </div>
+
+        <!-- Password + Confirm -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Password</label>
+            <input
+              type="password"
+              id="reg-pass"
+              required
+              minlength="6"
+              class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20"
+              placeholder="Min 6 chars"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Confirm</label>
+            <input
+              type="password"
+              id="reg-repass"
+              required
+              class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20"
+              placeholder="Repeat password"
+            />
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Phone (optional)</label>
+          <input
+            type="tel"
+            id="reg-phone"
+            pattern="[0-9+\-() ]{7,20}"
+            class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20"
+            placeholder="Phone Number"
+          />
+        </div>
+
+        <!-- Address -->
+        <div class="space-y-2">
+          <label class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Address</label>
+          <textarea
+            id="reg-address"
+            rows="3"
+            class="w-full bg-white/70 border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20 resize-none"
+            placeholder="Street, District, City, Country"
+          ></textarea>
+        </div>
+
+        <!-- Error -->
+        <div id="reg-error" class="text-sm text-red-500 hidden"></div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full btn-shimmer text-white py-4 rounded-2xl font-bold uppercase text-xs tracking-widest shadow-lg"
+        >
+          Create account
+        </button>
+
+        <!-- back to login -->
+        <div class="pt-4 flex items-center justify-center gap-2 text-sm">
+          <span class="text-slate-500 text-xs">Already have an account?</span>
+          <button
+            type="button"
+            onclick="window.closeRegisterModal(); window.openAuth();"
+            class="text-[10px] font-black uppercase tracking-[0.35em] text-handora-green hover:underline"
+          >
+            Sign in
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 
     <script type="module" src="./index.tsx"></script>
 </body>
