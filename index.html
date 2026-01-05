@@ -79,12 +79,13 @@
         }
         .btn-shimmer:hover { background-position: 100% 0; transform: translateY(-4px); }
         
-        .nav-link { position: relative; padding-bottom: 2px; transition: all 0.3s; }
+        .nav-link { position: relative; padding-bottom: 2px; transition: all 0.3s; cursor: pointer; }
         .nav-link::after {
             content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1.5px;
             background: #4a7c59; transition: width 0.3s;
         }
         .nav-link.active::after, .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #4a7c59; font-weight: 800; }
 
         .parallax-scroll { will-change: transform; transition: transform 0.2s ease-out; }
 
@@ -97,6 +98,12 @@
             filter: grayscale(0) contrast(1) opacity(1);
             transform: translateY(-5px);
         }
+        
+        @keyframes reveal {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-reveal { animation: reveal 0.5s ease-out forwards; }
     </style>
     <script type="importmap">
     {
@@ -117,7 +124,7 @@
                 <span class="text-xl font-extrabold tracking-[0.4em] text-slate-800 hidden md:block">HANDORA</span>
             </div>
             
-            <div class="hidden lg:flex gap-14 text-[11px] font-black uppercase tracking-[0.3em] text-slate-500">
+            <div id="nav-links" class="hidden lg:flex gap-14 text-[11px] font-black uppercase tracking-[0.3em] text-slate-500">
                 <button onclick="navigate('home')" class="nav-link" data-page="home">Home</button>
                 <button onclick="navigate('shop')" class="nav-link" data-page="shop">Our Product</button>
                 <button onclick="navigate('about')" class="nav-link" data-page="about">About Us</button>
@@ -178,11 +185,9 @@
                     </ul>
                 </div>
 
-                <!-- NEW: Store Locations with Mini Maps -->
                 <div class="lg:col-span-6">
                     <h4 class="font-bold uppercase tracking-widest text-[11px] mb-10 text-handora-accent">Hệ Thống Chi Nhánh (Stores)</h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Hanoi Store -->
                         <div class="store-card group cursor-pointer">
                             <div class="map-container w-full h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
                                 <iframe 
@@ -192,7 +197,6 @@
                             <p class="text-white font-serif text-sm mb-1">Flagship Hanoi</p>
                             <p class="text-white/40 text-[10px] italic leading-snug">45 Ly Thai To St., Hoan Kiem Dist.</p>
                         </div>
-                        <!-- HCMC Store -->
                         <div class="store-card group cursor-pointer">
                             <div class="map-container w-full h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
                                 <iframe 
@@ -202,7 +206,6 @@
                             <p class="text-white font-serif text-sm mb-1">Heritage HCMC</p>
                             <p class="text-white/40 text-[10px] italic leading-snug">12 Le Loi Blvd., District 1</p>
                         </div>
-                        <!-- Singapore Store -->
                         <div class="store-card group cursor-pointer">
                             <div class="map-container w-full h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
                                 <iframe 
@@ -218,8 +221,6 @@
                     </div>
                 </div>
             </div>
-
-          
         </div>
     </footer>
 
@@ -230,7 +231,7 @@
             <h2 class="text-3xl font-serif text-slate-800 mb-2">Welcome</h2>
             <p class="text-slate-500 mb-10 text-sm">Join the Handora ritual.</p>
             <form id="login-form" onsubmit="handleAuth(event)" class="space-y-5">
-                <input type="email" id="auth-email" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Email Address">
+                <input type="email" id="auth-email" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Email Address (use 'admin' to test admin)">
                 <input type="password" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 ring-handora-green/20" placeholder="Password">
                 <button type="submit" class="w-full btn-shimmer text-white py-4 rounded-2xl font-bold shadow-lg mt-4 uppercase text-xs tracking-widest">Sign In</button>
             </form>
