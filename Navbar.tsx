@@ -25,6 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, cartCount, onAuth, user, on
       <div className="hidden lg:flex gap-12 text-[11px] font-bold uppercase tracking-[0.3em] text-slate-500">
         <button onClick={() => onNavigate('home')} className="hover:text-hannora-green transition-colors">Home</button>
         <button onClick={() => onNavigate('shop')} className="hover:text-hannora-green transition-colors">Shop</button>
+        <button onClick={() => onNavigate('blogs')} className="hover:text-hannora-green transition-colors">Blogs</button>
         <button onClick={() => onNavigate('quiz')} className="hover:text-hannora-green transition-colors">Skin Quiz</button>
         {user?.role === 'admin' && (
           <button onClick={() => onNavigate('admin')} className="text-hannora-green border-b-2 border-hannora-green">Admin Panel</button>
