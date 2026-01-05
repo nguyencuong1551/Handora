@@ -62,7 +62,7 @@
         }
         .delay-300 { transition-delay: 300ms; }
 
-        /* Portrait Clear & High-Def */
+        /* Portrait Clear */
         .portrait-clear {
             filter: saturate(1);
             transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
@@ -87,9 +87,16 @@
         .nav-link.active::after, .nav-link:hover::after { width: 100%; }
 
         .parallax-scroll { will-change: transform; transition: transform 0.2s ease-out; }
-        
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Footer Map Styles */
+        .map-container {
+            filter: grayscale(1) contrast(1.2) opacity(0.6);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .store-card:hover .map-container {
+            filter: grayscale(0) contrast(1) opacity(1);
+            transform: translateY(-5px);
+        }
     </style>
     <script type="importmap">
     {
@@ -100,7 +107,6 @@
       }
     }
     </script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body class="antialiased">
     <!-- Navigation -->
@@ -134,30 +140,91 @@
     <!-- Main Content -->
     <main id="app-root" class="min-h-screen"></main>
 
-    <!-- Footer -->
-    <footer class="bg-handora-dark text-white py-24 px-8 mt-20">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
-            <div class="col-span-2">
-                <h2 class="text-3xl font-bold tracking-[0.5em] mb-6 uppercase">HANDORA</h2>
-                <p class="text-white/40 text-lg max-w-sm italic leading-relaxed">Connecting modern souls with the pure intelligence of botanical extracts.</p>
+    <!-- Professional E-commerce Footer with Maps -->
+    <footer class="bg-handora-dark text-white pt-32 pb-16 px-8 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-handora-green/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+        
+        <div class="container mx-auto">
+            <!-- Footer Top -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24 items-start">
+                <div class="lg:col-span-4">
+                    <h2 class="text-4xl font-bold tracking-[0.5em] mb-8 uppercase text-white">HANDORA</h2>
+                    <p class="text-white/50 text-lg italic leading-relaxed mb-10 max-w-sm">
+                        Born from the soil, refined by science. We connect modern souls with the pure intelligence of botanical extracts.
+                    </p>
+                    <div class="flex gap-8 items-center opacity-60">
+                        <div class="text-center">
+                            <div class="text-2xl mb-1">🌿</div>
+                            <span class="text-[8px] font-black uppercase tracking-widest">100% Vegan</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl mb-1">♻️</div>
+                            <span class="text-[8px] font-black uppercase tracking-widest">Zero Waste</span>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl mb-1">🐰</div>
+                            <span class="text-[8px] font-black uppercase tracking-widest">Cruelty Free</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <h4 class="font-bold uppercase tracking-widest text-[11px] mb-10 text-handora-accent">Ritual Nav</h4>
+                    <ul class="space-y-5 text-white/50 text-xs font-semibold uppercase tracking-[0.2em]">
+                       <li><button onclick="navigate('shop')" class="hover:text-white transition-colors">Collection</button></li>
+                       <li><button onclick="navigate('about')" class="hover:text-white transition-colors">Philosophy</button></li>
+                       <li><button onclick="navigate('quiz')" class="hover:text-white transition-colors">AI Quiz</button></li>
+                       <li><a href="#" class="hover:text-white transition-colors">Shipping</a></li>
+                    </ul>
+                </div>
+
+                <!-- NEW: Store Locations with Mini Maps -->
+                <div class="lg:col-span-6">
+                    <h4 class="font-bold uppercase tracking-widest text-[11px] mb-10 text-handora-accent">Hệ Thống Chi Nhánh (Stores)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Hanoi Store -->
+                        <div class="store-card group cursor-pointer">
+                            <div class="map-container w-full h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.096814183571!2d105.85103431540242!3d21.02881189315266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab953357c963%3A0xef2a3a14050630b!2zNDUgTMO9IFRow6FpIFThu5UsIEhvw6BuIEtp4bq_bSwgSMOgIE7hu5lpLCBWaeG7h3QgTmFt!5e0!3m2!1svi!2s!4v1650000000000!5m2!1svi!2s" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                            <p class="text-white font-serif text-sm mb-1">Flagship Hanoi</p>
+                            <p class="text-white/40 text-[10px] italic leading-snug">45 Ly Thai To St., Hoan Kiem Dist.</p>
+                        </div>
+                        <!-- HCMC Store -->
+                        <div class="store-card group cursor-pointer">
+                            <div class="map-container w-full h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.460232428398!2d106.70114091533414!3d10.77447606214254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f40a66d98fd%3A0x1d36cc4b96716a44!2zMTIgTMOqIEzhu6NpLCBC4bq_biBOZ2jDqSwgUXXhuq1uIDEsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1650000000001!5m2!1svi!2s" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                            <p class="text-white font-serif text-sm mb-1">Heritage HCMC</p>
+                            <p class="text-white/40 text-[10px] italic leading-snug">12 Le Loi Blvd., District 1</p>
+                        </div>
+                        <!-- Singapore Store -->
+                        <div class="store-card group cursor-pointer">
+                            <div class="map-container w-full h-32 rounded-2xl overflow-hidden mb-4 border border-white/10">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8199127598855!2d103.8582773153545!3d1.2823015621404113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1904592231d7%3A0x23a31da1e30a599!2sMarina%20Bay%20Sands%20Singapore!5e0!3m2!1sen!2s!4v1650000000002!5m2!1sen!2s" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                            <p class="text-white font-serif text-sm mb-1">Botanical SG</p>
+                            <p class="text-white/40 text-[10px] italic leading-snug">02-14 Marina Bay Sands</p>
+                        </div>
+                    </div>
+                    <div class="mt-10">
+                         <button class="w-full text-[9px] font-black uppercase tracking-[0.4em] border border-white/10 py-4 rounded-full hover:bg-white hover:text-handora-dark transition-all duration-500">View All Locations</button>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h4 class="font-bold uppercase tracking-widest text-[10px] mb-8 text-handora-accent">Explore</h4>
-                <ul class="space-y-4 text-white/40 text-xs font-semibold uppercase tracking-widest">
-                   <li><button onclick="navigate('shop')" class="hover:text-white">New Rituals</button></li>
-                   <li><button onclick="navigate('about')" class="hover:text-white">Our Story</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold uppercase tracking-widest text-[10px] mb-8 text-handora-accent">Connect</h4>
-                <p class="text-white/40 text-xs leading-relaxed">Instagram<br>Laboratory Insights<br>contact@handora.com</p>
-            </div>
+
+          
         </div>
-        <div class="container mx-auto mt-20 pt-10 border-t border-white/5 text-center text-[10px] uppercase font-bold tracking-[0.4em] text-white/10">&copy; 2024 HANDORA Botanical Systems</div>
     </footer>
 
     <!-- Modals -->
-    <div id="auth-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-6">
+    <div id="auth-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-6">
         <div class="absolute inset-0 bg-handora-dark/60 backdrop-blur-md" onclick="closeAuth()"></div>
         <div class="glass w-full max-w-md p-10 rounded-[50px] shadow-2xl relative bg-white/80">
             <h2 class="text-3xl font-serif text-slate-800 mb-2">Welcome</h2>
@@ -171,6 +238,5 @@
     </div>
 
     <script type="module" src="./index.tsx"></script>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>
