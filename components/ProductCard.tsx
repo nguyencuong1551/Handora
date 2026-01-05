@@ -10,7 +10,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, onAddToCart }) => {
   return (
-    <div className="group relative bg-white overflow-hidden rounded-[40px] hover-lift transition-all duration-500 h-full flex flex-col border border-transparent hover:border-slate-100 shadow-sm hover:shadow-xl">
+    <div className="group relative bg-white overflow-hidden rounded-[40px] hover-lift transition-all duration-500 h-full flex flex-col border border-transparent hover:border-slate-100">
       <div 
         className="aspect-[4/5] bg-hannora-light cursor-pointer overflow-hidden relative flex-shrink-0"
         onClick={onClick}
@@ -30,28 +30,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick, onAddToCart
       </div>
       
       <div className="p-10 flex flex-col flex-grow">
-        <div className="mb-auto">
-          <div className="flex justify-between items-start mb-4">
-            <div className="flex-grow">
-              <p className="text-[10px] uppercase tracking-[0.4em] text-hannora-green font-black mb-2">{product.category}</p>
-              <h3 className="text-2xl font-serif text-slate-800 leading-[1.2] cursor-pointer hover:text-hannora-green transition-colors min-h-[3rem]" onClick={onClick}>
-                {product.name}
-              </h3>
-            </div>
-            <p className="text-xl font-light text-slate-400 ml-4 tracking-tighter">${product.price.toFixed(2)}</p>
+        <div className="flex justify-between items-start mb-6">
+          <div className="flex-grow">
+            <p className="text-xs uppercase tracking-[0.4em] text-hannora-green font-black mb-3">{product.category}</p>
+            <h3 className="text-3xl font-serif text-slate-800 leading-[1.2] cursor-pointer hover:text-hannora-green transition-colors" onClick={onClick}>
+              {product.name}
+            </h3>
           </div>
-          
-          <p className="text-sm text-slate-500 line-clamp-2 mb-8 leading-relaxed font-medium min-h-[2.5rem]">
-            {product.description}
-          </p>
+          <p className="text-2xl font-light text-slate-400 ml-6 tracking-tighter">${product.price.toFixed(2)}</p>
         </div>
+        
+        <p className="text-base text-slate-500 line-clamp-2 mb-10 leading-relaxed font-medium">
+          {product.description}
+        </p>
 
         <button 
           onClick={(e) => {
             e.stopPropagation();
             onAddToCart();
           }}
-          className="w-full border-2 border-hannora-green/20 text-hannora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-hannora-green hover:text-white hover:border-hannora-green transition-all duration-500 shadow-sm"
+          className="w-full border-2 border-hannora-green/20 text-hannora-green py-5 rounded-2xl font-black text-xs uppercase tracking-[0.3em] flex items-center justify-center gap-3 hover:bg-hannora-green hover:text-white hover:border-hannora-green transition-all duration-500 mt-auto shadow-sm"
         >
           Add to Bag
         </button>

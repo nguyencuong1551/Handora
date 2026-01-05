@@ -1,12 +1,11 @@
 
 import React, { useState } from 'react';
-import { User } from '../types';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
   cartCount: number;
   onAuth: () => void;
-  user: User | null;
+  user: any;
   onLogout: () => void;
   isScrolled: boolean;
   currentPage: string;
@@ -25,21 +24,19 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, cartCount, onAuth, user, on
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-700 px-6 md:px-12 ${isScrolled ? 'py-4' : 'py-8'}`}>
-      <div className={`mx-auto max-w-7xl glass rounded-[32px] px-10 py-5 flex justify-between items-center transition-all ${isScrolled ? 'shadow-2xl translate-y-2 bg-white/90' : 'bg-white/70'}`}>
+      <div className={`mx-auto max-w-7xl glass rounded-[32px] px-10 py-5 flex justify-between items-center transition-all ${isScrolled ? 'shadow-2xl translate-y-2' : ''}`}>
         <div 
           className="text-2xl font-bold text-slate-900 cursor-pointer tracking-[0.4em] flex items-center gap-4 group"
           onClick={() => onNavigate('home')}
         >
-          <div className="w-12 h-12 bg-hannora-green rounded-full flex items-center justify-center text-white text-sm font-serif transition-transform group-hover:rotate-12 shadow-lg overflow-hidden">
-             {user?.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : 'H'}
-          </div>
+          <div className="w-12 h-12 bg-hannora-green rounded-full flex items-center justify-center text-white text-sm font-serif transition-transform group-hover:rotate-12 shadow-lg">H</div>
           <span className="hidden md:block">HANDORA</span>
         </div>
         
         <div className="hidden lg:flex gap-14 text-sm font-extrabold uppercase tracking-[0.3em]">
           <button onClick={() => onNavigate('home')} className={getLinkClass('home')}>Home</button>
-          <button onClick={() => onNavigate('shop')} className={getLinkClass('shop')}>Collection</button>
-          <button onClick={() => onNavigate('news')} className={getLinkClass('news')}>Editorial</button>
+          <button onClick={() => onNavigate('shop')} className={getLinkClass('shop')}>Our Product</button>
+          <button onClick={() => onNavigate('about')} className={getLinkClass('about')}>About Us</button>
           <button onClick={() => onNavigate('quiz')} className={getLinkClass('quiz')}>Skin Quiz</button>
           {user?.role === 'admin' && (
             <button onClick={() => onNavigate('admin')} className={getLinkClass('admin')}>Admin</button>
@@ -71,24 +68,22 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, cartCount, onAuth, user, on
                 className="flex items-center gap-4 bg-[#f8faf8] pl-5 pr-2 py-2 rounded-full border border-hannora-green/10 hover:shadow-md transition-all"
               >
                 <span className="text-xs font-black text-hannora-green uppercase tracking-widest">{user.name.split(' ')[0]}</span>
-                <div className="w-10 h-10 bg-hannora-green text-white rounded-full flex items-center justify-center font-bold text-sm uppercase shadow-sm overflow-hidden">
-                  {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : user.name[0]}
+                <div className="w-10 h-10 bg-hannora-green text-white rounded-full flex items-center justify-center font-bold text-sm uppercase shadow-sm">
+                  {user.name[0]}
                 </div>
               </button>
               
               {showDropdown && (
-                <div className="absolute right-0 mt-5 w-64 bg-white/95 backdrop-blur-xl rounded-[24px] shadow-2xl border border-slate-100 overflow-hidden animate-reveal">
-                  <div className="px-8 py-6 bg-slate-50/50">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Authenticated Profile</p>
-                    <p className="text-sm font-bold capitalize text-slate-700">{user.name}</p>
-                    <p className="text-[10px] text-slate-400 mt-1 italic">{user.email}</p>
-                    {user.phone && <p className="text-[9px] text-slate-400 mt-1 tracking-widest">{user.phone}</p>}
+                <div className="absolute right-0 mt-5 w-56 bg-white/95 backdrop-blur-xl rounded-[24px] shadow-2xl border border-slate-100 overflow-hidden animate-reveal">
+                  <div className="px-8 py-5 bg-slate-50/50">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Authenticated as</p>
+                    <p className="text-sm font-bold capitalize text-slate-700">{user.role}</p>
                   </div>
                   <button 
                     onClick={() => { onLogout(); setShowDropdown(false); }}
                     className="w-full text-left px-8 py-5 text-xs font-black text-red-400 hover:bg-red-50 transition-colors uppercase tracking-[0.2em]"
                   >
-                    Disconnect Ritual
+                    Disconnect
                   </button>
                 </div>
               )}

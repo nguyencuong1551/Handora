@@ -13,16 +13,6 @@ export interface Product {
   featured?: boolean;
 }
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  avatar?: string;
-  role: 'admin' | 'user';
-  createdAt: string;
-}
-
 export interface CartItem extends Product {
   quantity: number;
   subscription?: 'none' | 'monthly' | 'quarterly';
@@ -49,8 +39,7 @@ export interface Order {
 export interface AppData {
   products: Product[];
   orders: Order[];
-  blogs: BlogPost[];
-  users: User[];
+  blogPosts: BlogPost[];
 }
 
 export interface BlogPost {
