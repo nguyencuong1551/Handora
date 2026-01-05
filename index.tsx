@@ -28,6 +28,13 @@ const INITIAL_PRODUCTS = [
   { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=800', tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
 ];
 
+const TEAM = [
+  { id: 't1', name: 'Minh Huyen', role: 'Founder & Visionary', bio: 'Expert in botanical pharmacology with a passion for sustainable luxury.', img: 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?auto=format&fit=crop&q=80&w=400' },
+  { id: 't2', name: 'Marcus Thorne', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400' },
+  { id: 't3', name: 'Sophia Chen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400' }
+];
+
+
 // --- APP STATE ---
 let state: any = {
   currentPage: 'home',
@@ -178,6 +185,32 @@ const renderAbout = () => `
             <div class="text-4xl mb-8">${['🍃', '💎', '♾️', '✨'][i]}</div>
             <h4 class="text-2xl font-bold uppercase tracking-widest text-slate-800 mb-8">${v}</h4>
             <p class="text-slate-400 text-lg leading-relaxed">Elevating every batch with radical commitment to purity.</p>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+
+    <!-- Part 4: The Collective -->
+    <section class="py-60 container mx-auto px-8">
+      <div class="text-center mb-40 reveal-on-scroll">
+        <span class="text-[10px] font-black uppercase tracking-[1.5em] text-handora-green mb-10 block">Management</span>
+        <h2 class="text-8xl md:text-9xl font-serif text-handora-dark leading-none">The <span class="italic text-handora-green">Collective</span></h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-32 max-w-7xl mx-auto">
+        ${TEAM.map((m, i) => `
+          <div class="group text-center reveal-on-scroll" style="transition-delay: ${i * 200}ms">
+            <div class="relative w-80 h-80 mx-auto mb-20">
+               <div class="absolute inset-0 rounded-[40%] border border-handora-green/20 rotate-45 scale-100 group-hover:scale-125 group-hover:rotate-90 transition-all duration-[1.5s] ease-out"></div>
+               <div class="absolute inset-0 rounded-[45%] border border-handora-accent/30 -rotate-12 scale-105 group-hover:scale-115 group-hover:rotate-45 transition-all duration-[1.2s] ease-out delay-75"></div>
+               <div class="w-full h-full rounded-full overflow-hidden shadow-[0_40px_80px_rgba(74,124,89,0.3)] relative z-10 portrait-clear transition-all duration-700">
+                 <img src="${m.img}" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-1000" alt="${m.name}" />
+               </div>
+            </div>
+            <h4 class="text-5xl font-serif text-handora-dark mb-4 group-hover:text-handora-green transition-colors duration-500">${m.name}</h4>
+            <p class="text-[12px] font-black uppercase tracking-[0.6em] text-handora-green mb-10 opacity-70">${m.role}</p>
+            <div class="h-0.5 w-16 bg-handora-green/20 mx-auto mb-10 transition-all duration-700 group-hover:w-32 group-hover:bg-handora-green"></div>
+            <p class="text-slate-500 text-xl italic px-8 leading-relaxed font-light text-balance">${m.bio}</p>
           </div>
         `).join('')}
       </div>
