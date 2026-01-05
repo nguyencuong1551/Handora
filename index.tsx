@@ -200,7 +200,7 @@ const renderAbout = () => `
       </div>
     </section>
 
-    <!-- Part 4: The Collective (High-Definition Color Portraits) -->
+    <!-- Part 4: The Collective -->
     <section class="py-60 container mx-auto px-8">
       <div class="text-center mb-40 reveal-on-scroll">
         <span class="text-[10px] font-black uppercase tracking-[1.5em] text-handora-green mb-10 block">Management</span>
@@ -211,11 +211,8 @@ const renderAbout = () => `
         ${TEAM.map((m, i) => `
           <div class="group text-center reveal-on-scroll" style="transition-delay: ${i * 200}ms">
             <div class="relative w-80 h-80 mx-auto mb-20">
-               <!-- Dynamic Leafy Frames -->
                <div class="absolute inset-0 rounded-[40%] border border-handora-green/20 rotate-45 scale-100 group-hover:scale-125 group-hover:rotate-90 transition-all duration-[1.5s] ease-out"></div>
                <div class="absolute inset-0 rounded-[45%] border border-handora-accent/30 -rotate-12 scale-105 group-hover:scale-115 group-hover:rotate-45 transition-all duration-[1.2s] ease-out delay-75"></div>
-               
-               <!-- Image Container (High-Def & Vibrant) -->
                <div class="w-full h-full rounded-full overflow-hidden shadow-[0_40px_80px_rgba(74,124,89,0.3)] relative z-10 portrait-clear transition-all duration-700">
                  <img src="${m.img}" class="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-1000" alt="${m.name}" />
                </div>
@@ -227,17 +224,6 @@ const renderAbout = () => `
           </div>
         `).join('')}
       </div>
-    </section>
-
-    <!-- Final Call to Action -->
-    <section class="py-48 bg-handora-dark text-white text-center overflow-hidden relative">
-       <div class="absolute inset-0 opacity-15">
-          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover" />
-       </div>
-       <div class="container mx-auto px-8 relative z-10 reveal-on-scroll">
-          <h2 class="text-7xl md:text-8xl font-serif mb-16 leading-tight">Elevate Your Daily <span class="italic text-handora-accent">Ritual</span></h2>
-          <button onclick="navigate('shop')" class="btn-shimmer px-24 py-10 rounded-full text-[12px] font-bold uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(0,0,0,0.4)]">Discover the Collection</button>
-       </div>
     </section>
   </div>
 `;
@@ -374,18 +360,15 @@ window.runAI = async (skinType: string) => {
 document.addEventListener('DOMContentLoaded', () => {
   renderApp();
   
-  // Parallax & Bloom Intensity Logic
+  // Parallax Logic
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    
-    // Parallax
     const parallaxes = document.querySelectorAll('.parallax-scroll');
     parallaxes.forEach((el: any) => {
       const rate = scrolled * 0.15;
       el.style.transform = `translate3d(0px, ${rate}px, 0px)`;
     });
 
-    // Nav effect
     const nav = document.getElementById('navbar');
     if (scrolled > 50) {
       nav?.classList.add('py-3');

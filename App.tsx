@@ -83,81 +83,38 @@ const App: React.FC = () => {
           </div>
         )}
 
-        {page === 'about' && (
-          <div className="animate-fade-in pt-32">
-            {/* About Hero */}
-            <section className="py-24 container mx-auto px-6 text-center">
-              <div className="reveal">
-                <span className="text-xs font-black uppercase tracking-[0.6em] text-hannora-green mb-6 block">Our Story</span>
-                <h1 className="text-7xl md:text-8xl font-serif mb-12 text-slate-900">About <span className="italic font-light text-hannora-green">Handora</span></h1>
-                <p className="text-xl text-slate-500 max-w-3xl mx-auto leading-relaxed">Born in the heart of botanical gardens, Handora blends ancient plant wisdom with modern ethical standards to create rituals that nourish both skin and soul.</p>
+        {page === 'shipping' && (
+          <div className="animate-fade-in pt-48 pb-32">
+            <section className="container mx-auto px-6 max-w-4xl">
+              <div className="text-center mb-24">
+                <span className="text-xs font-black uppercase tracking-[0.6em] text-hannora-green mb-6 block">Care & Delivery</span>
+                <h1 className="text-6xl md:text-7xl font-serif text-slate-900 mb-8">Shipping <span className="italic">& Returns</span></h1>
+                <p className="text-lg text-slate-500 italic">Crafted with care, delivered with respect for the planet.</p>
               </div>
-            </section>
 
-            {/* Mission & Philosophy - NEW SECTION */}
-            <section className="py-32 bg-white">
-              <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mb-32">
                 <div className="reveal">
-                  <h2 className="text-5xl font-serif mb-8 text-slate-900">The Purity <span className="italic">Manifesto</span></h2>
-                  <p className="text-slate-600 mb-6 text-lg">We believe that nature holds the key to true radiance. Our process begins with wild-harvested botanicals, ethically sourced to ensure the longevity of our ecosystems.</p>
-                  <p className="text-slate-600 mb-10 text-lg">Every drop of Handora is free from synthetic fragrances, parabens, and sulfates. We are 100% vegan, because beauty should never come at the cost of life.</p>
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <h4 className="font-bold text-hannora-green uppercase tracking-widest text-xs mb-2">Cruelty Free</h4>
-                      <p className="text-sm text-slate-400">Never tested on animals, certified by global ethical standards.</p>
+                  <h3 className="text-2xl font-serif text-slate-800 mb-8">The Delivery Ritual</h3>
+                  <div className="space-y-8">
+                    <div className="border-l-2 border-hannora-light pl-6">
+                      <h4 className="font-bold text-slate-700 uppercase text-[11px] tracking-widest mb-2">Standard Delivery</h4>
+                      <p className="text-slate-500 text-sm">Hanoi & HCMC: 1-2 Business Days<br/>Provinces: 3-5 Business Days</p>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-hannora-green uppercase tracking-widest text-xs mb-2">Sustainable</h4>
-                      <p className="text-sm text-slate-400">Glass and recycled packaging for a zero-waste future.</p>
+                    <div className="border-l-2 border-hannora-green/20 pl-6">
+                      <h4 className="font-bold text-hannora-green uppercase text-[11px] tracking-widest mb-2">Complimentary Shipping</h4>
+                      <p className="text-slate-500 text-sm italic">Free standard delivery on all orders above $50.00.</p>
                     </div>
                   </div>
                 </div>
-                <div className="relative reveal delay-1">
-                  <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecee?auto=format&fit=crop&q=80&w=1000" className="rounded-[60px] shadow-2xl" alt="Philosophy" />
-                </div>
-              </div>
-            </section>
 
-            {/* Sustainability Commitment - NEW SECTION */}
-            <section className="py-32 container mx-auto px-6 text-center">
-              <h2 className="text-5xl font-serif mb-16 text-slate-900">Our Commitments</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div className="p-10 bg-hannora-light rounded-[40px] border border-hannora-green/10">
-                  <div className="text-4xl mb-6">🌿</div>
-                  <h3 className="text-xl font-bold mb-4 uppercase tracking-widest">Ethical Sourcing</h3>
-                  <p className="text-slate-500 text-sm">We partner with local farmers to ensure fair trade and organic cultivation methods.</p>
+                <div className="reveal delay-1">
+                  <h3 className="text-2xl font-serif text-slate-800 mb-8">Handora Returns</h3>
+                  <p className="text-slate-600 leading-relaxed mb-8">If our botanical extracts do not meet your expectations, we offer a refined 30-day return experience.</p>
+                  <ul className="space-y-4 text-sm text-slate-500">
+                    <li className="flex gap-3"><span>•</span> Return within 30 days of receipt.</li>
+                    <li className="flex gap-3"><span>•</span> Items must be unused and in original glass packaging.</li>
+                  </ul>
                 </div>
-                <div className="p-10 bg-hannora-light rounded-[40px] border border-hannora-green/10">
-                  <div className="text-4xl mb-6">♻️</div>
-                  <h3 className="text-xl font-bold mb-4 uppercase tracking-widest">Plastic-Free</h3>
-                  <p className="text-slate-500 text-sm">Our goal is to be 100% plastic-free by 2025. We currently use 85% recycled glass.</p>
-                </div>
-                <div className="p-10 bg-hannora-light rounded-[40px] border border-hannora-green/10">
-                  <div className="text-4xl mb-6">💧</div>
-                  <h3 className="text-xl font-bold mb-4 uppercase tracking-widest">Water Conscious</h3>
-                  <p className="text-slate-500 text-sm">Low-water manufacturing processes that protect our most precious resource.</p>
-                </div>
-              </div>
-            </section>
-
-            {/* Team Section */}
-            <section className="py-40 container mx-auto px-6 max-w-5xl">
-              <div className="text-center mb-24 reveal">
-                <span className="text-xs font-black uppercase tracking-[0.6em] text-hannora-green mb-6 block">Creative Team</span>
-                <h2 className="text-6xl font-serif text-slate-900">Meet the Creators</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-x-8 gap-y-16">
-                {TEAM_MEMBERS.map((member, i) => (
-                  <div key={member.id} className="reveal text-center group">
-                    <div className="relative mx-auto w-24 h-24 mb-6">
-                      <div className="absolute inset-0 rounded-full overflow-hidden shadow-xl border-2 border-white group-hover:-translate-y-2 transition-transform duration-500">
-                        <img src={member.imageUrl} className="w-full h-full object-cover" alt={member.name} />
-                      </div>
-                    </div>
-                    <h4 className="text-lg font-serif mb-1 text-slate-800">{member.name}</h4>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-hannora-green/60">{member.role}</p>
-                  </div>
-                ))}
               </div>
             </section>
           </div>
@@ -181,52 +138,61 @@ const App: React.FC = () => {
           </section>
         )}
 
-        {page === 'quiz' && (
-          <section className="pt-48 pb-40 container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h1 className="text-6xl font-serif mb-4 text-slate-900">Skin Ritual Quiz</h1>
-              <p className="text-slate-500">Let our AI curate the perfect botanical ritual for your unique skin profile.</p>
-            </div>
-            <SkinQuiz availableProducts={products} onRecommendation={(rec, items) => {
-              // Custom recommendation handling could go here
-              console.log(rec, items);
-              alert("AI Recommendation: " + rec);
-              setPage('shop');
-            }} />
+        {page === 'about' && (
+          <section className="pt-48 pb-40 container mx-auto px-6 text-center">
+             <h1 className="text-8xl font-serif mb-8 text-slate-900">About Us</h1>
+             <p className="text-xl text-slate-500 max-w-3xl mx-auto italic">Connecting modern souls with the pure intelligence of plants.</p>
           </section>
         )}
 
-        {page === 'admin' && user?.role === 'admin' && (
-          <section className="pt-48 pb-40 container mx-auto px-6">
-            <AdminDashboard 
-              products={products} 
-              orders={[]} 
-              onUpdateProducts={(newP) => {
-                setProducts(newP);
-                localStorage.setItem('hannora_products', JSON.stringify(newP));
-              }}
-              onUpdateOrders={() => {}} 
-            />
+        {page === 'quiz' && (
+          <section className="pt-48 pb-40 container mx-auto px-6 text-center">
+             <SkinQuiz availableProducts={products} onRecommendation={(rec) => alert(rec)} />
           </section>
         )}
       </main>
 
-      <footer className="bg-hannora-green text-white py-24 px-6 mt-20">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
-          <div className="col-span-2">
-            <h2 className="text-4xl font-bold tracking-[0.5em] mb-8 uppercase">HANDORA</h2>
-            <p className="text-white/70 text-lg leading-relaxed max-w-md italic">"Connecting modern souls with the pure intelligence of plants."</p>
+      {/* Tối giản Footer theo yêu cầu */}
+      <footer className="bg-white border-t border-slate-100 pt-24 pb-12 px-6">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+            <div>
+              <h4 className="text-3xl font-serif mb-4 text-slate-900">Join the Ritual</h4>
+              <p className="text-slate-400 text-sm font-light mb-8 italic">Subscribe for exclusive early access to new extractions.</p>
+              <form className="flex max-w-md gap-3">
+                <input type="email" placeholder="ritual@email.com" className="flex-grow bg-slate-50 border border-slate-100 rounded-full px-6 py-4 text-xs focus:outline-none focus:ring-1 focus:ring-hannora-green transition-all" />
+                <button type="button" className="btn-shimmer px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest text-white">Join</button>
+              </form>
+            </div>
+            <div className="lg:flex lg:justify-end gap-24">
+              <div>
+                <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-slate-300">Customer Care</h4>
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Direct</p>
+                    <p className="text-lg font-serif text-slate-700">+84 1800 5588</p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Email</p>
+                    <p className="text-lg font-serif text-slate-700">care@handora.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-hannora-accent">Explore</h4>
-            <ul className="space-y-4 text-white/60 text-xs font-bold uppercase tracking-widest">
-               <li><button onClick={() => setPage('shop')} className="hover:text-white transition-colors">The Collection</button></li>
-               <li><button onClick={() => setPage('about')} className="hover:text-white transition-colors">Our Story</button></li>
-               <li><button onClick={() => setPage('quiz')} className="hover:text-white transition-colors">Botanical Quiz</button></li>
-            </ul>
+
+          <div className="pt-12 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div className="flex flex-wrap justify-center gap-8 text-[10px] font-black uppercase tracking-widest text-slate-400">
+              <button onClick={() => setPage('shipping')} className="hover:text-hannora-green transition-colors">Privacy</button>
+              <button onClick={() => setPage('shipping')} className="hover:text-hannora-green transition-colors">Terms</button>
+              <span className="text-slate-200">© 2024 HANDORA Botanical Systems</span>
+            </div>
+            <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest text-slate-400">
+              <a href="#" className="hover:text-hannora-green transition-colors">Instagram</a>
+              <a href="#" className="hover:text-hannora-green transition-colors">LinkedIn</a>
+            </div>
           </div>
         </div>
-        <div className="container mx-auto mt-20 pt-10 border-t border-white/10 text-center text-[10px] uppercase font-black tracking-[0.5em] text-white/30">&copy; 2024 HANDORA — Crafted with care for the planet</div>
       </footer>
     </div>
   );
