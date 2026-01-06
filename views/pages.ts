@@ -1537,27 +1537,37 @@ export const renderAdmin = (state: any) => {
 
               <div class="space-y-3">
                 ${(state.blogs || []).map((b: any) => `
-                  <div class="group flex justify-between items-center p-5 bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                    <div class="flex items-center gap-4">
-                      ${b.img ? `<img src="${b.img}" class="w-14 h-14 object-cover rounded-2xl border border-slate-100" />` : `
-                        <div class="w-14 h-14 rounded-2xl bg-handora-light flex items-center justify-center text-handora-green font-black border border-slate-100">H</div>
-                      `}
-                      <div class="min-w-0">
-                        <div class="font-extrabold text-handora-dark truncate max-w-[420px]">${b.title}</div>
-                        <div class="text-slate-500 text-sm truncate max-w-[420px]">${b.excerpt || ""}</div>
-                      </div>
-                    </div>
-                    <div class="flex gap-2">
-                      <button onclick="editBlog('${b.id}'); renderApp();"
-                        class="px-4 py-2 rounded-full bg-slate-100 text-handora-green text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-200 transition-all">
-                        Edit
-                      </button>
-                      <button onclick="deleteBlog('${b.id}');"
-                        class="px-4 py-2 rounded-full bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-red-100 transition-all">
-                        Delete
-                      </button>
-                    </div>
-                  </div>
+                  <div class="group flex items-center gap-4 p-5 bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
+  <!-- LEFT: image + text -->
+  <div class="flex items-center gap-4 min-w-0 flex-1">
+    ${b.img
+      ? `<img src="${b.img}" class="w-14 h-14 object-cover rounded-2xl border border-slate-100 shrink-0" />`
+      : `<div class="w-14 h-14 rounded-2xl bg-handora-light flex items-center justify-center text-handora-green font-black border border-slate-100 shrink-0">H</div>`
+    }
+
+    <div class="min-w-0">
+      <div class="font-extrabold text-handora-dark truncate">
+        ${b.title}
+      </div>
+      <div class="text-slate-500 text-sm truncate">
+        ${b.excerpt || ""}
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: actions -->
+  <div class="flex gap-2 shrink-0 whitespace-nowrap">
+    <button onclick="editBlog('${b.id}'); renderApp();"
+      class="px-4 py-2 rounded-full bg-slate-100 text-handora-green text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-200 transition-all">
+      Edit
+    </button>
+    <button onclick="deleteBlog('${b.id}');"
+      class="px-4 py-2 rounded-full bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-red-100 transition-all">
+      Delete
+    </button>
+  </div>
+</div>
+
                 `).join("")}
 
                 ${(state.blogs || []).length === 0
