@@ -11,7 +11,6 @@ import avt1 from "/Images/avt_1.jpg";
 import blog4 from "/Images/sp4.png";
 import blog5 from "/Images/sp5.png";
 import blog6 from "/Images/sp6.png";
-import banner from "/Images/banner.png";
 
 
 // --- TYPES & GLOBALS ---
