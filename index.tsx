@@ -43,9 +43,13 @@ setShopSort: (v: string) => void;
   }
 }
 
+const asset = (p: string) => new URL(p, window.location.origin).toString();
+// hoặc: `${window.location.origin}${p}`
+
+
 // --- DATA ---
 const INITIAL_PRODUCTS = [
-  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: '/Images/sp1.png', tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
+  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: asset('/Images/sp1.png'), tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
   { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 16.00, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: '/Images/sp2.png', tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
   { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 17.50, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: '/Images/sp3.png', tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
   { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: '/Images/sp4.png', tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
