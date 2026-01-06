@@ -1,45 +1,490 @@
 export const renderHome = (state: any) => `
-  <section class="relative h-screen flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 z-0 scale-110">
-      <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover opacity-80" />
-      <div class="absolute inset-0 bg-gradient-to-b from-handora-dark/30 via-transparent to-handora-light"></div>
-    </div>
-    <div class="container mx-auto px-8 relative z-10 text-center reveal-on-scroll">
-      <span class="inline-block px-8 py-3 rounded-full border border-handora-green/20 text-[10px] font-black uppercase tracking-[0.6em] text-handora-green mb-8 bg-white/40 backdrop-blur-md">Botanical Engineering</span>
-      <h1 class="text-7xl md:text-9xl font-serif text-slate-900 leading-tight mb-12">Vegan <span class="italic font-light text-handora-green">Essence</span>,<br/>Modern Rituals.</h1>
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-        <button onclick="navigate('shop')" class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">Shop Now</button>
-        <button onclick="navigate('quiz')" class="glass px-14 py-5 rounded-full text-slate-800 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl">AI Skin Consult</button>
-      </div>
-    </div>
-  </section>
-`;
+  <div class="overflow-x-hidden">
+    <!-- HERO -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0 scale-110">
+        <img src="/Images/banner.png?auto=format&fit=crop&q=80&w=2000"
+             class="w-full h-full object-cover opacity-85 parallax-scroll" />
+        <div class="absolute inset-0 bg-gradient-to-b from-handora-dark/35 via-transparent to-handora-light"></div>
 
-export const renderShop = (state: any) => `
-  <section class="pt-48 pb-40 container mx-auto px-8">
-    <div class="text-center mb-24 reveal-on-scroll">
-       <span class="text-[10px] font-black uppercase tracking-[0.6em] text-handora-green mb-6 block">Our Collection</span>
-       <h1 class="text-7xl font-serif mb-8 text-handora-dark">Botanical Systems</h1>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      ${state.products.map((p: any) => `
-        <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full">
-          <div class="aspect-[4/5] overflow-hidden relative">
-            <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
-          </div>
-          <div class="p-10 flex flex-col flex-grow">
-            <div class="flex justify-between items-start mb-4">
-              <h3 class="text-2xl font-serif text-slate-800">${p.name}</h3>
-              <p class="text-lg font-light text-handora-green">$${Number(p.price).toFixed(2)}</p>
+        <!-- floating glow orbs -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-handora-green/15 blur-3xl animate-[float_10s_ease-in-out_infinite]"></div>
+        <div class="absolute -bottom-28 -right-28 w-[520px] h-[520px] rounded-full bg-white/18 blur-3xl animate-[float_13s_ease-in-out_infinite]"></div>
+      </div>
+
+      <div class="container mx-auto px-8 relative z-10 text-center reveal-on-scroll">
+        <span class="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-handora-green/20 text-[10px] font-black uppercase tracking-[0.6em] text-handora-green mb-8 bg-white/40 backdrop-blur-md">
+          <span class="w-1.5 h-1.5 rounded-full bg-handora-green"></span>
+          Botanical Engineering
+        </span>
+
+        <h1 class="text-7xl md:text-9xl font-serif text-slate-900 leading-tight mb-10">
+          Vegan <span class="italic font-light text-handora-green">Essence</span>,<br/>
+          Modern Rituals.
+        </h1>
+
+        <p class="max-w-2xl mx-auto text-slate-600 text-lg md:text-xl leading-relaxed mb-12">
+          Skin-safe, cruelty-free hand care designed for everyday comfort — with refill-first sustainability.
+        </p>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+          <button onclick="navigate('shop')" class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
+            Shop Now
+          </button>
+          <button onclick="navigate('quiz')" class="glass px-14 py-5 rounded-full text-slate-800 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl">
+            AI Skin Consult
+          </button>
+        </div>
+
+        <!-- micro stats -->
+        <div class="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          ${[
+            ["100% Vegan", "Cruelty-free formulas"],
+            ["Skin-Safe", "Gentle daily use"],
+            ["Refill-First", "Less plastic waste"]
+          ].map(([a,b], i) => `
+            <div class="reveal-on-scroll bg-white/55 backdrop-blur border border-slate-200 rounded-3xl px-6 py-5 shadow-sm"
+                 style="transition-delay:${i * 90}ms">
+              <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">${a}</div>
+              <div class="mt-2 text-slate-700 font-semibold">${b}</div>
             </div>
-            <p class="text-slate-400 text-sm mb-10">${p.desc}</p>
-            <button onclick="addToBag('${p.id}')" class="w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all mt-auto">Add to Bag</button>
+          `).join("")}
+        </div>
+      </div>
+
+      <!-- scroll hint -->
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
+        <div class="w-8 h-14 rounded-full border border-slate-200 bg-white/50 backdrop-blur flex justify-center">
+          <div class="w-1.5 h-1.5 rounded-full bg-handora-green mt-3 animate-[scrollDot_1.4s_ease-in-out_infinite]"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RITUAL STRIP -->
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-5 reveal-on-scroll">
+            <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">A Daily Ritual</span>
+            <h2 class="text-6xl font-serif text-handora-dark leading-none">
+              Cleanse. Calm. <span class="italic text-handora-green">Restore.</span>
+            </h2>
+            <p class="mt-8 text-slate-500 text-lg leading-relaxed">
+              A minimal hand-care system designed for frequent use — without stripping your skin’s natural balance.
+            </p>
+            <div class="mt-10 flex gap-3">
+              <button onclick="navigate('shop')" class="px-10 py-4 rounded-full bg-handora-green text-white text-[10px] font-black uppercase tracking-[0.35em] shadow-lg hover:shadow-xl transition-all">
+                Explore Products
+              </button>
+              <button onclick="navigate('about')" class="px-10 py-4 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all">
+                Learn More
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              ${[
+                ["🌿", "Vegan & Ethical", "100% vegan and cruelty-free, made with respect for life."],
+                ["🤍", "Skin-Friendly", "Gentle formulas for comfortable daily use."],
+                ["♻️", "Sustainable", "Refill-oriented packaging to reduce plastic."]
+              ].map((x, i) => `
+                <div class="reveal-on-scroll p-8 rounded-[36px] bg-handora-light/35 border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                     style="transition-delay:${i * 120}ms">
+                  <div class="text-4xl mb-6">${x[0]}</div>
+                  <div class="text-xl font-bold text-slate-800 mb-3">${x[1]}</div>
+                  <div class="text-slate-500 leading-relaxed">${x[2]}</div>
+                </div>
+              `).join("")}
+            </div>
           </div>
         </div>
-      `).join('')}
+      </div>
+    </section>
+
+    <!-- FEATURED PRODUCTS (animated cards) -->
+    <section class="py-28 bg-handora-light/40">
+      <div class="container mx-auto px-8">
+        <div class="text-center mb-16 reveal-on-scroll">
+          <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">Featured</span>
+          <h2 class="text-6xl md:text-7xl font-serif text-handora-dark">
+            Best-Selling <span class="italic text-handora-green">Rituals</span>
+          </h2>
+          <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto">
+            A few essentials our customers keep coming back to.
+          </p>
+        </div>
+
+       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+  ${(state.products || []).slice(0, 4).map((p: any, i: number) => `
+    <div
+      class="group reveal-on-scroll bg-white rounded-[44px] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all flex flex-col h-full"
+      style="transition-delay:${i * 120}ms"
+    >
+      <div class="aspect-[4/5] overflow-hidden relative">
+        <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+        <div class="absolute top-5 left-5 px-4 py-2 rounded-full bg-white/80 backdrop-blur border border-white/60 text-[10px] font-black uppercase tracking-[0.35em] text-slate-700 shadow-sm
+                    translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+          Featured
+        </div>
+      </div>
+
+      <!-- IMPORTANT: make content stretch and button stick to bottom -->
+      <div class="p-8 flex flex-col flex-grow">
+        <div class="flex items-start justify-between gap-4">
+          <!-- OPTIONAL: keep title height consistent -->
+          <h3 class="text-2xl font-serif text-slate-800 leading-snug min-h-[3.25rem]">
+            ${p.name}
+          </h3>
+          <p class="text-lg font-light text-handora-green whitespace-nowrap">
+            $${Number(p.price).toFixed(2)}
+          </p>
+        </div>
+
+        <!-- OPTIONAL: keep desc height consistent -->
+        <p class="mt-3 text-slate-400 text-sm line-clamp-3 min-h-[4.5rem]">
+          ${p.desc}
+        </p>
+
+        <!-- mt-auto makes all buttons align -->
+        <button
+          onclick="addToBag('${p.id}')"
+          class="mt-auto w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
+        >
+          Add to Bag
+        </button>
+      </div>
     </div>
-  </section>
+  `).join("")}
+</div>
+
+
+        <div class="text-center mt-14">
+          <button onclick="navigate('shop')"
+            class="px-12 py-5 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all shadow-sm">
+            View Full Collection
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS (timeline) -->
+    <section class="py-28 bg-white">
+      <div class="container mx-auto px-8">
+        <div class="text-center mb-16 reveal-on-scroll">
+          <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">How it Works</span>
+          <h2 class="text-6xl md:text-7xl font-serif text-handora-dark">
+            A Simple <span class="italic text-handora-green">System</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          ${[
+            ["01", "Choose your ritual", "Pick a gentle wash and a therapy balm that fits your daily routine."],
+            ["02", "Use daily, safely", "Formulated for frequent use — designed to respect your skin barrier."],
+            ["03", "Refill & reduce waste", "Refill-oriented packaging for responsible consumption."]
+          ].map((s, i) => `
+            <div class="reveal-on-scroll rounded-[40px] border border-slate-200 bg-white p-10 shadow-sm hover:shadow-md transition-all"
+                 style="transition-delay:${i * 110}ms">
+              <div class="flex items-center justify-between">
+                <div class="text-[10px] font-black uppercase tracking-[0.45em] text-slate-400">Step</div>
+                <div class="text-3xl font-serif text-handora-green">${s[0]}</div>
+              </div>
+              <h3 class="mt-6 text-3xl font-serif text-slate-800">${s[1]}</h3>
+              <p class="mt-4 text-slate-500 leading-relaxed">${s[2]}</p>
+              <div class="mt-8 h-[2px] w-12 bg-handora-green/30"></div>
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="text-center mt-16 reveal-on-scroll">
+          <button onclick="navigate('quiz')" class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
+            Try AI Skin Consult
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG TEASER -->
+    <section class="py-28 bg-handora-dark text-white relative overflow-hidden">
+      <div class="absolute inset-0 opacity-20">
+        <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-handora-green/40 blur-3xl animate-[float_12s_ease-in-out_infinite]"></div>
+        <div class="absolute -bottom-28 -right-28 w-[520px] h-[520px] rounded-full bg-white/20 blur-3xl animate-[float_15s_ease-in-out_infinite]"></div>
+      </div>
+
+      <div class="container mx-auto px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 reveal-on-scroll">
+            <span class="text-[10px] font-black uppercase tracking-[0.8em] text-white/70 mb-6 block">Journal</span>
+            <h2 class="text-6xl md:text-7xl font-serif leading-none">
+              Ritual Notes for <span class="italic text-handora-green">Better Care</span>
+            </h2>
+            <p class="mt-8 text-white/70 text-lg leading-relaxed max-w-xl">
+              Short reads about ingredients, routines, and sustainable daily habits.
+            </p>
+            <div class="mt-10">
+              <button onclick="navigate('blogs')" class="px-12 py-5 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-black uppercase tracking-[0.35em] hover:bg-white/15 transition-all">
+                Read Articles
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              ${(state.blogs || []).slice(0, 2).map((b: any, i: number) => `
+                <div class="reveal-on-scroll rounded-[34px] bg-white/5 border border-white/10 p-7 hover:bg-white/10 transition-all cursor-pointer"
+                     onclick="openBlog('${b.id}')"
+                     style="transition-delay:${i * 110}ms">
+                  <div class="text-[10px] font-black uppercase tracking-[0.35em] text-white/60">Featured</div>
+                  <div class="mt-4 text-2xl font-serif">${b.title}</div>
+                  <div class="mt-3 text-white/70">${b.excerpt}</div>
+                  <div class="mt-6 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.35em] text-handora-green">
+                    Read <span class="opacity-70">→</span>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-8">
+        <div class="rounded-[60px] bg-handora-light/40 border border-slate-200 p-12 md:p-16 text-center reveal-on-scroll">
+          <h2 class="text-5xl md:text-6xl font-serif text-handora-dark">
+            Ready for a <span class="italic text-handora-green">cleaner</span> ritual?
+          </h2>
+          <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto">
+            Explore the collection, then let the AI consult recommend a routine based on your skin needs.
+          </p>
+          <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-4">
+            <button onclick="navigate('shop')" class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
+              Shop Now
+            </button>
+            <button onclick="navigate('quiz')" class="px-14 py-5 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-slate-50 transition-all shadow-sm">
+              AI Skin Consult
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- local-only keyframes (no external css needed) -->
+    <style>
+      @keyframes float {
+        0%, 100% { transform: translate3d(0,0,0); }
+        50% { transform: translate3d(0,-14px,0); }
+      }
+      @keyframes scrollDot {
+        0% { transform: translateY(0); opacity: .4; }
+        50% { transform: translateY(18px); opacity: 1; }
+        100% { transform: translateY(0); opacity: .4; }
+      }
+      /* safe line clamp if not installed */
+      .line-clamp-3{
+        display:-webkit-box;
+        -webkit-line-clamp:3;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+      }
+    </style>
+  </div>
 `;
+
+
+export const renderShop = (state: any) => {
+  const q = String(state.shopSearch || "").trim().toLowerCase();
+  const category = state.shopCategory || "All";
+
+  let filtered = [...(state.products || [])].filter((p: any) => {
+    const name = String(p.name || "").toLowerCase();
+    const desc = String(p.desc || "").toLowerCase();
+    const cat = String(p.category || "");
+
+    const matchQuery =
+      !q || name.includes(q) || desc.includes(q) || cat.toLowerCase().includes(q);
+    const matchCat = category === "All" || cat === category;
+
+    return matchQuery && matchCat;
+  });
+
+  filtered.sort((a: any, b: any) => {
+    const sa = String(a.name || "").toLowerCase();
+    const sb = String(b.name || "").toLowerCase();
+    const pa = Number(a.price || 0);
+    const pb = Number(b.price || 0);
+
+    switch (state.shopSort) {
+      case "price_asc":
+        return pa - pb;
+      case "price_desc":
+        return pb - pa;
+      case "name_asc":
+        return sa.localeCompare(sb);
+      case "name_desc":
+        return sb.localeCompare(sa);
+      case "default":
+      default:
+        return 0;
+    }
+  });
+
+  const hasFilters =
+    Boolean(state.shopSearch) ||
+    state.shopCategory !== "All" ||
+    state.shopSort !== "default";
+
+  return `
+  <section class="pt-44 pb-40 container mx-auto px-8">
+    <!-- HEADER -->
+    <div class="text-center mb-14 reveal-on-scroll">
+      <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/80 border border-slate-200 text-[10px] font-black uppercase tracking-[0.55em] text-handora-green shadow-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-handora-green"></span>
+        Shop
+      </span>
+      <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">The Ritual Collection</h1>
+      <p class="max-w-2xl mx-auto mt-5 text-slate-400">
+        Curated botanicals for daily hand rituals — cleanse, calm, and restore.
+      </p>
+    </div>
+
+    <!-- SEARCH + FILTERS -->
+    <div class="max-w-5xl mx-auto mb-12 reveal-on-scroll">
+      <div class="rounded-[28px] bg-white/80 backdrop-blur border border-slate-200 shadow-sm p-4 md:p-5">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <!-- Search -->
+          <div class="md:col-span-6">
+            <div class="flex items-center gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 focus-within:ring-2 ring-handora-green/20">
+              <svg class="w-5 h-5 text-slate-400" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M10.5 19a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M16.8 16.8 22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+             <input
+  id="shop-search"
+  type="text"
+  placeholder="Search by name, category, description..."
+  value="${state.shopSearch || ""}"
+  oninput="setShopSearch(this.value)"
+  onkeydown="if(event.key==='Enter'){ event.preventDefault(); return false; }"
+  class="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
+/>
+
+              ${
+                state.shopSearch
+                  ? `<button type="button"
+                      onclick="setShopSearch('')"
+                      class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-[0.25em] hover:bg-slate-200 transition-all">
+                      Clear
+                    </button>`
+                  : ``
+              }
+            </div>
+          </div>
+
+          <!-- Category select (pretty box) -->
+          <div class="md:col-span-3">
+            <div class="relative">
+              <select
+                onchange="setShopCategory(this.value)"
+                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-4 pr-12 outline-none focus:ring-2 ring-handora-green/20 text-slate-800 font-semibold shadow-[0_1px_0_rgba(15,23,42,0.03)]"
+              >
+                <option value="All" ${state.shopCategory === "All" ? "selected" : ""}>All Categories</option>
+                <option value="Hand Rituals" ${state.shopCategory === "Hand Rituals" ? "selected" : ""}>Hand Rituals</option>
+                <option value="Skin Therapy" ${state.shopCategory === "Skin Therapy" ? "selected" : ""}>Skin Therapy</option>
+              </select>
+
+              <!-- right icon -->
+              <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                <div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sort select (pretty box) -->
+          <div class="md:col-span-3">
+            <div class="relative">
+              <select
+                onchange="setShopSort(this.value)"
+                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-4 pr-12 outline-none focus:ring-2 ring-handora-green/20 text-slate-800 font-semibold shadow-[0_1px_0_rgba(15,23,42,0.03)]"
+              >
+                <option value="default" ${state.shopSort === "default" ? "selected" : ""}>Sort: Default</option>
+                <option value="price_asc" ${state.shopSort === "price_asc" ? "selected" : ""}>Price: Low → High</option>
+                <option value="price_desc" ${state.shopSort === "price_desc" ? "selected" : ""}>Price: High → Low</option>
+                <option value="name_asc" ${state.shopSort === "name_asc" ? "selected" : ""}>Name: A → Z</option>
+                <option value="name_desc" ${state.shopSort === "name_desc" ? "selected" : ""}>Name: Z → A</option>
+              </select>
+
+              <!-- right icon -->
+              <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                <div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer row -->
+        <div class="flex items-center justify-between mt-4 px-1">
+          <p class="text-slate-400 text-sm">${filtered.length} items</p>
+
+          ${
+            hasFilters
+              ? `<button type="button"
+                  onclick="setShopSearch(''); setShopCategory('All'); setShopSort('default');"
+                  class="px-5 py-2 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.35em] text-slate-600 hover:bg-slate-50 transition-all">
+                  Reset Filters
+                </button>`
+              : ``
+          }
+        </div>
+      </div>
+    </div>
+
+    ${
+      filtered.length === 0
+        ? `<div class="text-center text-slate-400 py-16 reveal-on-scroll">No products found.</div>`
+        : `
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            ${filtered
+              .map(
+                (p: any) => `
+              <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full">
+                <div class="aspect-[4/5] overflow-hidden relative">
+                  <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                </div>
+                <div class="p-10 flex flex-col flex-grow">
+                  <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-2xl font-serif text-slate-800">${p.name}</h3>
+                    <p class="text-lg font-light text-handora-green">$${Number(p.price).toFixed(2)}</p>
+                  </div>
+                  <p class="text-slate-400 text-sm mb-10">${p.desc}</p>
+                  <button onclick="addToBag('${p.id}')"
+                    class="w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all mt-auto">
+                    Add to Bag
+                  </button>
+                </div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+        `
+    }
+  </section>
+  `;
+};
+
 
 export const renderAbout = (state: any) => `
   <div class="overflow-x-hidden">
@@ -55,7 +500,7 @@ export const renderAbout = (state: any) => `
 
     <section class="relative min-h-[120vh] flex items-center mb-40 overflow-hidden">
       <div class="absolute inset-0 z-0">
-         <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecee?auto=format&fit=crop&q=80&w=2000" 
+         <img src="/Images/banner1.png?auto=format&fit=crop&q=80&w=2000" 
               class="w-full h-full object-cover parallax-scroll scale-125" 
               alt="Botanical Laboratory" />
          <div class="absolute inset-0 bg-handora-dark/70 backdrop-blur-[2px]"></div>
@@ -75,85 +520,206 @@ export const renderAbout = (state: any) => `
       </div>
     </section>
 
-    <section class="py-40 bg-white">
-      <div class="container mx-auto px-8 text-center mb-32 reveal-on-scroll">
-        <h2 class="text-8xl font-serif text-handora-dark">Core <span class="italic text-handora-green">Values</span></h2>
+    <!-- NEW: MISSION + VISION -->
+    <section class="py-44 bg-white">
+      <div class="container mx-auto px-8">
+        <div class="text-center mb-20 reveal-on-scroll">
+          <span class="text-[10px] font-black uppercase tracking-[1em] text-handora-green mb-8 block">Purpose</span>
+          <h2 class="text-7xl md:text-8xl font-serif text-handora-dark">
+            Mission & <span class="italic text-handora-green">Vision</span>
+          </h2>
+          <p class="mt-8 text-slate-400 text-lg md:text-xl font-serif italic max-w-3xl mx-auto leading-relaxed">
+            Everyday hygiene should never compromise skin health or ethical values.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+          <!-- Mission Card -->
+          <div class="reveal-on-scroll">
+            <div class="rounded-[44px] border border-slate-200 bg-white shadow-sm p-10 md:p-12 relative overflow-hidden">
+              <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-handora-light/60 blur-2xl"></div>
+              <div class="absolute -bottom-28 -left-24 w-72 h-72 rounded-full bg-handora-green/10 blur-2xl"></div>
+
+              <div class="relative">
+                <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
+                  <span class="text-base">🌿</span> Our Mission
+                </div>
+
+                <h3 class="mt-8 text-4xl md:text-5xl font-serif text-handora-dark leading-tight">
+                  Gentle vegan care, made for every day.
+                </h3>
+
+                <p class="mt-7 text-slate-500 text-lg leading-relaxed">
+                  HANDORA’s mission is to create vegan hand care products that are gentle on the skin and respectful to the environment,
+                  designed for safe and comfortable daily use.
+                </p>
+                <p class="mt-5 text-slate-500 text-lg leading-relaxed">
+                  We believe that everyday hygiene should never compromise skin health or ethical values.
+                </p>
+
+                <div class="mt-10 flex flex-wrap gap-2">
+                  ${[
+                    "100% Vegan",
+                    "Cruelty-Free",
+                    "Skin-Safe",
+                    "Everyday Comfort"
+                  ].map(t => `
+                    <span class="px-4 py-2 rounded-full bg-handora-light/40 text-slate-700 text-[11px] font-black uppercase tracking-[0.25em] border border-slate-200">
+                      ${t}
+                    </span>
+                  `).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vision Card -->
+          <div class="reveal-on-scroll">
+            <div class="rounded-[44px] border border-slate-200 bg-handora-dark shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-10 md:p-12 relative overflow-hidden">
+              <div class="absolute -top-28 -left-28 w-80 h-80 rounded-full bg-handora-green/20 blur-2xl"></div>
+              <div class="absolute -bottom-32 -right-28 w-96 h-96 rounded-full bg-white/10 blur-2xl"></div>
+
+              <div class="relative">
+                <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 border border-white/15 text-[10px] font-black uppercase tracking-[0.5em] text-white/80">
+                  <span class="text-base">🌱</span> Our Vision
+                </div>
+
+                <h3 class="mt-8 text-4xl md:text-5xl font-serif text-white leading-tight">
+                  Vietnam’s leading vegan hand wash brand — and beyond.
+                </h3>
+
+                <p class="mt-7 text-white/80 text-lg leading-relaxed">
+                  HANDORA aims to become a leading vegan hand wash brand in Vietnam, recognised for skin-safe formulations,
+                  ethical production, and a strong commitment to sustainability.
+                </p>
+                <p class="mt-5 text-white/80 text-lg leading-relaxed">
+                  In the long term, we seek to expand our personal care portfolio and build meaningful connections with consumers
+                  through digital-first and data-driven experiences.
+                </p>
+
+                <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  ${[
+                    ["Ethical Production", "Responsible by design"],
+                    ["Sustainability", "Refill-first mindset"],
+                    ["Digital-First", "Modern retail experience"],
+                    ["Data-Driven", "Personalized rituals"]
+                  ].map(([a, b]) => `
+                    <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                      <div class="text-white font-extrabold">${a}</div>
+                      <div class="text-white/70 text-sm mt-1">${b}</div>
+                    </div>
+                  `).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-8">
-        ${['Bio-Integrity', 'Radical Honesty', 'Circular Design', 'Mindful Luxury'].map((v, i) => `
-          <div class="p-12 bg-handora-light/30 rounded-[60px] reveal-on-scroll">
-            <div class="text-4xl mb-8">${['🍃', '💎', '♾️', '✨'][i]}</div>
-            <h4 class="text-2xl font-bold uppercase tracking-widest text-slate-800 mb-8">${v}</h4>
-            <p class="text-slate-400 text-lg leading-relaxed">Elevating every batch with radical commitment to purity.</p>
+    </section>
+
+    <!-- UPDATED: CORE VALUES (match your script) -->
+    <section class="py-40 bg-white">
+      <div class="container mx-auto px-8 text-center mb-24 reveal-on-scroll">
+        <span class="text-[10px] font-black uppercase tracking-[1em] text-handora-green mb-8 block">What we stand for</span>
+        <h2 class="text-7xl md:text-8xl font-serif text-handora-dark">
+          Our Core <span class="italic text-handora-green">Values</span>
+        </h2>
+        <p class="mt-8 text-slate-400 text-lg md:text-xl font-serif italic max-w-3xl mx-auto leading-relaxed">
+          A clear commitment to vegan ethics, skin safety, and sustainable design.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-8 max-w-[1600px] mx-auto">
+        ${[
+          {
+            emoji: "🌿",
+            title: "Vegan & Ethical",
+            desc: "100% vegan and cruelty-free formulations, made with ethical responsibility and respect for life."
+          },
+          {
+            emoji: "🤍",
+            title: "Skin-Friendly",
+            desc: "Gentle formulas designed for frequent daily use, helping maintain the skin’s natural balance."
+          },
+          {
+            emoji: "♻️",
+            title: "Sustainable",
+            desc: "Refill-oriented packaging and reduced plastic usage to support responsible consumption."
+          },
+          {
+            emoji: "✨",
+            title: "User-Centric",
+            desc: "Thoughtfully designed products and digital experiences that put users first."
+          }
+        ].map((v, i) => `
+          <div class="p-12 bg-handora-light/30 rounded-[50px] border border-slate-200/60 reveal-on-scroll" style="transition-delay:${i * 110}ms">
+            <div class="text-4xl mb-8">${v.emoji}</div>
+            <h4 class="text-2xl font-bold uppercase tracking-widest text-slate-800 mb-6">${v.title}</h4>
+            <p class="text-slate-500 text-lg leading-relaxed">${v.desc}</p>
           </div>
         `).join('')}
       </div>
     </section>
 
-   <!-- Part 4: The Collective -->
-<section class="py-60 container mx-auto px-8">
-  <div class="text-center mb-28 reveal-on-scroll">
-    <span class="text-[10px] font-black uppercase tracking-[1.5em] text-handora-green mb-10 block">
-      Management
-    </span>
-    <h2 class="text-8xl md:text-9xl font-serif text-handora-dark leading-none">
-      The <span class="italic text-handora-green">Collective</span>
-    </h2>
-    <p class="mt-10 text-slate-400 text-xl md:text-2xl font-serif italic max-w-3xl mx-auto leading-relaxed">
-      A small group of specialists shaping every ritual — from extraction science to circular design.
-    </p>
-  </div>
+    <!-- Part 4: The Collective (Refined scale) -->
+    <section class="py-44 container mx-auto px-8">
+      <div class="text-center mb-24 reveal-on-scroll">
+        <span class="text-[10px] font-black uppercase tracking-[1.4em] text-handora-green mb-8 block">
+          Management
+        </span>
+        <h2 class="text-7xl md:text-8xl font-serif text-handora-dark leading-none">
+          The <span class="italic text-handora-green">Collective</span>
+        </h2>
+        <p class="mt-8 text-slate-400 text-lg md:text-xl font-serif italic max-w-3xl mx-auto leading-relaxed">
+          A small group of specialists shaping every ritual — from extraction science to circular design.
+        </p>
+      </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-16 xl:gap-14 max-w-[1680px] mx-auto">
-    ${state.TEAM
-      ? state.TEAM.map((m: any, i: number) => `
-        <div class="group text-center reveal-on-scroll" style="transition-delay: ${i * 140}ms">
-          <!-- portrait -->
-          <div class="relative w-56 h-56 md:w-60 md:h-60 mx-auto mb-12">
-            <div class="absolute inset-0 rounded-[40%] border border-handora-green/20 rotate-45
-                        group-hover:scale-125 group-hover:rotate-90 transition-all duration-[1.4s] ease-out"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-12 xl:gap-10 max-w-[1480px] mx-auto">
+        ${state.TEAM
+          ? state.TEAM.map((m: any, i: number) => `
+            <div class="group text-center reveal-on-scroll" style="transition-delay: ${i * 120}ms">
+              <div class="relative w-44 h-44 md:w-48 md:h-48 mx-auto mb-8">
+                <div class="absolute inset-0 rounded-[40%] border border-handora-green/20 rotate-45
+                            group-hover:scale-115 group-hover:rotate-90 transition-all duration-[1.2s] ease-out"></div>
 
-            <div class="absolute inset-0 rounded-[45%] border border-handora-accent/30 -rotate-12 scale-105
-                        group-hover:scale-115 group-hover:rotate-45 transition-all duration-[1.15s] ease-out delay-75"></div>
+                <div class="absolute inset-0 rounded-[45%] border border-handora-accent/30 -rotate-12 scale-105
+                            group-hover:scale-110 group-hover:rotate-45 transition-all duration-[1.1s] ease-out delay-75"></div>
 
-            <div class="w-full h-full rounded-full overflow-hidden shadow-[0_30px_60px_rgba(74,124,89,0.28)]
-                        relative z-10 portrait-clear transition-all duration-700">
-              <img
-                src="${m.img}"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                alt="${m.name}"
-              />
+                <div class="w-full h-full rounded-full overflow-hidden shadow-[0_20px_45px_rgba(74,124,89,0.25)]
+                            relative z-10 portrait-clear transition-all duration-700">
+                  <img
+                    src="${m.img}"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                    alt="${m.name}"
+                  />
+                </div>
+              </div>
+
+              <h4 class="text-2xl md:text-3xl font-serif text-handora-dark mb-2
+                         group-hover:text-handora-green transition-colors duration-400">
+                ${m.name}
+              </h4>
+
+              <p class="text-[10px] font-black uppercase tracking-[0.45em] text-handora-green mb-6 opacity-70">
+                ${m.role}
+              </p>
+
+              <div class="h-0.5 w-10 bg-handora-green/20 mx-auto mb-6
+                          transition-all duration-700 group-hover:w-16 group-hover:bg-handora-green"></div>
+
+              <p class="text-slate-500 text-base italic px-4 leading-relaxed font-light">
+                ${m.bio}
+              </p>
             </div>
-          </div>
-
-          <!-- name -->
-          <h4 class="text-3xl md:text-4xl font-serif text-handora-dark mb-3
-                     group-hover:text-handora-green transition-colors duration-500">
-            ${m.name}
-          </h4>
-
-          <!-- role -->
-          <p class="text-[11px] font-black uppercase tracking-[0.5em] text-handora-green mb-8 opacity-70">
-            ${m.role}
-          </p>
-
-          <!-- divider -->
-          <div class="h-0.5 w-12 bg-handora-green/20 mx-auto mb-8
-                      transition-all duration-700 group-hover:w-24 group-hover:bg-handora-green"></div>
-
-          <!-- bio -->
-          <p class="text-slate-500 text-lg italic px-6 leading-relaxed font-light">
-            ${m.bio}
-          </p>
-        </div>
-      `).join('')
-      : ''
-    }
-  </div>
-</section>
-
+          `).join('')
+          : ''
+        }
+      </div>
+    </section>
   </div>
 `;
+
 
 export const renderQuiz = (state: any) => `
   <section class="pt-48 pb-40 container mx-auto px-8 text-center max-w-4xl">
@@ -394,10 +960,18 @@ export const renderBlogs = (state: any) => {
 
     <!-- FEATURED -->
     <div id="featured" class="mb-16 reveal-on-scroll">
-      <div class="flex items-end justify-between mb-6">
-        <h2 class="text-4xl md:text-5xl font-serif text-handora-dark">Featured</h2>
-        <p class="text-slate-400 text-sm">${blogs.length} total</p>
-      </div>
+   <div class="flex items-end justify-between mb-8">
+  <div>
+    <span class="block text-[10px] font-black uppercase tracking-[0.6em] text-handora-green mb-2">
+      Curated
+    </span>
+    <h2 class="text-4xl md:text-5xl font-serif text-handora-dark">
+      Featured <span class="italic text-handora-green">Stories</span>
+    </h2>
+  </div>
+  <p class="text-slate-400 text-sm">${blogs.length} total</p>
+</div>
+
 
       ${
         featured

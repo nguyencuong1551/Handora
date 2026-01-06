@@ -35,23 +35,28 @@ declare global {
     clearAllStorage: () => void;
     toggleOrderFake: (orderId: string) => void;
 
+    setShopSearch: (v: string) => void;
+setShopCategory: (v: string) => void;
+setShopSort: (v: string) => void;
+
+
   }
 }
 
 // --- DATA ---
 const INITIAL_PRODUCTS = [
-  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800', tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
-  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 16.00, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800', tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
-  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 17.50, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800', tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
-  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800', tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
+  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: '/Images/sp1.png', tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
+  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 16.00, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: '/Images/sp2.png', tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
+  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 17.50, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: '/Images/sp3.png', tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
+  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: '/Images/sp4.png', tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
 ];
 
 const TEAM = [
-  { id: 't1', name: 'Minh Huyen', role: 'Founder & Visionary', bio: 'Expert in botanical pharmacology with a passion for sustainable luxury.', img: 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?auto=format&fit=crop&q=80&w=400' },
-  { id: 't2', name: 'Marcus Thorne', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400' },
-  { id: 't3', name: 'Sophia Chen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400' },
-  { id: 't4', name: 'Marcus Thorne', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400' },
-  { id: 't5', name: 'Sophia Chen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400' }
+  { id: 't1', name: 'Minh Huyen', role: 'Founder & Visionary', bio: 'Expert in botanical pharmacology with a passion for sustainable luxury.', img: '/Images/avt_1.jpg' },
+  { id: 't2', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: '/Images/avt_1.jpg' },
+  { id: 't3', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: '/Images/avt_1.jpg' },
+  { id: 't4', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: '/Images/avt_1.jpg' },
+  { id: 't5', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: '/Images/avt_1.jpg' }
 ];
 
 
@@ -62,28 +67,28 @@ const INITIAL_BLOGS = [
     title: 'The Gentle Art of Hand Rituals',
     excerpt: 'How a short, mindful hand-care ritual can reset your day and soothe the senses.',
     content: `In a world rushing forward, slow rituals anchor us. This piece explores a simple three-step hand ritual using citrus and botanical cleansers to refresh, followed by balm to seal in moisture. Learn how scent, texture, and rhythm combine to create a small daily ceremony that supports wellbeing.`,
-    img: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=1400'
+    img: '/Images/sp6.png'
   },
   {
     id: 'b2',
     title: 'Matcha & Calm: Using Antioxidants in Daily Care',
     excerpt: 'Matcha extracts and green formulations for tired hands — benefits and how to use them.',
     content: `Green tea derivatives bring antioxidant power to topical care. We discuss concentrations, pairing with humectants, and a simple evening balm ritual to fortify and soothe.`,
-    img: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=1400'
+    img: '/Images/sp5.png'
   },
   {
     id: 'b3',
     title: 'Lavender Nights: Sleep-Friendly Skincare Tips',
     excerpt: 'The role of calming botanicals in an evening routine and which ingredients to favor.',
     content: `Lavender and other mild botanicals can help create a sensory cue for sleep. This article covers ingredient safety, formulation notes, and a bedtime hand balm recipe you can make at home.`,
-    img: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=1400'
+    img: '/Images/sp4.png'
   },
   {
     id: 'b4',
     title: 'Lavender Nights: Sleep-Friendly Skincare Tips',
     excerpt: 'The role of calming botanicals in an evening routine and which ingredients to favor.',
     content: `Lavender and other mild botanicals can help create a sensory cue for sleep. This article covers ingredient safety, formulation notes, and a bedtime hand balm recipe you can make at home.`,
-    img: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=1400'
+    img: '/Images/sp3.png'
   }
 ];
 
@@ -100,7 +105,12 @@ let state: any = {
   selectedCategory: 'All',
   products: JSON.parse(localStorage.getItem('handora_products') || JSON.stringify(INITIAL_PRODUCTS)),
   editingId: null,
-  tempImg: ''
+  tempImg: '',
+
+  // shop filters
+shopSearch: '',
+shopCategory: 'All',  // All | Hand Rituals | Skin Therapy
+shopSort: 'default',  // default | price_asc | price_desc | name_asc | name_desc
 };
 
 
@@ -176,6 +186,28 @@ const renderApp = () => {
   initializeAnimations();
 };
 
+
+const renderAppPreserveInput = (focusId: string) => {
+  const el = document.getElementById(focusId) as HTMLInputElement | null;
+  const hasFocus = document.activeElement === el;
+  const start = el?.selectionStart ?? null;
+  const end = el?.selectionEnd ?? null;
+
+  renderApp();
+
+  if (hasFocus) {
+    const next = document.getElementById(focusId) as HTMLInputElement | null;
+    if (next) {
+      next.focus({ preventScroll: true } as any);
+      if (start !== null && end !== null) {
+        try {
+          next.setSelectionRange(start, end);
+        } catch {}
+      }
+    }
+  }
+};
+
 // expose renderApp and state to global window so inline onclick handlers can access them
 window.renderApp = renderApp as any;
 window.state = state as any;
@@ -193,6 +225,25 @@ const initializeAnimations = () => {
 };
 // --- VIEWS ---
 import { renderHome, renderShop, renderAbout, renderQuiz, renderCart, renderAdmin, renderBlogs, renderBlog } from './views/pages';
+
+window.setShopSearch = (v: string) => {
+  if (state.shopSearch === v) return;
+  state.shopSearch = v;
+  renderAppPreserveInput("shop-search");
+};
+
+
+
+window.setShopCategory = (v: string) => {
+  state.shopCategory = v;
+  renderApp();
+};
+
+window.setShopSort = (v: string) => {
+  state.shopSort = v;
+  renderApp();
+};
+
 
 // --- ADMIN ACTIONS ---
 window.handleImageUpload = (e: any) => {
