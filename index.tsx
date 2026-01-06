@@ -7,6 +7,11 @@ import sp3 from "/Images/sp3.png";
 import sp4 from "/Images/sp4.png";
 
 import avt1 from "/Images/avt_1.jpg";
+import avt2 from "/Images/avt_2.jpg";
+import avt3 from "/Images/avt_3.jpg";
+import avt4 from "/Images/avt_4.jpg";
+import avt5 from "/Images/avt_5.jpg";
+
 
 import blog4 from "/Images/sp4.png";
 import blog5 from "/Images/sp5.png";
@@ -65,12 +70,40 @@ const INITIAL_PRODUCTS = [
 
 
 const TEAM = [
-  { id: 't1', name: 'Minh Huyen', role: 'Founder & Visionary', bio: 'Expert in botanical pharmacology with a passion for sustainable luxury.', img: avt1 },
-  { id: 't2', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: avt1 },
-  { id: 't3', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: avt1 },
-  { id: 't4', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: avt1 },
-  { id: 't5', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: avt1 }
+  {
+    id: 't1',
+    name: 'Minh Huyen',
+    role: 'Founder & Brand Director',
+    img: avt1
+  },
+  {
+    id: 't2',
+    name: 'Manh Quan',
+    role: 'Head of Research & Product Development',
+    img: avt2
+  },
+  {
+    id: 't3',
+    name: 'Yen Nhi',
+    role: 'Head of Brand & Visual Identity',
+    img: avt3
+  },
+  {
+    id: 't4',
+    name: 'Tuan Kiet',
+    role: 'Head of Marketing & Communication',
+    img: avt4
+  },
+  {
+    id: 't5',
+    name: 'Quynh Chi',
+    role: 'Head of Operations & Growth',
+    img: avt5
+  }
 ];
+
+
+
 
 
 

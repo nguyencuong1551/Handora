@@ -708,12 +708,7 @@ export const renderAbout = (state: any) => `
                 ${m.role}
               </p>
 
-              <div class="h-0.5 w-10 bg-handora-green/20 mx-auto mb-6
-                          transition-all duration-700 group-hover:w-16 group-hover:bg-handora-green"></div>
-
-              <p class="text-slate-500 text-base italic px-4 leading-relaxed font-light">
-                ${m.bio}
-              </p>
+            
             </div>
           `).join('')
           : ''
