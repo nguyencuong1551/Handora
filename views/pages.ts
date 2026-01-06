@@ -484,7 +484,7 @@ export const renderShop = (state: any) => {
   </section>
   `;
 };
-
+ 
 
 export const renderAbout = (state: any) => `
   <div class="overflow-x-hidden">
