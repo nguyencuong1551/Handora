@@ -1,9 +1,12 @@
+import banner from "/Images/banner.png";
+import banner1 from "/Images/banner1.png";
+
 export const renderHome = (state: any) => `
   <div class="overflow-x-hidden">
     <!-- HERO -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0 z-0 scale-110">
-        <img src="/Images/banner.png"
+        <img src="${banner}"
              class="w-full h-full object-cover opacity-85 parallax-scroll" />
         <div class="absolute inset-0 bg-gradient-to-b from-handora-dark/35 via-transparent to-handora-light"></div>
 
@@ -500,7 +503,7 @@ export const renderAbout = (state: any) => `
 
     <section class="relative min-h-[120vh] flex items-center mb-40 overflow-hidden">
       <div class="absolute inset-0 z-0">
-         <img src="Images/banner1.png?" 
+        <img src="${banner1}"
               class="w-full h-full object-cover parallax-scroll scale-125" 
               alt="Botanical Laboratory" />
          <div class="absolute inset-0 bg-handora-dark/70 backdrop-blur-[2px]"></div>

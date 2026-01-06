@@ -1,6 +1,19 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
+import sp1 from "/Images/sp1.png";
+import sp2 from "/Images/sp2.png";
+import sp3 from "/Images/sp3.png";
+import sp4 from "/Images/sp4.png";
+
+import avt1 from "/Images/avt_1.jpg";
+
+import blog4 from "/Images/sp4.png";
+import blog5 from "/Images/sp5.png";
+import blog6 from "/Images/sp6.png";
+import banner from "/Images/banner.png";
+
+
 // --- TYPES & GLOBALS ---
 declare global {
   interface Window {
@@ -43,25 +56,23 @@ setShopSort: (v: string) => void;
   }
 }
 
-const asset = (p: string) => new URL(p, window.location.origin).toString();
-// hoặc: `${window.location.origin}${p}`
-
-
 // --- DATA ---
 const INITIAL_PRODUCTS = [
-  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: asset('/Images/sp1.png'), tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
-  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 16.00, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: '/Images/sp2.png', tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
-  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 17.50, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: '/Images/sp3.png', tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
-  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: '/Images/sp4.png', tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
+  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: sp1, tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
+  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 16.00, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: sp2, tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
+  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 17.50, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: sp3, tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
+  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: sp4, tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
 ];
 
+
 const TEAM = [
-  { id: 't1', name: 'Minh Huyen', role: 'Founder & Visionary', bio: 'Expert in botanical pharmacology with a passion for sustainable luxury.', img: '/Images/avt_1.jpg' },
-  { id: 't2', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: '/Images/avt_1.jpg' },
-  { id: 't3', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: '/Images/avt_1.jpg' },
-  { id: 't4', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: '/Images/avt_1.jpg' },
-  { id: 't5', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: '/Images/avt_1.jpg' }
+  { id: 't1', name: 'Minh Huyen', role: 'Founder & Visionary', bio: 'Expert in botanical pharmacology with a passion for sustainable luxury.', img: avt1 },
+  { id: 't2', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: avt1 },
+  { id: 't3', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: avt1 },
+  { id: 't4', name: 'Minh Huyen', role: 'Head of Research', bio: 'Leading the development of bio-active extraction methods.', img: avt1 },
+  { id: 't5', name: 'Minh Huyen', role: 'Sustainability Lead', bio: 'Ensuring our zero-waste philosophy is upheld in every ritual.', img: avt1 }
 ];
+
 
 
 // --- APP STATE ---
@@ -71,28 +82,28 @@ const INITIAL_BLOGS = [
     title: 'The Gentle Art of Hand Rituals',
     excerpt: 'How a short, mindful hand-care ritual can reset your day and soothe the senses.',
     content: `In a world rushing forward, slow rituals anchor us. This piece explores a simple three-step hand ritual using citrus and botanical cleansers to refresh, followed by balm to seal in moisture. Learn how scent, texture, and rhythm combine to create a small daily ceremony that supports wellbeing.`,
-    img: '/Images/sp6.png'
+    img: blog6 
   },
   {
     id: 'b2',
     title: 'Matcha & Calm: Using Antioxidants in Daily Care',
     excerpt: 'Matcha extracts and green formulations for tired hands — benefits and how to use them.',
     content: `Green tea derivatives bring antioxidant power to topical care. We discuss concentrations, pairing with humectants, and a simple evening balm ritual to fortify and soothe.`,
-    img: '/Images/sp5.png'
+    img: blog5
   },
   {
     id: 'b3',
     title: 'Lavender Nights: Sleep-Friendly Skincare Tips',
     excerpt: 'The role of calming botanicals in an evening routine and which ingredients to favor.',
     content: `Lavender and other mild botanicals can help create a sensory cue for sleep. This article covers ingredient safety, formulation notes, and a bedtime hand balm recipe you can make at home.`,
-    img: '/Images/sp4.png'
+    img: blog4
   },
   {
     id: 'b4',
     title: 'Lavender Nights: Sleep-Friendly Skincare Tips',
     excerpt: 'The role of calming botanicals in an evening routine and which ingredients to favor.',
     content: `Lavender and other mild botanicals can help create a sensory cue for sleep. This article covers ingredient safety, formulation notes, and a bedtime hand balm recipe you can make at home.`,
-    img: '/Images/sp3.png'
+    img: sp3 
   }
 ];
 
