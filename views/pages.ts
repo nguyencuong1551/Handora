@@ -500,7 +500,7 @@ export const renderAbout = (state: any) => `
 
     <section class="relative min-h-[120vh] flex items-center mb-40 overflow-hidden">
       <div class="absolute inset-0 z-0">
-         <img src="Images/banner1.png" 
+         <img src="Images/logo.png" 
               class="w-full h-full object-cover parallax-scroll scale-125" 
               alt="Botanical Laboratory" />
          <div class="absolute inset-0 bg-handora-dark/70 backdrop-blur-[2px]"></div>
