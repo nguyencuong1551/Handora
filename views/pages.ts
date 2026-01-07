@@ -126,50 +126,78 @@ export const renderHome = (state: any) => `
           </p>
         </div>
 
-       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
   ${(state.products || []).slice(0, 4).map((p: any, i: number) => `
     <div
-      class="group reveal-on-scroll bg-white rounded-[44px] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all flex flex-col h-full"
+      class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full border border-slate-100"
       style="transition-delay:${i * 120}ms"
     >
+      <!-- IMAGE -->
       <div class="aspect-[4/5] overflow-hidden relative">
         <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
-        <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
-        <div class="absolute top-5 left-5 px-4 py-2 rounded-full bg-white/80 backdrop-blur border border-white/60 text-[10px] font-black uppercase tracking-[0.35em] text-slate-700 shadow-sm
-                    translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
-          Featured
+        <!-- gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+        <!-- FAVORITE (same as Shop) -->
+        <button
+          onclick="toggleFavorite('${p.id}')"
+          class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/80 backdrop-blur border border-white/60
+                 flex items-center justify-center shadow-sm hover:scale-110 transition-all"
+          title="Toggle favorite"
+        >
+          ${
+            (state.favorites || []).includes(String(p.id))
+              ? `<span class="text-red-500 text-lg leading-none">♥</span>`
+              : `<span class="text-slate-400 text-lg leading-none">♡</span>`
+          }
+        </button>
+
+        <!-- CATEGORY BADGE -->
+        <div class="absolute left-5 bottom-5 px-4 py-2 rounded-full bg-white/75 backdrop-blur
+                    border border-white/60 text-[10px] font-black uppercase tracking-[0.35em]
+                    text-slate-700 opacity-0 translate-y-2
+                    group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+          ${p.category || "Ritual"}
         </div>
       </div>
 
-      <!-- IMPORTANT: make content stretch and button stick to bottom -->
+      <!-- CONTENT -->
       <div class="p-8 flex flex-col flex-grow">
+        <!-- title + price -->
         <div class="flex items-start justify-between gap-4">
-          <!-- OPTIONAL: keep title height consistent -->
           <h3 class="text-2xl font-serif text-slate-800 leading-snug min-h-[3.25rem]">
             ${p.name}
           </h3>
-          <p class="text-lg font-light text-handora-green whitespace-nowrap">
-${formatVND(p.price)}
-          </p>
+          <div class="text-right">
+            <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Price</div>
+            <div class="mt-1 text-lg font-extrabold text-handora-green whitespace-nowrap">
+              ${formatVND(p.price)}
+            </div>
+          </div>
         </div>
 
-        <!-- OPTIONAL: keep desc height consistent -->
-        <p class="mt-3 text-slate-400 text-sm line-clamp-3 min-h-[4.5rem]">
+        <!-- desc -->
+        <p class="mt-3 text-slate-500 text-sm line-clamp-3 min-h-[4.5rem]">
           ${p.desc}
         </p>
 
-        <!-- mt-auto makes all buttons align -->
-        <button
-          onclick="addToBag('${p.id}')"
-          class="mt-auto w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
-        >
-          Add to Bag
-        </button>
+        <!-- actions -->
+        <div class="mt-auto pt-6">
+          <button
+            onclick="addToBag('${p.id}')"
+            class="w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl
+                   font-black text-[10px] uppercase tracking-[0.3em]
+                   hover:bg-handora-green hover:text-white transition-all"
+          >
+            Add to Bag
+          </button>
+        </div>
       </div>
     </div>
   `).join("")}
 </div>
+
 
 
         <div class="text-center mt-14">
