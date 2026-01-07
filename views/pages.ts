@@ -24,10 +24,7 @@ export const renderHome = (state: any) => `
       </div>
 
       <div class="container mx-auto px-8 relative z-10 text-center reveal-on-scroll">
-        <span class="inline-flex items-center gap-2 px-8 py-3 rounded-full border border-handora-green/20 text-[10px] font-black uppercase tracking-[0.6em] text-handora-green mb-8 bg-white/40 backdrop-blur-md">
-          <span class="w-1.5 h-1.5 rounded-full bg-handora-green"></span>
-          Botanical Engineering
-        </span>
+        
 
         <h1 class="text-7xl md:text-8xl font-serif text-slate-900 leading-tight mb-10">
           Gentle <span class="italic font-light text-handora-green">Vegan</span>,<br/>
