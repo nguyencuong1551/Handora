@@ -1,10 +1,20 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-import sp1 from "/Images/sp1.png";
-import sp2 from "/Images/sp2.png";
-import sp3 from "/Images/sp3.png";
-import sp4 from "/Images/sp4.png";
+import act from "/Images/act.png";
+import handcaregift from "/Images/handcaregift.png";
+
+import kid from "/Images/kid.png";
+import oat from "/Images/oat.png";
+
+import rf_aloe from "/Images/rf_aloe.png";
+import rf_pml from "/Images/rf_pml.png";
+import rf_uct from "/Images/rf_uct.png";
+
+import aloe from "/Images/aloe.png";
+import greentea from "/Images/greentea.png";
+import Pomelo from "/Images/Pomelo.png";
+
 
 import avt1 from "/Images/avt_1.jpg";
 import avt2 from "/Images/avt_2.jpg";
@@ -13,9 +23,11 @@ import avt4 from "/Images/avt_4.jpg";
 import avt5 from "/Images/avt_5.jpg";
 
 
-import blog4 from "/Images/sp4.png";
-import blog5 from "/Images/sp5.png";
-import blog6 from "/Images/sp6.png";
+import blog1 from "/Images/blog1.jpg";
+import blog2 from "/Images/blog2.jpg";
+import blog3 from "/Images/blog3.jpg";
+import blog4 from "/Images/blog4.png";
+import blog5 from "/Images/blog5.jpg";
 
 
 // --- TYPES & GLOBALS ---
@@ -88,7 +100,7 @@ const INITIAL_PRODUCTS = [
     target: "Daily hand hygiene, normal skin",
     description:
       "A gentle vegan hand wash formulated with pomelo peel extract to cleanse hands effectively while maintaining natural moisture for everyday use.",
-    img: sp1,
+    img: Pomelo,
     variants: [
       { size: "250ml", price: 69000 },
       { size: "500ml", price: 119000 }
@@ -105,7 +117,7 @@ const INITIAL_PRODUCTS = [
     target: "Moisturizing, frequent hand washing",
     description:
       "A moisturizing vegan hand wash enriched with aloe vera, suitable for frequent daily handwashing without causing dryness.",
-    img: sp3,
+    img: aloe,
     variants: [
       { size: "250ml", price: 69000 },
       { size: "500ml", price: 119000 }
@@ -122,7 +134,7 @@ const INITIAL_PRODUCTS = [
     target: "Antioxidant care, daily use",
     description:
       "A plant-based hand wash infused with green tea extract to support antioxidant care and gentle daily hand hygiene.",
-    img: sp2,
+    img: greentea,
     variants: [
       { size: "250ml", price: 69000 },
       { size: "500ml", price: 119000 }
@@ -140,7 +152,7 @@ const INITIAL_PRODUCTS = [
     target: "Sensitive skin, fragrance-free users",
     description:
       "A fragrance-free vegan hand wash designed for sensitive or easily irritated skin, suitable for multiple uses per day.",
-    img: sp4,
+    img: act,
     variants: [
       { size: "250ml", price: 79000 },
       { size: "500ml", price: 129000 }
@@ -157,7 +169,7 @@ const INITIAL_PRODUCTS = [
     target: "Dry or irritated skin",
     description:
       "A gentle hand wash formulated with oat extract to help soothe dry or irritated skin during frequent handwashing.",
-    img: sp4,
+    img: oat,
     variants: [
       { size: "250ml", price: 79000 },
       { size: "500ml", price: 129000 }
@@ -175,7 +187,7 @@ const INITIAL_PRODUCTS = [
     target: "Refill daily-use bottles",
     description:
       "A refill pack designed to reduce plastic waste while maintaining the same gentle cleansing performance for daily use.",
-    img: sp1,
+    img: rf_pml,
     variants: [
       { size: "500ml", price: 89000 },
       { size: "1L", price: 149000 }
@@ -192,7 +204,7 @@ const INITIAL_PRODUCTS = [
     target: "Sustainable consumption",
     description:
       "A sustainable refill solution for aloe vera hand wash users, supporting long-term daily use and eco-conscious habits.",
-    img: sp3,
+    img: rf_aloe,
     variants: [
       { size: "500ml", price: 89000 },
       { size: "1L", price: 149000 }
@@ -209,7 +221,7 @@ const INITIAL_PRODUCTS = [
     target: "Eco-friendly refill for sensitive users",
     description:
       "A fragrance-free refill pack suitable for sensitive skin users seeking eco-friendly daily hand care solutions.",
-    img: sp4,
+    img: rf_uct,
     variants: [
       { size: "500ml", price: 89000 },
       { size: "1L", price: 149000 }
@@ -227,7 +239,7 @@ const INITIAL_PRODUCTS = [
     target: "Daily hand care & upselling",
     description:
       "A simple daily hand care set combining hand wash and vegan hand cream for complete everyday hand hygiene and care.",
-    img: sp1,
+    img: handcaregift,
     variants: [{ size: "Set", price: 169000 }],
     tags: ["Set", "Gift"]
   },
@@ -241,7 +253,7 @@ const INITIAL_PRODUCTS = [
     target: "Sustainable lifestyle starters",
     description:
       "A starter kit designed for users beginning a sustainable hand care routine, combining daily hand wash with refill packaging.",
-    img: sp1,
+    img: kid,
     variants: [{ size: "Set", price: 169000 }],
     tags: ["Set", "Eco"]
   }
@@ -286,37 +298,159 @@ const TEAM = [
 
 
 
-// --- APP STATE ---
 const INITIAL_BLOGS = [
   {
     id: 'b1',
-    title: 'The Role of Vegan Ingredients in Daily Hand Care',
-    excerpt: 'An overview of plant-based ingredients commonly used in gentle hand wash and how they support everyday skin comfort.',
-    content: `An overview of plant-based ingredients commonly used in gentle hand wash and how they support everyday skin comfort.`,
-    img: blog6 
+    title: 'Our Brand Story: A Gentler Daily Ritual',
+    excerpt:
+      'HANDORA was born from a simple question: can everyday hand washing be clean, gentle, and kind to both skin and the environment?',
+    content: `
+Some daily habits may seem small, yet they quietly influence our health and well-being 🤍
+
+HANDORA began with a simple question:
+Can everyday hand washing be both effective and gentle, while remaining kind to the skin and the environment?
+
+HANDORA is a vegan hand wash designed to accompany you through the most ordinary daily moments.
+
+🌱 100% vegan  
+🌱 Gentle on the skin  
+🌱 Suitable for everyday use  
+
+HANDORA — starting a cleaner, healthier lifestyle from your hands.
+    `,
+    img: blog1
   },
+
   {
     id: 'b2',
-    title: 'Why Gentle Hand Wash Matters for Frequent Daily Use',
-    excerpt: 'Explore how mild formulations help protect hands during frequent washing throughout the day.',
-    content: `Explore how mild formulations help protect hands during frequent washing throughout the day.`,
-    img: blog5
+    title: 'Our Products: Designed for Everyday Use',
+    excerpt:
+      'With HANDORA, hand washing is not just about cleanliness — it is a softer, more conscious choice for both your body and the planet.',
+    content: `
+🌿 With HANDORA, daily hand washing is more than cleansing —
+it is a gentler choice for your body and the environment.
+
+From vegan formulations to thoughtful product design,
+HANDORA is created to support small daily habits,
+repeated naturally and comfortably over time.
+
+🌿 Daily Vegan Hand Wash — for everyday use  
+(250ml / 500ml bottles)
+
+🍃 Gentle Hand Wash — for sensitive skin  
+(250ml / 500ml bottles)
+
+♻️ Refill Packs — for a more sustainable lifestyle  
+(500ml / 1L refill pouches)
+
+🧼 Lifestyle Sets — complete hand care for daily routines  
+
+HANDORA believes that caring for your hands begins with choosing
+the right product — and the right size — for your habits.
+    `,
+    img: blog2
   },
+
   {
     id: 'b3',
-    title: 'Lavender Nights: Sleep-Friendly Skincare Tips',
-    excerpt: 'The role of calming botanicals in an evening routine and which ingredients to favor.',
-    content: `Lavender and other mild botanicals can help create a sensory cue for sleep. This article covers ingredient safety, formulation notes, and a bedtime hand balm recipe you can make at home.`,
-    img: blog4
+    title: 'Our Ingredients: Thoughtfully Chosen Botanicals',
+    excerpt:
+      'A good hand care product is not defined only by how well it cleans, but by how gentle, safe, and suitable it is for daily use.',
+    content: `
+A truly good hand care product is not only about cleansing power,
+but also about gentle, safe ingredients suited for everyday use.
+
+HANDORA carefully selects plant-based extracts and vegan formulas
+to deliver a mild and comfortable hand washing experience
+for different skin types and daily routines.
+
+🍊 Pomelo Peel Extract  
+Naturally derived from pomelo peel  
+Provides a fresh, clean sensation  
+Suitable for normal skin and everyday hand hygiene
+
+🍃 Green Tea Extract  
+Rich in antioxidants  
+Helps protect hands from dryness  
+Ideal for daily use
+
+🌱 Aloe Vera Extract  
+Hydrates and soothes the skin  
+Suitable for frequent hand washers  
+Supports sustainable consumption through refill options
+
+🌿 Plant-based Cleanser & Oat Extract  
+Fragrance-free and extra gentle  
+Suitable for sensitive, dry, or easily irritated skin  
+
+Every ingredient in HANDORA is chosen to meet real daily needs —
+from everyday hand hygiene to sensitive skin care —
+while supporting an environmentally responsible lifestyle.
+    `,
+    img: blog3
   },
+
   {
     id: 'b4',
-    title: 'Lavender Nights: Sleep-Friendly Skincare Tips',
-    excerpt: 'The role of calming botanicals in an evening routine and which ingredients to favor.',
-    content: `Lavender and other mild botanicals can help create a sensory cue for sleep. This article covers ingredient safety, formulation notes, and a bedtime hand balm recipe you can make at home.`,
-    img: sp3 
+    title: 'Meet the Founders of HANDORA',
+    excerpt:
+      'HANDORA began with a simple belief: even the smallest daily habits deserve to be done in a better way.',
+    content: `
+🌿 HANDORA began with a simple belief:
+even the smallest daily habits deserve to be done in a better way.
+
+✨ We did not set out to create a loud or flashy brand.
+Instead, we started by asking questions, experimenting,
+and carefully choosing what we believe truly matters —
+from our values to how a brand should exist in everyday life.
+
+🧩 HANDORA is built slowly and intentionally,
+guided by thoughtful, well-considered decisions.
+
+👥 Meet the people behind those decisions —
+the founding team of HANDORA.
+    `,
+    img: blog4,
+  },
+
+  {
+    id: 'b5',
+    title: 'The Benefits of Gentle Hand Care with HANDORA',
+    excerpt:
+      'Choosing gentle, plant-based cleansing solutions plays an important role in maintaining healthy hands, especially with frequent washing.',
+    content: `
+Our hands are among the most active parts of the body,
+frequently exposed to water, dirt, and drying factors throughout the day.
+
+That is why choosing a gentle, plant-based hand cleansing solution
+is essential for maintaining healthy, comfortable skin.
+
+HANDORA follows a vegan hand care philosophy,
+focused on balancing effective cleansing with the protection
+of the skin’s natural moisture barrier.
+
+✨ Key benefits for your hands:
+
+🌱 Gentle on the skin  
+Plant-based formulas help reduce dryness after washing.
+
+💧 Moisture retention & barrier support  
+Helps maintain natural hydration, keeping hands soft and comfortable.
+
+🫧 Effective cleansing without tightness  
+Suitable for everyday routines and frequent hand washing.
+
+🌿 Suitable for various skin types  
+Especially ideal for sensitive skin or those who prefer vegan products.
+
+With a minimalist, vegan approach,
+HANDORA offers a safe, comfortable hand care experience
+designed for long-term daily use.
+    `,
+    img: blog5
   }
 ];
+
 
 const favKeyFor = (email?: string) =>
   `handora_favorites_${String(email || "guest").toLowerCase()}`;

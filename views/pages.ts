@@ -240,30 +240,42 @@ export const renderHome = (state: any) => `
                     <!-- ✅ BOTTOM ZONE: SIZE + BUTTON cùng neo xuống đáy -->
 <div class="mt-auto pt-5">
   <div class="card-variant-slot">
-    ${
-      variants.length
-        ? `
+  ${
+    variants.length
+      ? `
       <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2">
-        Size
+        Choose size
       </div>
 
-      <select
-        onchange="setVariant('${p.id}', this.value)"
-        class="select-pill"
-      >
-        ${variants.map((v: any) => `
-          <option value="${String(v.size)}" ${String(v.size) === String(selSize) ? "selected" : ""}>
-            ${String(v.size)} • ${formatVND(v.price)}
-          </option>
-        `).join("")}
-      </select>
+      <div class="flex flex-wrap gap-2">
+        ${variants.map((v:any) => {
+          const active = String(v.size) === String(selSize);
+          const safeSize = String(v.size).replaceAll("'", "&#039;");
+          return `
+            <button
+              onclick="setVariant('${p.id}', '${safeSize}')"
+              class="px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.35em] transition-all
+                ${active
+                  ? "bg-handora-green text-white shadow-lg shadow-handora-green/20"
+                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"}
+              "
+              title="${String(v.size)} • ${formatVND(v.price)}"
+            >
+              ${String(v.size)}
+            </button>
+          `;
+        }).join("")}
+      </div>
       `
-        : `
-      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2 opacity-0">Size</div>
-      <div class="select-pill opacity-0 pointer-events-none">—</div>
+      : `
+      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2 opacity-0">Choose size</div>
+      <div class="h-[40px] opacity-0 pointer-events-none">—</div>
       `
-    }
-  </div>
+  }
+</div>
+
+
+
 
   <button
     onclick="addToBag('${p.id}')"
@@ -376,13 +388,12 @@ export const renderHome = (state: any) => `
     <section class="py-24 bg-white">
       <div class="container mx-auto px-8">
         <div class="rounded-[60px] bg-handora-light/40 border border-slate-200 p-12 md:p-16 text-center reveal-on-scroll">
-          <p class="text-[11px] font-black uppercase tracking-[0.45em] text-handora-green mb-6">
-            Ready for a gentler daily hand care routine
-          </p>
+         
 
-          <h2 class="text-5xl md:text-6xl font-serif text-handora-dark">
-            Ready for a <span class="italic text-handora-green">cleaner</span> ritual?
-          </h2>
+         <h2 class="text-5xl md:text-6xl font-serif text-handora-dark">
+  Ready for a <span class="italic text-handora-green">gentler</span> daily hand care routine?
+</h2>
+
 
           <p class="mt-6 text-slate-500 text-lg max-w-3xl mx-auto leading-relaxed">
             Explore our vegan hand wash collection or take a short quiz to find the most suitable option
@@ -736,29 +747,41 @@ export const renderShop = (state: any) => {
                 <!-- ✅ BOTTOM ZONE: size + button neo xuống đáy -->
                 <div class="mt-auto pt-5">
                   <div class="card-variant-slot">
-                    ${
-                      variants.length
-                        ? `
-                      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2">
-                        Size
-                      </div>
-                      <select
-                        onchange="setVariant('${p.id}', this.value)"
-                        class="select-pill"
-                      >
-                        ${variants.map((v: any) => `
-                          <option value="${String(v.size)}" ${String(v.size) === String(selSize) ? "selected" : ""}>
-                            ${String(v.size)} • ${formatVND(v.price)}
-                          </option>
-                        `).join("")}
-                      </select>
-                      `
-                        : `
-                      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2 opacity-0">Size</div>
-                      <div class="select-pill opacity-0 pointer-events-none">—</div>
-                      `
-                    }
-                  </div>
+  ${
+    variants.length
+      ? `
+      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2">
+        Choose size
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        ${variants.map((v:any) => {
+          const active = String(v.size) === String(selSize);
+          return `
+            <button
+              onclick="setVariant('${p.id}', '${String(v.size).replaceAll("'", "&#039;")}')"
+              class="px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.35em] transition-all
+                ${active
+                  ? "bg-handora-green text-white shadow-lg shadow-handora-green/20"
+                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"}
+              "
+              title="${String(v.size)} • ${formatVND(v.price)}"
+            >
+              ${String(v.size)}
+            </button>
+          `;
+        }).join("")}
+      </div>
+
+     
+      `
+      : `
+      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2 opacity-0">Choose size</div>
+      <div class="h-[40px] opacity-0 pointer-events-none">—</div>
+      `
+  }
+</div>
+
 
                   <button
                     onclick="addToBag('${p.id}')"
@@ -858,37 +881,63 @@ export const renderAbout = (state: any) => `
     </section>
 
     <!-- STORY -->
-    <section class="relative min-h-[95vh] flex items-center mb-28 overflow-hidden">
-      <div class="absolute inset-0 z-0">
-        <img
-          src="${banner1}"
-          class="w-full h-full object-cover parallax-scroll scale-125"
-          alt="Botanical Laboratory"
-        />
-        <div class="absolute inset-0 bg-handora-dark/70 backdrop-blur-[2px]"></div>
-      </div>
+<section class="relative min-h-[95vh] md:min-h-[100vh] flex items-center pt-24 md:pt-32 pb-16 md:pb-20 overflow-hidden">
+ <!-- BACKGROUND -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+  <img
+    src="${banner1}"
+    class="w-full h-full object-cover parallax-scroll scale-[1.35] md:scale-[1.45] translate-y-[-2%] will-change-transform"
+    alt="Botanical Laboratory"
+  />
 
-      <div class="container mx-auto px-8 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-2">
-          <div class="glass-refined p-12 md:p-24 rounded-[72px] shadow-[0_50px_120px_rgba(0,0,0,0.5)] reveal-on-scroll">
-            <span class="text-[11px] font-black uppercase tracking-[0.8em] text-handora-accent mb-7 block">The Handora Narrative</span>
-            <h2 class="text-7xl md:text-8xl font-serif text-white mb-10 leading-none italic">
-              Our <span class="font-light not-italic">Story</span>
-            </h2>
-            <div class="space-y-7 text-white/90 text-2xl leading-[1.7] font-light">
-              <p class="reveal-mask">
-                Handora was born in a hidden seaside sanctuary where the whispering leaves of pomelo trees inspired our founder to
-                capture nature's silent intelligence.
-              </p>
-              <p class="reveal-mask delay-300">
-                Through three years of meditative laboratory research, we perfected a cold-extraction ritual that honors the soul of
-                the botanical world while delivering high-performance care for the modern individual.
-              </p>
-            </div>
+  <!-- overlay: sáng hơn -->
+  <div class="absolute inset-0 bg-handora-dark/45"></div>
+
+  <!-- gradient nhẹ để giữ chiều sâu -->
+  <div class="absolute inset-0 bg-gradient-to-b
+              from-handora-dark/50
+              via-handora-dark/30
+              to-handora-dark/55">
+  </div>
+
+  <!-- blur rất nhẹ -->
+  <div class="absolute inset-0 backdrop-blur-[1.5px]"></div>
+</div>
+
+
+  <!-- CONTENT -->
+  <div class="container mx-auto px-8 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12">
+      <div class="lg:col-span-7 xl:col-span-6">
+        <div class="glass-refined p-10 md:p-16 lg:p-20 rounded-[64px] md:rounded-[72px]
+                    shadow-[0_50px_120px_rgba(0,0,0,0.5)] reveal-on-scroll">
+          <span class="text-[11px] font-black uppercase tracking-[0.8em] text-handora-accent mb-7 block">
+            The Handora Narrative
+          </span>
+
+          <h2 class="text-6xl md:text-7xl lg:text-8xl font-serif text-white mb-8 md:mb-10 leading-none italic">
+            Our <span class="font-light not-italic">Story</span>
+          </h2>
+
+          <div class="space-y-6 md:space-y-7 text-white/90 text-xl md:text-2xl leading-[1.75] font-light">
+            <p class="reveal-mask">
+              Handora was born in a hidden seaside sanctuary where the whispering leaves of pomelo trees inspired our founder to
+              capture nature's silent intelligence.
+            </p>
+            <p class="reveal-mask delay-300">
+              Through three years of meditative laboratory research, we perfected a cold-extraction ritual that honors the soul of
+              the botanical world while delivering high-performance care for the modern individual.
+            </p>
           </div>
+
+          <!-- optional micro-separator (nice) -->
+          <div class="mt-10 h-[2px] w-14 bg-white/20"></div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
 
     <!-- MISSION + VISION -->
     <section class="py-32 bg-white">
@@ -1665,7 +1714,7 @@ const card = (b: any, i: number) => `
     <div class="relative overflow-hidden">
       <img
         src="${withFallbackImg(b.img)}"
-        class="w-full h-52 object-cover transition-transform duration-[1800ms] group-hover:scale-110"
+        class="w-full h-72 md:h-80 object-cover transition-transform duration-[1800ms] group-hover:scale-110"
       />
       <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-80"></div>
 
@@ -1742,7 +1791,7 @@ export const renderBlogs = (state: any) => {
               </h1>
 
               <p class="text-slate-500 text-base md:text-lg mt-5 leading-relaxed max-w-2xl">
-                Nơi tụi mình ghi lại công thức, thói quen, ingredient notes — để bạn chăm tay theo cách “high-end” nhưng nhẹ nhàng.
+A place where we document formulas, routines, and ingredient notes — so you can care for your hands in a high-end yet gentle way.
               </p>
 
               <div class="mt-8 flex flex-col sm:flex-row gap-3">
@@ -1921,7 +1970,7 @@ ${
     </div>
 
     <!-- GRID -->
-    <div id="blogs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+ <div id="blogs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
       ${rest.map((b: any, i: number) => card(b, i)).join("")}
       ${blogs.length === 0 ? `<p class="text-slate-500">No articles yet.</p>` : ""}
     </div>
@@ -1929,6 +1978,8 @@ ${
   </section>
 `;
 };
+
+
 
 export const renderBlog = (state: any) => {
   const id = state.currentBlogId || state.currentBlog || null;
@@ -1960,7 +2011,8 @@ export const renderBlog = (state: any) => {
 
       <!-- HERO IMAGE -->
       <div class="relative overflow-hidden rounded-[44px] border border-slate-100 bg-white shadow-2xl reveal-on-scroll">
-        <div class="relative h-[300px] md:h-[420px] overflow-hidden">
+        <div class="relative h-[420px] md:h-[600px] overflow-hidden">
+
           <img
             src="${withFallbackImg(b.img)}"
             alt="${esc(b.title)}"
@@ -2012,6 +2064,7 @@ export const renderBlog = (state: any) => {
         <div class="
           prose prose-lg max-w-none
           prose-headings:font-serif
+          whitespace-pre-line
           prose-headings:text-handora-dark
           prose-p:text-slate-600
           prose-strong:text-slate-800
@@ -2020,7 +2073,7 @@ export const renderBlog = (state: any) => {
           prose-blockquote:border-handora-green
           prose-blockquote:text-slate-600
         ">
-          ${b.content || ""}
+${esc(b.content || "")}
         </div>
 
         <div class="mt-10 pt-7 border-t border-slate-100 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
@@ -2129,7 +2182,7 @@ const opt = (list: string[], selected?: string) =>
               </h1>
 
               <p class="mt-4 text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl">
-                Quản lý sản phẩm, bài viết và đơn hàng — giao diện “high-end”, thao tác nhanh.
+Manage products, articles, and orders — a high-end interface with fast workflows.
               </p>
             </div>            
           </div>
@@ -2156,7 +2209,7 @@ const opt = (list: string[], selected?: string) =>
             <div class="lg:col-span-7">
               <div class="rounded-[36px] bg-slate-50 border border-slate-200 p-8">
                 <h2 class="text-2xl md:text-3xl font-serif text-handora-dark">Recent Orders</h2>
-                <p class="mt-2 text-slate-500 text-sm">Theo dõi nhanh 5 đơn gần nhất.</p>
+                <p class="mt-2 text-slate-500 text-sm">Quickly track the 5 most recent orders.</p>
 
                 <div class="mt-6 space-y-3">
                   ${
@@ -2265,7 +2318,7 @@ const opt = (list: string[], selected?: string) =>
                 <div class="p-8 border-b border-slate-100">
                   <p class="text-[10px] font-black uppercase tracking-[0.6em] text-handora-green">Quick Actions</p>
                   <h3 class="mt-3 text-2xl font-serif text-handora-dark">Manage faster</h3>
-                  <p class="mt-2 text-slate-500 text-sm">Nhảy nhanh sang tab để thao tác.</p>
+                  <p class="mt-2 text-slate-500 text-sm">Quickly jump to a section to manage content.</p>
                 </div>
                 <div class="p-8 grid grid-cols-1 gap-3 bg-handora-light/40">
                   <button onclick="state.adminTab='products'; renderApp();"
