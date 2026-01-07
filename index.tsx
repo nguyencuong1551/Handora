@@ -22,6 +22,7 @@ import blog6 from "/Images/sp6.png";
 declare global {
   interface Window {
 toggleFavorite: (id: string) => void;
+setVariant: (productId: string, size: string) => void;
 
     navigate: (page: string) => void;
     addToBag: (id: string) => void;
@@ -57,17 +58,193 @@ toggleFavorite: (id: string) => void;
     setShopSearch: (v: string) => void;
 setShopCategory: (v: string) => void;
 setShopSort: (v: string) => void;
+addVariantRow: () => void;
+removeVariantRow: (idx: number) => void;
+syncVariantsFromDOM: () => void;
+startQuiz: () => void;
+pickQuizOption: (key: string, value: string) => void;
+toggleQuizPriority: (value: string) => void;
+nextQuiz: () => void;
+prevQuiz: () => void;
 
-
+setResultVariant: (size: string) => void;
+viewResultProduct: () => void;
+addResultToCart: () => void;
+addAddonBundle: () => void;
+removeLine: (index: number) => void;
+removeLineByKey: (key: string) => void;
   }
 }
 
 // --- DATA ---
 const INITIAL_PRODUCTS = [
-  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 180000, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: sp1, tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
-  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 160000, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: sp2, tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
-  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 175000, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: sp3, tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
-  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 220000, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: sp4, tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
+  // ================= CORE LINE =================
+  {
+    id: "core_pomelo",
+    name: "Pomelo Peel Vegan Hand Wash",
+    category: "Core Line – Daily Vegan Hand Wash",
+    keyIngredient: "Pomelo peel extract",
+    scent: "Fresh citrus",
+    target: "Daily hand hygiene, normal skin",
+    description:
+      "A gentle vegan hand wash formulated with pomelo peel extract to cleanse hands effectively while maintaining natural moisture for everyday use.",
+    img: sp1,
+    variants: [
+      { size: "250ml", price: 69000 },
+      { size: "500ml", price: 119000 }
+    ],
+    tags: ["Vegan", "Daily Use", "Refreshing"]
+  },
+
+  {
+    id: "core_aloe",
+    name: "Aloe Vera Vegan Hand Wash",
+    category: "Core Line – Daily Vegan Hand Wash",
+    keyIngredient: "Aloe vera extract",
+    scent: "Mild herbal",
+    target: "Moisturizing, frequent hand washing",
+    description:
+      "A moisturizing vegan hand wash enriched with aloe vera, suitable for frequent daily handwashing without causing dryness.",
+    img: sp3,
+    variants: [
+      { size: "250ml", price: 69000 },
+      { size: "500ml", price: 119000 }
+    ],
+    tags: ["Vegan", "Moisturizing"]
+  },
+
+  {
+    id: "core_green_tea",
+    name: "Green Tea Vegan Hand Wash",
+    category: "Core Line – Daily Vegan Hand Wash",
+    keyIngredient: "Green tea extract",
+    scent: "Light green tea",
+    target: "Antioxidant care, daily use",
+    description:
+      "A plant-based hand wash infused with green tea extract to support antioxidant care and gentle daily hand hygiene.",
+    img: sp2,
+    variants: [
+      { size: "250ml", price: 69000 },
+      { size: "500ml", price: 119000 }
+    ],
+    tags: ["Vegan", "Antioxidant"]
+  },
+
+  // ================= SENSITIVE LINE =================
+  {
+    id: "sensitive_unscented",
+    name: "Unscented Vegan Hand Wash",
+    category: "Sensitive Line – Gentle Hand Wash",
+    keyIngredient: "Plant-based cleanser",
+    scent: "No fragrance",
+    target: "Sensitive skin, fragrance-free users",
+    description:
+      "A fragrance-free vegan hand wash designed for sensitive or easily irritated skin, suitable for multiple uses per day.",
+    img: sp4,
+    variants: [
+      { size: "250ml", price: 79000 },
+      { size: "500ml", price: 129000 }
+    ],
+    tags: ["Sensitive", "Fragrance-Free"]
+  },
+
+  {
+    id: "sensitive_oat",
+    name: "Oat Extract Hand Wash",
+    category: "Sensitive Line – Gentle Hand Wash",
+    keyIngredient: "Oat extract",
+    scent: "Very light",
+    target: "Dry or irritated skin",
+    description:
+      "A gentle hand wash formulated with oat extract to help soothe dry or irritated skin during frequent handwashing.",
+    img: sp4,
+    variants: [
+      { size: "250ml", price: 79000 },
+      { size: "500ml", price: 129000 }
+    ],
+    tags: ["Sensitive", "Soothing"]
+  },
+
+  // ================= ECO LINE – REFILL =================
+  {
+    id: "eco_pomelo_refill",
+    name: "Pomelo Peel Refill Pack",
+    category: "Eco Line – Refill Packs",
+    keyIngredient: "Pomelo peel extract",
+    scent: "Fresh citrus",
+    target: "Refill daily-use bottles",
+    description:
+      "A refill pack designed to reduce plastic waste while maintaining the same gentle cleansing performance for daily use.",
+    img: sp1,
+    variants: [
+      { size: "500ml", price: 89000 },
+      { size: "1L", price: 149000 }
+    ],
+    tags: ["Refill", "Eco"]
+  },
+
+  {
+    id: "eco_aloe_refill",
+    name: "Aloe Vera Refill Pack",
+    category: "Eco Line – Refill Packs",
+    keyIngredient: "Aloe vera extract",
+    scent: "Mild herbal",
+    target: "Sustainable consumption",
+    description:
+      "A sustainable refill solution for aloe vera hand wash users, supporting long-term daily use and eco-conscious habits.",
+    img: sp3,
+    variants: [
+      { size: "500ml", price: 89000 },
+      { size: "1L", price: 149000 }
+    ],
+    tags: ["Refill", "Eco"]
+  },
+
+  {
+    id: "eco_unscented_refill",
+    name: "Unscented Refill Pack",
+    category: "Eco Line – Refill Packs",
+    keyIngredient: "Plant-based cleanser",
+    scent: "No fragrance",
+    target: "Eco-friendly refill for sensitive users",
+    description:
+      "A fragrance-free refill pack suitable for sensitive skin users seeking eco-friendly daily hand care solutions.",
+    img: sp4,
+    variants: [
+      { size: "500ml", price: 89000 },
+      { size: "1L", price: 149000 }
+    ],
+    tags: ["Refill", "Sensitive"]
+  },
+
+  // ================= LIFESTYLE LINE =================
+  {
+    id: "lifestyle_daily_set",
+    name: "Daily Hand Care Set",
+    category: "Lifestyle Line",
+    keyIngredient: "Hand wash + vegan hand cream",
+    scent: "Varies",
+    target: "Daily hand care & upselling",
+    description:
+      "A simple daily hand care set combining hand wash and vegan hand cream for complete everyday hand hygiene and care.",
+    img: sp1,
+    variants: [{ size: "Set", price: 169000 }],
+    tags: ["Set", "Gift"]
+  },
+
+  {
+    id: "lifestyle_eco_set",
+    name: "Eco Starter Kit",
+    category: "Lifestyle Line",
+    keyIngredient: "Hand wash + refill pack",
+    scent: "Varies",
+    target: "Sustainable lifestyle starters",
+    description:
+      "A starter kit designed for users beginning a sustainable hand care routine, combining daily hand wash with refill packaging.",
+    img: sp1,
+    variants: [{ size: "Set", price: 169000 }],
+    tags: ["Set", "Eco"]
+  }
 ];
 
 
@@ -149,6 +326,7 @@ let state: any = {
   cart: [],
   user: null,
   pendingCheckout: false,
+  selectedVariants: JSON.parse(localStorage.getItem("handora_selectedVariants") || "{}"),
 
   // orders (load from localStorage)
   orders: JSON.parse(localStorage.getItem('handora_orders') || '[]'),
@@ -165,8 +343,152 @@ favorites: [],
 shopSearch: '',
 shopCategory: 'All',  // All | Hand Rituals | Skin Therapy
 shopSort: 'default',  // default | price_asc | price_desc | name_asc | name_desc
+
+quizStep: 0, // 0 intro, 1..4 questions, 5 result
+quizAnswers: {
+  wash_frequency: "",
+  skin_condition: "",
+  scent_preference: "",
+  priorities: [] as string[]
+},
+quizResult: null,
+quizSelectedSize: "",
+quizAddonSelectedSize: "",
+
 };
 
+
+const findProductById = (id: string) =>
+  (state.products || []).find((p: any) => String(p.id) === String(id)) || null;
+
+const pickVariant = (product: any, preferredSize?: string) => {
+  const variants = Array.isArray(product?.variants) ? product.variants : [];
+  if (!variants.length) return { size: "", price: Number(product?.price || 0) || 0 };
+
+  if (preferredSize) {
+    const found = variants.find((v: any) => String(v.size) === String(preferredSize));
+    if (found) return { size: String(found.size), price: Number(found.price || 0) };
+  }
+  // default first
+  const v0 = variants[0];
+  return { size: String(v0.size), price: Number(v0.price || 0) };
+};
+
+const computeQuizResult = () => {
+  const a = state.quizAnswers || {};
+  const wash = String(a.wash_frequency || "");
+  const skin = String(a.skin_condition || "");
+  const scent = String(a.scent_preference || "");
+  const priorities: string[] = Array.isArray(a.priorities) ? a.priorities : [];
+
+  const has = (x: string) => priorities.includes(x);
+
+  // ----- 3.1 pick main product -----
+  let mainId = "";
+
+  if (skin === "Easily irritated or sensitive") {
+    mainId = "sensitive_unscented";
+  } else if (skin === "Very dry or tight") {
+    mainId = "sensitive_oat";
+  } else if (wash === "More than 10 times" || has("Moisturizing and comfortable skin feel")) {
+    mainId = "core_aloe";
+  } else {
+    // Default by scent
+    if (scent === "Fresh citrus") mainId = "core_pomelo";
+    else if (scent === "Light green tea") mainId = "core_green_tea";
+    else if (scent === "Mild herbal") mainId = "core_aloe";
+    else if (scent === "No fragrance") mainId = "sensitive_unscented"; // even if not sensitive
+    else mainId = "core_pomelo";
+  }
+
+  const main = findProductById(mainId);
+  if (!main) return null;
+
+  // ----- 3.2 size suggestion -----
+  let suggestedSize = "";
+  if (wash === "More than 10 times") suggestedSize = "500ml";
+  else if (wash === "Less than 5 times") suggestedSize = "250ml";
+  else suggestedSize = "250ml";
+
+  // if main doesn't have suggested size, fallback first variant
+  const mainPicked = pickVariant(main, suggestedSize);
+  suggestedSize = mainPicked.size;
+
+  // ----- addon logic -----
+  // refill mapping
+  const refillMap: Record<string, string> = {
+    core_pomelo: "eco_pomelo_refill",
+    core_aloe: "eco_aloe_refill",
+    core_green_tea: "eco_pomelo_refill", // nếu muốn đúng mùi green tea thì cần thêm refill green tea; hiện catalog không có
+    sensitive_unscented: "eco_unscented_refill",
+    sensitive_oat: "eco_unscented_refill"
+  };
+
+  let addon: any = null;
+  let addonType: "refill" | "set" | "" = "";
+
+  if (has("Refill-first sustainable packaging")) {
+    // nếu user mới (wash < 10) -> Eco Starter Kit
+    if (wash !== "More than 10 times") {
+      addon = findProductById("lifestyle_eco_set");
+      addonType = "set";
+    } else {
+      const refillId = refillMap[mainId] || "eco_unscented_refill";
+      addon = findProductById(refillId);
+      addonType = "refill";
+    }
+  } else {
+    // daily care set
+    addon = findProductById("lifestyle_daily_set");
+    addonType = "set";
+  }
+
+  // ----- why bullets (pick 3) -----
+  const bullets: string[] = [];
+  const push = (t: string) => { if (!bullets.includes(t) && bullets.length < 3) bullets.push(t); };
+
+  // map by answers/priorities
+  if (wash === "More than 10 times") push("Designed for frequent daily handwashing without discomfort.");
+  if (skin === "Slightly dry" || skin === "Very dry or tight" || has("Moisturizing and comfortable skin feel")) {
+    push("Skin-friendly formulation to help maintain moisture and reduce dryness.");
+  }
+  if (skin === "Easily irritated or sensitive" || scent === "No fragrance" || has("Fragrance-free option")) {
+    push("Fragrance-free option suitable for sensitive or easily irritated skin.");
+  }
+  if (has("Plant-based vegan ingredients")) {
+    push("Plant-based vegan ingredients aligned with clean daily hygiene.");
+  }
+  if (has("Refill-first sustainable packaging")) {
+    push("Refill-first packaging supports sustainable consumption and reduces plastic waste.");
+  }
+  // fill remaining
+  push("Plant-based vegan ingredients aligned with clean daily hygiene.");
+  push("Designed for frequent daily handwashing without discomfort.");
+
+  // choose addon variant default
+  let addonPicked = null;
+  if (addon) {
+    // refill: suggest 1L if wash >10 else 500ml, set has "Set"
+    let addonSize = "";
+    if (addonType === "refill") addonSize = wash === "More than 10 times" ? "1L" : "500ml";
+    addonPicked = pickVariant(addon, addonSize);
+  }
+
+  return {
+    answers: { wash, skin, scent, priorities },
+    main,
+    mainPicked,           // {size, price}
+    addon,
+    addonType,
+    addonPicked,          // {size, price} or null
+    bullets
+  };
+};
+
+
+const saveSelectedVariants = () => {
+  localStorage.setItem("handora_selectedVariants", JSON.stringify(state.selectedVariants || {}));
+};
 
 // Blogs stored in localStorage (admin-managed). Use initial posts when none exist or when stored list is empty.
 (() => {
@@ -208,11 +530,157 @@ window.openBlog = (id: string) => {
   window.navigate('blog');
 };
 
+
+window.startQuiz = () => {
+  state.quizStep = 1;
+  state.quizAnswers = {
+    wash_frequency: "",
+    skin_condition: "",
+    scent_preference: "",
+    priorities: []
+  };
+  state.quizResult = null;
+  state.quizSelectedSize = "";
+  renderApp();
+};
+
+window.pickQuizOption = (key: string, value: string) => {
+  state.quizAnswers = state.quizAnswers || {};
+  state.quizAnswers[key] = value;
+  renderApp();
+};
+
+window.toggleQuizPriority = (value: string) => {
+  state.quizAnswers = state.quizAnswers || {};
+  const cur: string[] = Array.isArray(state.quizAnswers.priorities) ? state.quizAnswers.priorities : [];
+  const has = cur.includes(value);
+  let next = has ? cur.filter(x => x !== value) : [value, ...cur];
+
+  // max 2
+  if (!has && next.length > 2) {
+    showToast("You can select up to 2 priorities.", "error");
+    next = next.slice(0, 2);
+  }
+
+  state.quizAnswers.priorities = next;
+  renderApp();
+};
+
+window.nextQuiz = () => {
+  const s = Number(state.quizStep || 0);
+
+  // validate per step
+  if (s === 1 && !state.quizAnswers?.wash_frequency) return showToast("Please select an option.", "error");
+  if (s === 2 && !state.quizAnswers?.skin_condition) return showToast("Please select an option.", "error");
+  if (s === 3 && !state.quizAnswers?.scent_preference) return showToast("Please select an option.", "error");
+  if (s === 4) {
+    const pr = state.quizAnswers?.priorities || [];
+    if (!Array.isArray(pr) || pr.length === 0) return showToast("Select up to 2 priorities.", "error");
+
+    // compute result
+    const res = computeQuizResult();
+    if (!res) return showToast("Cannot compute recommendation.", "error");
+
+    state.quizResult = res;
+    state.quizStep = 5;
+
+    // set default selected size
+    state.quizSelectedSize = res.mainPicked?.size || "";
+    state.quizAddonSelectedSize = res.addonPicked?.size || "";
+
+    renderApp();
+    return;
+  }
+
+  state.quizStep = Math.min(s + 1, 4);
+  renderApp();
+};
+
+window.prevQuiz = () => {
+  const s = Number(state.quizStep || 0);
+  if (s <= 1) {
+    state.quizStep = 0;
+  } else {
+    state.quizStep = s - 1;
+  }
+  renderApp();
+};
+
+window.setResultVariant = (size: string) => {
+  const res = state.quizResult;
+  if (!res?.main) return;
+  state.quizSelectedSize = String(size);
+
+  // update picked price display implicitly in render
+  renderApp();
+};
+
+window.viewResultProduct = () => {
+  const res = state.quizResult;
+  if (!res?.main?.id) return;
+  state.currentProductId = res.main.id;
+  window.navigate("shop");
+};
+
+window.addResultToCart = () => {
+  const res = state.quizResult;
+  if (!res?.main?.id) return;
+
+  // set selected variant so addToBag uses it
+  state.selectedVariants = state.selectedVariants || {};
+  state.selectedVariants[String(res.main.id)] = String(state.quizSelectedSize || res.mainPicked?.size || "");
+  saveSelectedVariants();
+
+  window.addToBag(String(res.main.id));
+};
+
+window.addAddonBundle = () => {
+  const res = state.quizResult;
+  if (!res?.addon?.id) return;
+
+  // set selected variant for addon
+  state.selectedVariants = state.selectedVariants || {};
+  const addonSize = res.addonPicked?.size || "";
+  state.selectedVariants[String(res.addon.id)] = String(addonSize);
+  saveSelectedVariants();
+
+  window.addToBag(String(res.addon.id));
+  showToast("Bundle added 🌿", "success");
+};
+
+
 const updateNavState = () => {
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.toggle('active', link.getAttribute('data-page') === state.currentPage);
   });
 };
+
+window.addVariantRow = () => {
+  state.adminVariants = Array.isArray(state.adminVariants) ? state.adminVariants : [];
+  state.adminVariants.push({ size: "", price: 0 });
+  renderApp();
+};
+
+window.removeVariantRow = (idx: number) => {
+  state.adminVariants = (state.adminVariants || []).filter((_: any, i: number) => i !== idx);
+  if (!state.adminVariants.length) state.adminVariants = [{ size: "", price: 0 }];
+  renderApp();
+};
+
+window.syncVariantsFromDOM = () => {
+  const rows = Array.from(document.querySelectorAll('[data-variant-row="1"]'));
+  const next = rows
+    .map((row: any) => {
+      const size = (row.querySelector('[data-variant-size="1"]') as HTMLInputElement)?.value?.trim() || "";
+      const price = Number((row.querySelector('[data-variant-price="1"]') as HTMLInputElement)?.value || 0);
+      return { size, price };
+    })
+    .filter(v => v.size && !Number.isNaN(v.price));
+
+  state.adminVariants = next.length ? next : [{ size: "", price: 0 }];
+};
+
+
 
 const renderApp = () => {
   const root = document.getElementById('app-root');
@@ -317,6 +785,13 @@ window.setShopSort = (v: string) => {
   renderApp();
 };
 
+window.removeLineByKey = (key: string) => {
+  const k = String(key);
+  state.cart = (state.cart || []).filter((it: any) => String(it.key) !== k);
+  updateCartUI();
+  renderApp();
+};
+
 
 // --- ADMIN ACTIONS ---
 window.handleImageUpload = (e: any) => {
@@ -352,46 +827,82 @@ window.toggleOrderFake = (orderId: string) => {
 };
 
 window.saveProduct = (e: Event) => {
-    e.preventDefault();
-    const name = (document.getElementById('p-name') as HTMLInputElement).value;
-    const price = (document.getElementById('p-price') as HTMLInputElement).value;
-    const category = (document.getElementById('p-category') as HTMLSelectElement).value;
-    const desc = (document.getElementById('p-desc') as HTMLTextAreaElement).value;
-    const img = state.tempImg || (state.editingId ? state.products.find((p:any)=>p.id === state.editingId).img : 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800');
+  e.preventDefault();
 
-    if (state.editingId) {
-        // Update
-        state.products = state.products.map((p: any) => 
-            p.id === state.editingId ? { ...p, name, price: parseFloat(price), category, desc, img } : p
-        );
-    } else {
-        // Create
-        const newProduct = {
-            id: Date.now().toString(),
-            name,
-            price: parseFloat(price),
-            category,
-            desc,
-            img,
-            ingredients: ['Natural Extracts']
-        };
-        state.products.unshift(newProduct);
-    }
+  // sync variants from DOM first
+  window.syncVariantsFromDOM();
 
-    // Save to localStorage
-    localStorage.setItem('handora_products', JSON.stringify(state.products));
-    
-    // Reset form state
-    state.editingId = null;
-    state.tempImg = '';
-    renderApp();
+  const name = (document.getElementById("p-name") as HTMLInputElement).value.trim();
+  const category = (document.getElementById("p-category") as HTMLSelectElement).value.trim();
+  const keyIngredient = (document.getElementById("p-keyIngredient") as HTMLSelectElement).value.trim();
+  const scent = (document.getElementById("p-scent") as HTMLSelectElement).value.trim();
+  const target = (document.getElementById("p-target") as HTMLSelectElement).value.trim();
+  const description = (document.getElementById("p-description") as HTMLTextAreaElement).value.trim();
+
+  const tagsRaw = (document.getElementById("p-tags") as HTMLInputElement).value || "";
+  const tags = tagsRaw.split(",").map(s => s.trim()).filter(Boolean);
+
+  const variants = (state.adminVariants || [])
+    .map((v:any) => ({ size: String(v.size || "").trim(), price: Number(v.price || 0) }))
+    .filter((v:any) => v.size && !Number.isNaN(v.price) && v.price > 0);
+
+  if (!name || !category || !keyIngredient || !description) {
+    showToast("Please fill required fields.", "error");
+    return;
+  }
+  if (!variants.length) {
+    showToast("Please add at least 1 variant (size + price).", "error");
+    return;
+  }
+
+  const img =
+    state.tempImg ||
+    (state.editingId ? state.products.find((p: any) => p.id === state.editingId)?.img : "") ||
+    "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800";
+
+  const nextProduct = {
+    id: state.editingId ? state.editingId : Date.now().toString(),
+    name,
+    category,
+    keyIngredient,
+    scent,
+    target,
+    description,
+    img,
+    variants,
+    tags
+  };
+
+  if (state.editingId) {
+    state.products = state.products.map((p: any) => (p.id === state.editingId ? nextProduct : p));
+  } else {
+    state.products.unshift(nextProduct);
+  }
+
+  localStorage.setItem("handora_products", JSON.stringify(state.products));
+
+  state.editingId = null;
+  state.tempImg = "";
+  state.adminVariants = [{ size: "250ml", price: 69000 }];
+  renderApp();
 };
+
+
 
 window.editProduct = (id: any) => {
-    state.editingId = id;
-    state.tempImg = '';
-    renderApp();
+  state.editingId = id;
+  state.tempImg = "";
+
+  const p = id ? state.products.find((x: any) => String(x.id) === String(id)) : null;
+  state.adminVariants =
+    Array.isArray(p?.variants) && p.variants.length
+      ? p.variants.map((v: any) => ({ size: String(v.size || ""), price: Number(v.price || 0) }))
+      : [{ size: "250ml", price: 69000 }];
+
+  renderApp();
 };
+
+
 
 window.deleteProduct = (id: string) => {
     if (confirm('Are you sure you want to remove this ritual item from the collection?')) {
@@ -448,6 +959,14 @@ window.deleteBlog = (id: string) => {
   }
 };
 
+window.setVariant = (productId: string, size: string) => {
+  state.selectedVariants = state.selectedVariants || {};
+  state.selectedVariants[String(productId)] = String(size);
+  saveSelectedVariants();
+  renderApp();
+};
+
+
 window.showToast = (
   msg: string,
   type: "info" | "error" | "success" = "info"
@@ -485,50 +1004,67 @@ window.showToast = (
 // --- GLOBAL ACTIONS ---
 window.addToBag = (id: string) => {
   const idStr = String(id);
-  const p = state.products.find((x:any) => String(x.id) === idStr);
-  if (p) {
-    // If product already in cart, increment quantity, otherwise add with qty=1
-    const existing = state.cart.find((c: any) => String(c.id) === idStr);
-    if (existing) {
-      existing.qty = (existing.qty || 1) + 1;
-    } else {
-      state.cart.push({ id: idStr, name: p.name, price: p.price, img: p.img, qty: 1 });
-    }
-    updateCartUI();
-    // brief toast instead of blocking alert
-    const toastEl = document.getElementById('handora-toast');
-    if (toastEl) toastEl.remove();
-    const t = document.createElement('div');
-    t.id = 'handora-toast';
-    t.innerText = `${p.name} added to ritual.`;
-    t.style.cssText = 'position:fixed;right:20px;bottom:20px;background:#1a2e21;color:white;padding:12px 16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.25);z-index:9999;font-weight:700;font-size:13px;';
-    document.body.appendChild(t);
-    setTimeout(() => t.classList.add('handora-toast-hide'), 1400);
-    setTimeout(() => t.remove(), 2000);
+  const p = state.products.find((x: any) => String(x.id) === idStr);
+  if (!p) return;
 
-    // animate cart button briefly (one quick pulse)
-    try {
-      const cartBtn = document.getElementById('cart-button');
-      const cartCount = document.getElementById('cart-count');
-      if (cartBtn && cartBtn.animate) {
-        cartBtn.animate([
-          { transform: 'translateY(0) scale(1)' },
-          { transform: 'translateY(-6px) scale(1.04)' },
-          { transform: 'translateY(0) scale(1)' }
-        ], { duration: 300, easing: 'cubic-bezier(.2,.8,.2,1)' });
-      }
-      if (cartCount && cartCount.animate) {
-        cartCount.animate([
-          { transform: 'scale(1)' },
-          { transform: 'scale(1.25)' },
-          { transform: 'scale(1)' }
-        ], { duration: 360, easing: 'cubic-bezier(.2,.8,.2,1)' });
-      }
-    } catch (e) {
-      // ignore animation errors in older browsers
-    }
+  const variants = Array.isArray(p.variants) ? p.variants : [];
+  const selectedSize =
+    (state.selectedVariants && state.selectedVariants[idStr]) ||
+    (variants[0]?.size ? String(variants[0].size) : "");
+
+  const picked =
+    variants.find((v: any) => String(v.size) === String(selectedSize)) || variants[0] || null;
+
+  const price = picked ? Number(picked.price || 0) : Number(p.price || 0);
+  const size = picked ? String(picked.size || "") : "";
+
+  // key theo product + size để cart không bị gộp sai
+  const key = `${idStr}__${size || "default"}`;
+
+  const existing = state.cart.find((c: any) => String(c.key) === key);
+  if (existing) {
+    existing.qty = (existing.qty || 1) + 1;
+  } else {
+    state.cart.push({
+      key,
+      id: idStr,
+      name: p.name,
+      price,
+      img: p.img,
+      qty: 1,
+      size
+    });
   }
+
+  updateCartUI();
+
+  // toast giữ nguyên
+  try {
+    const toastEl = document.getElementById("handora-toast");
+    if (toastEl) toastEl.remove();
+    const t = document.createElement("div");
+    t.id = "handora-toast";
+    t.innerText = `${p.name}${size ? ` (${size})` : ""} added to ritual.`;
+    t.style.cssText =
+      "position:fixed;right:20px;bottom:20px;background:#1a2e21;color:white;padding:12px 16px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.25);z-index:9999;font-weight:700;font-size:13px;";
+    document.body.appendChild(t);
+    setTimeout(() => t.classList.add("handora-toast-hide"), 1400);
+    setTimeout(() => t.remove(), 2000);
+  } catch {}
+
+  renderApp();
 };
+
+
+window.removeLine = (index: number) => {
+  if (!Array.isArray(state.cart)) state.cart = [];
+  if (index < 0 || index >= state.cart.length) return;
+
+  state.cart.splice(index, 1);
+  updateCartUI();
+  renderApp();
+};
+
 
 window.removeFromBag = (index: number) => {
   const item = state.cart[index];

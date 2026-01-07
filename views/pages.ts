@@ -35,8 +35,8 @@ export const renderHome = (state: any) => `
         </h1>
 
         <p class="max-w-2xl mx-auto text-slate-600 text-lg md:text-xl leading-relaxed mb-12">
-          Skin safe, plant-based hand wash designed for frequent daily use 
-free from harsh chemicals and suitable for all skin types.
+          Skin safe, plant-based hand wash designed for frequent daily use
+          free from harsh chemicals and suitable for all skin types.
         </p>
 
         <div class="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -72,179 +72,215 @@ free from harsh chemicals and suitable for all skin types.
       </div>
     </section>
 
-   <!-- RITUAL STRIP -->
-<section class="py-16 bg-white">
-  <div class="container mx-auto px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-      <div class="lg:col-span-5 reveal-on-scroll">
-        <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">
-          Daily Vegan Hand Care
-        </span>
-
- <h2 class="text-4xl font-serif text-handora-dark leading-none">
-  Cleanse. Calm.
-  <span class="italic text-handora-green">
-    Gentle Care For<br>
-    Frequent<br>
-    Handwashing
-  </span>
-</h2>
-
-
-        <!-- 🔁 CHỈ THAY TEXT -->
-        <p class="mt-8 text-slate-500 text-lg leading-relaxed">
-          A gentle, vegan hand wash system designed for frequent daily use formulated
-          to cleanse effectively without disrupting the skin’s natural balance.
-        </p>
-
-        <div class="mt-10 flex gap-3">
-          <button onclick="navigate('shop')"
-            class="px-10 py-4 rounded-full bg-handora-green text-white text-[10px] font-black uppercase tracking-[0.35em] shadow-lg hover:shadow-xl transition-all">
-            Explore Products
-          </button>
-          <button onclick="navigate('about')"
-            class="px-10 py-4 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all">
-            Learn More
-          </button>
-        </div>
-      </div>
-
-      <div class="lg:col-span-7">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          ${[
-            // 🔁 card 1
-            ["🌿", "Vegan & Ethical", "100% vegan and cruelty-free, responsibly formulated for everyday hygiene."],
-
-            // 🔁 card 2
-            ["🤍", "Skin-Friendly", "Designed for multiple washes per day without causing dryness or irritation."],
-
-            // giữ nguyên card 3
-            ["♻️", "Sustainable", "Refill-oriented packaging to reduce plastic."]
-          ].map((x, i) => `
-            <div class="reveal-on-scroll p-8 rounded-[36px] bg-handora-light/35 border border-slate-200 shadow-sm hover:shadow-md transition-all"
-                 style="transition-delay:${i * 120}ms">
-              <div class="text-4xl mb-6">${x[0]}</div>
-              <div class="text-xl font-bold text-slate-800 mb-3">${x[1]}</div>
-              <div class="text-slate-500 leading-relaxed">${x[2]}</div>
-            </div>
-          `).join("")}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <!-- FEATURED PRODUCTS (animated cards) -->
-    <section class="py-16 bg-handora-light/40">
+    <!-- RITUAL STRIP -->
+    <section class="py-16 bg-white">
       <div class="container mx-auto px-8">
-      <div class="text-center mb-10 reveal-on-scroll">
-  <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">
-    Featured
-  </span>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-5 reveal-on-scroll">
+            <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">
+              Daily Vegan Hand Care
+            </span>
 
-  <!-- 🔁 chỉ thay text -->
-  <h2 class="text-6xl md:text-7xl font-serif text-handora-dark">
-    Best Selling <span class="italic text-handora-green">Daily Hand Care</span>
-  </h2>
+            <h2 class="text-4xl font-serif text-handora-dark leading-none">
+              Cleanse. Calm.
+              <span class="italic text-handora-green">
+                Gentle Care For<br>
+                Frequent<br>
+                Handwashing
+              </span>
+            </h2>
 
-  <!-- 🔁 chỉ thay text -->
-  <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto">
-    Our most popular vegan hand care products for everyday hygiene
-  </p>
-</div>
+            <p class="mt-8 text-slate-500 text-lg leading-relaxed">
+              A gentle, vegan hand wash system designed for frequent daily use formulated
+              to cleanse effectively without disrupting the skin’s natural balance.
+            </p>
 
+            <div class="mt-10 flex gap-3">
+              <button onclick="navigate('shop')"
+                class="px-10 py-4 rounded-full bg-handora-green text-white text-[10px] font-black uppercase tracking-[0.35em] shadow-lg hover:shadow-xl transition-all">
+                Explore Products
+              </button>
+              <button onclick="navigate('about')"
+                class="px-10 py-4 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all">
+                Learn More
+              </button>
+            </div>
+          </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-
-${(() => {
-  const favs: string[] = Array.isArray(state.favorites) ? state.favorites.map(String) : [];
-  const isFav = (p: any) => favs.includes(String(p.id));
-
-  const homeProducts = [...(state.products || [])].sort((a: any, b: any) => {
-    const af = isFav(a) ? 1 : 0;
-    const bf = isFav(b) ? 1 : 0;
-    if (af !== bf) return bf - af; // fav lên trước
-    return 0; // trong nhóm giữ nguyên thứ tự
-  });
-
-  return homeProducts.slice(0, 4).map((p: any, i: number) => `
-    <div
-      class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full border border-slate-100"
-      style="transition-delay:${i * 120}ms"
-    >
-      <!-- IMAGE -->
-      <div class="aspect-[4/5] overflow-hidden relative">
-        <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
-
-        <!-- gradient overlay -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-
-        <!-- FAVORITE (same as Shop) -->
-        <button
-          onclick="toggleFavorite('${p.id}')"
-          class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/80 backdrop-blur border border-white/60
-                 flex items-center justify-center shadow-sm hover:scale-110 transition-all"
-          title="Toggle favorite"
-        >
-          ${
-            (state.favorites || []).includes(String(p.id))
-              ? `<span class="text-red-500 text-lg leading-none">♥</span>`
-              : `<span class="text-slate-400 text-lg leading-none">♡</span>`
-          }
-        </button>
-
-        <!-- CATEGORY BADGE -->
-        <div class="absolute left-5 bottom-5 px-4 py-2 rounded-full bg-white/75 backdrop-blur
-                    border border-white/60 text-[10px] font-black uppercase tracking-[0.35em]
-                    text-slate-700 opacity-0 translate-y-2
-                    group-hover:opacity-100 group-hover:translate-y-0 transition-all">
-          ${p.category || "Ritual"}
-        </div>
-      </div>
-
-      <!-- CONTENT -->
-      <div class="p-8 flex flex-col flex-grow">
-        <!-- title + price -->
-        <div class="flex items-start justify-between gap-4">
-          <h3 class="text-2xl font-serif text-slate-800 leading-snug min-h-[3.25rem]">
-            ${p.name}
-          </h3>
-          <div class="text-right">
-            <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Price</div>
-            <div class="mt-1 text-lg font-extrabold text-handora-green whitespace-nowrap">
-              ${formatVND(p.price)}
+          <div class="lg:col-span-7">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              ${[
+                ["🌿", "Vegan & Ethical", "100% vegan and cruelty-free, responsibly formulated for everyday hygiene."],
+                ["🤍", "Skin-Friendly", "Designed for multiple washes per day without causing dryness or irritation."],
+                ["♻️", "Sustainable", "Refill-oriented packaging to reduce plastic."]
+              ].map((x, i) => `
+                <div class="reveal-on-scroll p-8 rounded-[36px] bg-handora-light/35 border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                     style="transition-delay:${i * 120}ms">
+                  <div class="text-4xl mb-6">${x[0]}</div>
+                  <div class="text-xl font-bold text-slate-800 mb-3">${x[1]}</div>
+                  <div class="text-slate-500 leading-relaxed">${x[2]}</div>
+                </div>
+              `).join("")}
             </div>
           </div>
         </div>
-
-        <!-- desc -->
-        <p class="mt-3 text-slate-500 text-sm line-clamp-3 min-h-[4.5rem]">
-          ${p.desc}
-        </p>
-
-        <!-- actions -->
-        <div class="mt-auto pt-6">
-          <button
-            onclick="addToBag('${p.id}')"
-            class="w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl
-                   font-black text-[10px] uppercase tracking-[0.3em]
-                   hover:bg-handora-green hover:text-white transition-all"
-          >
-            Add to Bag
-          </button>
-        </div>
       </div>
-    </div>
-  
-  `).join("");
-})()}
+    </section>
 
+    <!-- FEATURED PRODUCTS -->
+    <section class="py-16 bg-handora-light/40">
+      <div class="container mx-auto px-8">
+        <div class="text-center mb-10 reveal-on-scroll">
+          <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">
+            Featured
+          </span>
 
+          <h2 class="text-6xl md:text-7xl font-serif text-handora-dark">
+            Best Selling <span class="italic text-handora-green">Daily Hand Care</span>
+          </h2>
 
+          <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto">
+            Our most popular vegan hand care products for everyday hygiene
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          ${(() => {
+            const favs: string[] = Array.isArray(state.favorites) ? state.favorites.map(String) : [];
+            const isFav = (p: any) => favs.includes(String(p.id));
+
+            const homeProducts = [...(state.products || [])].sort((a: any, b: any) => {
+              const af = isFav(a) ? 1 : 0;
+              const bf = isFav(b) ? 1 : 0;
+              if (af !== bf) return bf - af;
+              return 0;
+            });
+
+            const getSelectedSize = (p: any) => {
+              const pid = String(p?.id);
+              const variants = Array.isArray(p?.variants) ? p.variants : [];
+              const stored = state.selectedVariants?.[pid];
+              return String(stored || variants[0]?.size || "");
+            };
+
+            const getPickedVariant = (p: any) => {
+              const variants = Array.isArray(p?.variants) ? p.variants : [];
+              const sel = getSelectedSize(p);
+              return variants.find((v: any) => String(v.size) === sel) || variants[0] || null;
+            };
+
+            const getPrice = (p: any) => {
+              const v = getPickedVariant(p);
+              return v ? Number(v.price || 0) : Number(p?.price || 0);
+            };
+
+            const getDesc = (p: any) => String(p?.description || p?.desc || "");
+
+            return homeProducts.slice(0, 4).map((p: any, i: number) => {
+              const variants = Array.isArray(p?.variants) ? p.variants : [];
+              const selSize = getSelectedSize(p);
+              const price = getPrice(p);
+              const desc = getDesc(p);
+
+              return `
+                <div
+                  class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full border border-slate-100"
+                  style="transition-delay:${i * 120}ms"
+                >
+                  <!-- IMAGE -->
+                  <div class="aspect-[4/5] overflow-hidden relative">
+                    <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                    <!-- FAVORITE (no layout shift) -->
+                    <button
+                      onclick="toggleFavorite('${p.id}')"
+                      class="fav-btn absolute top-5 right-5 ${isFav(p) ? "is-on" : ""}"
+                      title="Toggle favorite"
+                    >
+                      <svg class="fav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 21s-7.2-4.4-9.6-8.2C.7 9.9 2.3 6.6 5.6 5.7 7.5 5.2 9.4 5.9 10.6 7c.5.5.9 1 1.4 1.7.5-.7.9-1.2 1.4-1.7 1.2-1.1 3.1-1.8 5-1.3 3.3.9 4.9 4.2 3.2 7.1C19.2 16.6 12 21 12 21z" stroke-width="1.8" />
+                      </svg>
+                    </button>
+
+                  <!-- CATEGORY BADGE (no wrap + ellipsis) -->
+<div class="absolute left-5 bottom-5 px-4 py-2 rounded-2xl bg-white/75 backdrop-blur
+            border border-white/60 text-[9px] font-black uppercase tracking-[0.25em]
+            text-slate-700 max-w-[calc(100%-2.5rem)] leading-tight
+            opacity-0 translate-y-2
+            group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+  ${p.category || "Ritual"}
 </div>
 
 
+                  </div>
+
+                  <!-- CONTENT -->
+                <div class="p-8 flex flex-col flex-grow min-h-0">
+  <div class="flex items-start justify-between gap-4">
+    <h3 class="text-2xl font-serif text-slate-800 leading-snug min-h-[3.25rem]">
+      ${p.name}
+    </h3>
+    <div class="text-right">
+      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Price</div>
+      <div class="mt-1 text-lg font-extrabold text-handora-green whitespace-nowrap">
+        ${formatVND(price)}
+      </div>
+    </div>
+  </div>
+
+<div class="mt-3 text-slate-500 text-sm desc-scroll scroll-smooth">
+  ${desc}
+</div>
+
+
+
+                    <!-- SIZE SLOT (reserve height to align) -->
+                    <!-- ✅ BOTTOM ZONE: SIZE + BUTTON cùng neo xuống đáy -->
+<div class="mt-auto pt-5">
+  <div class="card-variant-slot">
+    ${
+      variants.length
+        ? `
+      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2">
+        Size
+      </div>
+
+      <select
+        onchange="setVariant('${p.id}', this.value)"
+        class="select-pill"
+      >
+        ${variants.map((v: any) => `
+          <option value="${String(v.size)}" ${String(v.size) === String(selSize) ? "selected" : ""}>
+            ${String(v.size)} • ${formatVND(v.price)}
+          </option>
+        `).join("")}
+      </select>
+      `
+        : `
+      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2 opacity-0">Size</div>
+      <div class="select-pill opacity-0 pointer-events-none">—</div>
+      `
+    }
+  </div>
+
+  <button
+    onclick="addToBag('${p.id}')"
+    class="mt-6 w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl
+           font-black text-[10px] uppercase tracking-[0.3em]
+           hover:bg-handora-green hover:text-white transition-all"
+  >
+    Add to Bag
+  </button>
+</div>
+
+                  </div>
+                </div>
+              `;
+            }).join("");
+          })()}
+        </div>
 
         <div class="text-center mt-14">
           <button onclick="navigate('shop')"
@@ -255,7 +291,7 @@ ${(() => {
       </div>
     </section>
 
-    <!-- HOW IT WORKS (timeline) -->
+    <!-- HOW IT WORKS -->
     <section class="py-16 bg-white">
       <div class="container mx-auto px-8">
         <div class="text-center mb-16 reveal-on-scroll">
@@ -265,37 +301,24 @@ ${(() => {
           </h2>
         </div>
 
-       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-  ${[
-    [
-      "01",
-      "Choose your hand wash",
-      "Select a gentle vegan hand wash that fits your daily hygiene routine."
-    ],
-    [
-      "02",
-      "Use daily with confidence",
-      "Formulated for frequent daily use while maintaining the skin’s natural barrier."
-    ],
-    [
-      "03",
-      "Refill and reduce waste",
-      "Refill-first packaging designed to support sustainable daily consumption."
-    ]
-  ].map((s, i) => `
-    <div class="reveal-on-scroll rounded-[40px] border border-slate-200 bg-white p-10 shadow-sm hover:shadow-md transition-all"
-         style="transition-delay:${i * 110}ms">
-      <div class="flex items-center justify-between">
-        <div class="text-[10px] font-black uppercase tracking-[0.45em] text-slate-400">Step</div>
-        <div class="text-3xl font-serif text-handora-green">${s[0]}</div>
-      </div>
-      <h3 class="mt-6 text-3xl font-serif text-slate-800">${s[1]}</h3>
-      <p class="mt-4 text-slate-500 leading-relaxed">${s[2]}</p>
-      <div class="mt-8 h-[2px] w-12 bg-handora-green/30"></div>
-    </div>
-  `).join("")}
-</div>
-
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          ${[
+            ["01", "Choose your hand wash", "Select a gentle vegan hand wash that fits your daily hygiene routine."],
+            ["02", "Use daily with confidence", "Formulated for frequent daily use while maintaining the skin’s natural barrier."],
+            ["03", "Refill and reduce waste", "Refill-first packaging designed to support sustainable daily consumption."]
+          ].map((s, i) => `
+            <div class="reveal-on-scroll rounded-[40px] border border-slate-200 bg-white p-10 shadow-sm hover:shadow-md transition-all"
+                 style="transition-delay:${i * 110}ms">
+              <div class="flex items-center justify-between">
+                <div class="text-[10px] font-black uppercase tracking-[0.45em] text-slate-400">Step</div>
+                <div class="text-3xl font-serif text-handora-green">${s[0]}</div>
+              </div>
+              <h3 class="mt-6 text-3xl font-serif text-slate-800">${s[1]}</h3>
+              <p class="mt-4 text-slate-500 leading-relaxed">${s[2]}</p>
+              <div class="mt-8 h-[2px] w-12 bg-handora-green/30"></div>
+            </div>
+          `).join("")}
+        </div>
 
         <div class="text-center mt-16 reveal-on-scroll">
           <button onclick="navigate('quiz')" class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
@@ -349,49 +372,47 @@ ${(() => {
       </div>
     </section>
 
-   <!-- CTA -->
-<section class="py-24 bg-white">
-  <div class="container mx-auto px-8">
-    <div class="rounded-[60px] bg-handora-light/40 border border-slate-200 p-12 md:p-16 text-center reveal-on-scroll">
+    <!-- CTA -->
+    <section class="py-24 bg-white">
+      <div class="container mx-auto px-8">
+        <div class="rounded-[60px] bg-handora-light/40 border border-slate-200 p-12 md:p-16 text-center reveal-on-scroll">
+          <p class="text-[11px] font-black uppercase tracking-[0.45em] text-handora-green mb-6">
+            Ready for a gentler daily hand care routine
+          </p>
 
-      <!-- EYEBROW (NEW TEXT) -->
-      <p class="text-[11px] font-black uppercase tracking-[0.45em] text-handora-green mb-6">
-        Ready for a gentler daily hand care routine
-      </p>
+          <h2 class="text-5xl md:text-6xl font-serif text-handora-dark">
+            Ready for a <span class="italic text-handora-green">cleaner</span> ritual?
+          </h2>
 
-      <!-- TITLE (GIỮ NGUYÊN) -->
-      <h2 class="text-5xl md:text-6xl font-serif text-handora-dark">
-        Ready for a <span class="italic text-handora-green">cleaner</span> ritual?
-      </h2>
+          <p class="mt-6 text-slate-500 text-lg max-w-3xl mx-auto leading-relaxed">
+            Explore our vegan hand wash collection or take a short quiz to find the most suitable option
+            for your daily usage and skin needs.
+          </p>
 
-      <!-- DESCRIPTION (NEW TEXT) -->
-      <p class="mt-6 text-slate-500 text-lg max-w-3xl mx-auto leading-relaxed">
-        Explore our vegan hand wash collection or take a short quiz to find the most suitable option
-        for your daily usage and skin needs.
-      </p>
+          <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-4">
+            <button
+              onclick="navigate('shop')"
+              class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
+              Shop Now
+            </button>
 
-      <!-- ACTIONS (GIỮ NGUYÊN) -->
-      <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-4">
-        <button
-          onclick="navigate('shop')"
-          class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
-          Shop Now
-        </button>
-
-        <button
-          onclick="navigate('quiz')"
-          class="px-14 py-5 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-slate-50 transition-all shadow-sm">
-          Skin & Washing Habit Quiz
-        </button>
+            <button
+              onclick="navigate('quiz')"
+              class="px-14 py-5 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-slate-50 transition-all shadow-sm">
+              Skin & Washing Habit Quiz
+            </button>
+          </div>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
-
-
-    <!-- local-only keyframes (no external css needed) -->
+    <!-- local-only keyframes + fixes -->
     <style>
+.scroll-smooth::-webkit-scrollbar { width: 6px; }
+.scroll-smooth::-webkit-scrollbar-thumb { background: rgba(148,163,184,.45); border-radius: 999px; }
+.scroll-smooth { scrollbar-width: thin; }
+
+
       @keyframes float {
         0%, 100% { transform: translate3d(0,0,0); }
         50% { transform: translate3d(0,-14px,0); }
@@ -401,16 +422,83 @@ ${(() => {
         50% { transform: translateY(18px); opacity: 1; }
         100% { transform: translateY(0); opacity: .4; }
       }
-      /* safe line clamp if not installed */
-       .line-clamp-3{
-    display:-webkit-box;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
-    overflow:hidden;
-  }
+
+      /* scroll description inside flex column */
+.desc-scroll{
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 92px;          /* chỉnh số này để cao hơn/thấp hơn */
+  overflow-y: auto;
+  padding-right: 6px;        /* chừa chỗ scrollbar */
+  line-height: 1.55;
+}
+
+/* optional: smoother on iOS */
+.desc-scroll{
+  -webkit-overflow-scrolling: touch;
+}
+
+      
+      /* desc clamp + fixed height */
+      .card-desc{
+        display:-webkit-box;
+        -webkit-line-clamp:3;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+        min-height:4.5rem;
+      }
+
+      /* reserve slot size so cards align */
+     .card-variant-slot{
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+
+      /* select pill */
+      .select-pill{
+        width:100%;
+        border:1px solid rgba(148, 163, 184, 0.55);
+        background:rgba(255,255,255,0.75);
+        border-radius:18px;
+        padding:12px 14px;
+        font-size:14px;
+        outline:none;
+        transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+      }
+      .select-pill:focus{
+        border-color: rgba(74,124,89,0.65);
+        box-shadow:0 0 0 4px rgba(74,124,89,0.12);
+      }
+
+      /* favorite no-shift */
+      .fav-btn{
+        width:44px;height:44px;
+        border-radius:999px;
+        background: rgba(255,255,255,0.82);
+        border:1px solid rgba(255,255,255,0.65);
+        backdrop-filter: blur(10px);
+        display:flex;align-items:center;justify-content:center;
+        transition: transform .2s ease;
+      }
+      .fav-btn:hover{ transform: scale(1.08); }
+
+      .fav-icon{ width:18px;height:18px; display:block; }
+      .fav-icon path{
+        transition: fill .18s ease, stroke .18s ease;
+        stroke: rgba(148,163,184,0.9);
+        fill: transparent;
+      }
+      .fav-btn.is-on .fav-icon path{
+        stroke: rgba(239,68,68,1);
+        fill: rgba(239,68,68,1);
+      }
     </style>
   </div>
 `;
+
 
 
 export const renderShop = (state: any) => {
@@ -422,10 +510,31 @@ export const renderShop = (state: any) => {
     : [];
   const isFav = (p: any) => favs.includes(String(p.id));
 
-  // 1️⃣ FILTER
+  // ✅ helpers (giống Home)
+  const getSelectedSize = (p: any) => {
+    const pid = String(p?.id);
+    const variants = Array.isArray(p?.variants) ? p.variants : [];
+    const stored = state.selectedVariants?.[pid];
+    return String(stored || variants[0]?.size || "");
+  };
+
+  const getPickedVariant = (p: any) => {
+    const variants = Array.isArray(p?.variants) ? p.variants : [];
+    const sel = getSelectedSize(p);
+    return variants.find((v: any) => String(v.size) === sel) || variants[0] || null;
+  };
+
+  const getPrice = (p: any) => {
+    const v = getPickedVariant(p);
+    return v ? Number(v.price || 0) : Number(p?.price || 0);
+  };
+
+  const getDesc = (p: any) => String(p?.description || p?.desc || "");
+
+  // 1️⃣ FILTER (update desc)
   let filtered = [...(state.products || [])].filter((p: any) => {
     const name = String(p.name || "").toLowerCase();
-    const desc = String(p.desc || "").toLowerCase();
+    const desc = getDesc(p).toLowerCase();
     const cat = String(p.category || "");
 
     const matchQuery =
@@ -435,19 +544,18 @@ export const renderShop = (state: any) => {
     return matchQuery && matchCat;
   });
 
-  // 2️⃣ SORT (❤️ FAVORITE → SORT OPTION)
+  // 2️⃣ SORT (❤️ favorite trước, rồi sort theo option)
   filtered.sort((a: any, b: any) => {
     const af = isFav(a) ? 1 : 0;
     const bf = isFav(b) ? 1 : 0;
-
-    // ❤️ favorites lên trước
     if (af !== bf) return bf - af;
 
-    // ⬇️ trong cùng nhóm mới sort theo option
     const sa = String(a.name || "").toLowerCase();
     const sb = String(b.name || "").toLowerCase();
-    const pa = Number(a.price || 0);
-    const pb = Number(b.price || 0);
+
+    // ✅ price theo variant đang chọn
+    const pa = getPrice(a);
+    const pb = getPrice(b);
 
     switch (state.shopSort) {
       case "price_asc":
@@ -515,14 +623,43 @@ export const renderShop = (state: any) => {
 
           <!-- CATEGORY -->
           <div class="md:col-span-3">
-            <select
-              onchange="setShopCategory(this.value)"
-              class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4"
-            >
-              <option value="All" ${state.shopCategory === "All" ? "selected" : ""}>All Categories</option>
-              <option value="Hand Rituals" ${state.shopCategory === "Hand Rituals" ? "selected" : ""}>Hand Rituals</option>
-              <option value="Skin Therapy" ${state.shopCategory === "Skin Therapy" ? "selected" : ""}>Skin Therapy</option>
-            </select>
+           <select
+  onchange="setShopCategory(this.value)"
+  class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4"
+>
+  <option value="All" ${state.shopCategory === "All" ? "selected" : ""}>
+    All Categories
+  </option>
+
+  <option
+    value="Core Line – Daily Vegan Hand Wash"
+    ${state.shopCategory === "Core Line – Daily Vegan Hand Wash" ? "selected" : ""}
+  >
+    Core Line
+  </option>
+
+  <option
+    value="Sensitive Line – Gentle Hand Wash"
+    ${state.shopCategory === "Sensitive Line – Gentle Hand Wash" ? "selected" : ""}
+  >
+    Sensitive Line
+  </option>
+
+  <option
+    value="Eco Line – Refill Packs"
+    ${state.shopCategory === "Eco Line – Refill Packs" ? "selected" : ""}
+  >
+    Eco Line
+  </option>
+
+  <option
+    value="Lifestyle Line"
+    ${state.shopCategory === "Lifestyle Line" ? "selected" : ""}
+  >
+    Lifestyle Line
+  </option>
+</select>
+
           </div>
 
           <!-- SORT -->
@@ -559,48 +696,148 @@ export const renderShop = (state: any) => {
         ? `<p class="text-center text-slate-400">No products found.</p>`
         : `
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          ${filtered.map((p: any) => `
+          ${filtered.map((p: any) => {
+            const variants = Array.isArray(p?.variants) ? p.variants : [];
+            const selSize = getSelectedSize(p);
+            const price = getPrice(p);
+            const desc = getDesc(p);
+
+            return `
             <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all flex flex-col border border-slate-100">
               <div class="aspect-[4/5] relative overflow-hidden">
                 <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
 
-                <!-- FAVORITE -->
+                <!-- FAVORITE (no shift like Home) -->
                 <button
                   onclick="toggleFavorite('${p.id}')"
-                  class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/80 flex items-center justify-center"
+                  class="fav-btn absolute top-5 right-5 ${isFav(p) ? "is-on" : ""}"
+                  title="Toggle favorite"
                 >
-                  ${
-                    isFav(p)
-                      ? `<span class="text-red-500 text-xl">♥</span>`
-                      : `<span class="text-slate-400 text-xl">♡</span>`
-                  }
+                  <svg class="fav-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 21s-7.2-4.4-9.6-8.2C.7 9.9 2.3 6.6 5.6 5.7 7.5 5.2 9.4 5.9 10.6 7c.5.5.9 1 1.4 1.7.5-.7.9-1.2 1.4-1.7 1.2-1.1 3.1-1.8 5-1.3 3.3.9 4.9 4.2 3.2 7.1C19.2 16.6 12 21 12 21z" stroke-width="1.8" />
+                  </svg>
                 </button>
               </div>
 
-              <div class="p-8 flex flex-col flex-grow">
+              <div class="p-8 flex flex-col flex-grow min-h-0">
                 <div class="flex justify-between gap-3">
-                  <h3 class="text-2xl font-serif text-slate-800">${p.name}</h3>
-                  <div class="text-handora-green font-extrabold">
-                    ${formatVND(p.price)}
+                  <h3 class="text-2xl font-serif text-slate-800 leading-snug">${p.name}</h3>
+                  <div class="text-handora-green font-extrabold whitespace-nowrap">
+                    ${formatVND(price)}
                   </div>
                 </div>
 
-                <p class="mt-3 text-slate-500 text-sm line-clamp-3">${p.desc}</p>
+    <div class="mt-3 text-slate-500 text-sm desc-scroll scroll-smooth">
+  ${desc}
+</div>
 
-                <div class="mt-auto pt-6 flex gap-3">
+
+
+                <!-- ✅ BOTTOM ZONE: size + button neo xuống đáy -->
+                <div class="mt-auto pt-5">
+                  <div class="card-variant-slot">
+                    ${
+                      variants.length
+                        ? `
+                      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2">
+                        Size
+                      </div>
+                      <select
+                        onchange="setVariant('${p.id}', this.value)"
+                        class="select-pill"
+                      >
+                        ${variants.map((v: any) => `
+                          <option value="${String(v.size)}" ${String(v.size) === String(selSize) ? "selected" : ""}>
+                            ${String(v.size)} • ${formatVND(v.price)}
+                          </option>
+                        `).join("")}
+                      </select>
+                      `
+                        : `
+                      <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 mb-2 opacity-0">Size</div>
+                      <div class="select-pill opacity-0 pointer-events-none">—</div>
+                      `
+                    }
+                  </div>
+
                   <button
                     onclick="addToBag('${p.id}')"
-                    class="flex-1 border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
+                    class="mt-6 w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
                   >
                     Add to Bag
                   </button>
                 </div>
               </div>
             </div>
-          `).join("")}
+            `;
+          }).join("")}
         </div>
         `
     }
+
+    <!-- styles reused from Home -->
+    <style>
+.scroll-smooth::-webkit-scrollbar { width: 6px; }
+.scroll-smooth::-webkit-scrollbar-thumb { background: rgba(148,163,184,.45); border-radius: 999px; }
+.scroll-smooth { scrollbar-width: thin; }
+
+.desc-scroll{
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 92px;      /* chỉnh cao/thấp theo ý */
+  overflow-y: auto;
+  padding-right: 6px;    /* chừa chỗ scrollbar */
+  line-height: 1.55;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+      .card-desc{
+        display:-webkit-box;
+        -webkit-line-clamp:3;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+        height:4.5rem; /* ✅ cố định để size thẳng hàng */
+      }
+      .card-variant-slot{ min-height:92px; }
+
+      .select-pill{
+        width:100%;
+        border:1px solid rgba(148, 163, 184, 0.55);
+        background:rgba(255,255,255,0.75);
+        border-radius:18px;
+        padding:12px 14px;
+        font-size:14px;
+        outline:none;
+        transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+      }
+      .select-pill:focus{
+        border-color: rgba(74,124,89,0.65);
+        box-shadow:0 0 0 4px rgba(74,124,89,0.12);
+      }
+
+      .fav-btn{
+        width:44px;height:44px;
+        border-radius:999px;
+        background: rgba(255,255,255,0.82);
+        border:1px solid rgba(255,255,255,0.65);
+        backdrop-filter: blur(10px);
+        display:flex;align-items:center;justify-content:center;
+        transition: transform .2s ease;
+      }
+      .fav-btn:hover{ transform: scale(1.08); }
+
+      .fav-icon{ width:18px;height:18px; display:block; }
+      .fav-icon path{
+        transition: fill .18s ease, stroke .18s ease;
+        stroke: rgba(148,163,184,0.9);
+        fill: transparent;
+      }
+      .fav-btn.is-on .fav-icon path{
+        stroke: rgba(239,68,68,1);
+        fill: rgba(239,68,68,1);
+      }
+    </style>
   </section>
   `;
 };
@@ -861,49 +1098,550 @@ export const renderAbout = (state: any) => `
 `;
 
 
-export const renderQuiz = (state: any) => `
-  <section class="pt-48 pb-40 container mx-auto px-8 text-center max-w-4xl">
-    <h1 class="text-6xl font-serif mb-16 text-handora-dark">AI Botanical Consultation</h1>
-    <div id="quiz-container" class="bg-white p-20 rounded-[70px] shadow-2xl border border-handora-light">
-      <p class="text-2xl font-serif mb-12 italic">How does your skin feel today?</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        ${['Dry', 'Sensitive', 'Normal', 'Rough'].map(t => `
-          <button onclick="runAI('${t}')" class="p-10 border-2 border-slate-50 rounded-3xl hover:border-handora-green hover:bg-handora-light transition-all font-bold text-slate-600">${t}</button>
-        `).join('')}
+export const renderQuiz = (state: any) => {
+  const escapeHtml = (s: string) =>
+  String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+  const step = Number(state.quizStep || 0); // 0..5
+  const a = state.quizAnswers || {};
+  const res = state.quizResult;
+
+  const progressText = (n: number) => `${n}/4`;
+  const progressBar = (n: number) => `
+    <div class="mt-8">
+      <div class="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.45em] text-slate-400">
+        <span>Progress</span><span>${progressText(n)}</span>
+      </div>
+      <div class="mt-3 h-2 rounded-full bg-slate-100 overflow-hidden">
+        <div class="h-full bg-handora-green" style="width:${Math.round((n/4)*100)}%"></div>
       </div>
     </div>
-  </section>
-`;
+  `;
 
-export const renderCart = (state: any) => `
-  <section class="pt-48 pb-40 container mx-auto px-8 max-w-4xl">
-    <h1 class="text-6xl font-serif mb-16">Your Ritual Items</h1>
-    ${state.cart.length === 0 ? '<p class="text-slate-400 italic text-center text-xl">The ritual bag is currently empty.</p>' : `
-      <div class="space-y-6">
-        ${state.cart.map((item: any, i: number) => `
-          <div class="flex justify-between items-center bg-white p-8 rounded-[40px] shadow-sm">
-            <div class="flex items-center gap-6">
-                  <img src="${item.img}" class="w-20 h-20 rounded-2xl object-cover" />
-                  <div>
-                    <p class="text-xl font-serif">${item.name}</p>
-                    <p class="text-sm text-slate-500">Unit: ${formatVND(item.price)}</p>
-                  </div>
-               </div>
-               <div class="flex items-center gap-3">
-                 <button onclick="removeFromBag(${i})" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 text-red-400 font-bold">−</button>
-                 <div class="px-4 py-2 bg-slate-50 rounded-xl text-sm font-bold">${item.qty || 1}</div>
-                 <button onclick="addToBag('${item.id}')" class="w-9 h-9 flex items-center justify-center rounded-full bg-handora-green text-white font-bold">+</button>
-               </div>
+  const radioBtn = (key: string, value: string) => {
+    const active = String(a[key] || "") === value;
+    return `
+      <button
+        onclick="pickQuizOption('${key}','${escapeHtml(value)}')"
+        class="
+          p-6 md:p-8 rounded-3xl border-2 text-left transition-all
+          ${active ? "border-handora-green bg-handora-light" : "border-slate-100 bg-white hover:border-handora-green/40 hover:bg-slate-50"}
+        "
+      >
+        <div class="flex items-center justify-between gap-4">
+          <div class="font-extrabold text-handora-dark">${escapeHtml(value)}</div>
+          <div class="w-6 h-6 rounded-full border-2 ${active ? "border-handora-green bg-handora-green" : "border-slate-200"}"></div>
+        </div>
+      </button>
+    `;
+  };
+
+  const checkBtn = (value: string) => {
+    const cur: string[] = Array.isArray(a.priorities) ? a.priorities : [];
+    const active = cur.includes(value);
+    return `
+      <button
+        onclick="toggleQuizPriority('${escapeHtml(value)}')"
+        class="
+          p-6 md:p-8 rounded-3xl border-2 text-left transition-all
+          ${active ? "border-handora-green bg-handora-light" : "border-slate-100 bg-white hover:border-handora-green/40 hover:bg-slate-50"}
+        "
+      >
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <div class="font-extrabold text-handora-dark">${escapeHtml(value)}</div>
+            <div class="text-xs text-slate-500 mt-1">${active ? "Selected" : "Tap to select"}</div>
           </div>
-        `).join('')}
-        <div class="pt-12 text-right">
-           <p class="text-4xl font-serif mb-8 text-handora-dark">Total: ${formatVND(state.cart.reduce((s: number, i: any) => s + (i.price * (i.qty || 1)), 0))}</p>
-           <button onclick="handleCheckout()" class="btn-shimmer text-white px-14 py-6 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-xl">Complete Ritual</button>
+          <div class="w-6 h-6 rounded-xl border-2 flex items-center justify-center font-black ${active ? "border-handora-green bg-handora-green text-white" : "border-slate-200 text-transparent"}">✓</div>
+        </div>
+      </button>
+    `;
+  };
+
+  const navBtns = (n: number, showNext: boolean = true) => `
+    <div class="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+      <button onclick="prevQuiz()" class="px-10 py-4 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.4em] text-slate-700 hover:bg-slate-50 transition-all">
+        Back
+      </button>
+      ${showNext ? `
+        <button onclick="nextQuiz()" class="btn-shimmer text-white px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
+          ${n === 4 ? "See Result" : "Next"}
+        </button>
+      ` : ""}
+    </div>
+  `;
+
+  // RESULT rendering helpers
+  const renderResult = () => {
+    if (!res?.main) return `<p class="text-slate-500">No result.</p>`;
+
+    const main = res.main;
+    const mainVariants = Array.isArray(main.variants) ? main.variants : [];
+    const selectedSize = String(state.quizSelectedSize || res.mainPicked?.size || "");
+    const selectedVariant = mainVariants.find((v:any) => String(v.size) === selectedSize) || res.mainPicked;
+
+    const line =
+      String(main.category || "").includes("Sensitive") ? "Sensitive Line" :
+      String(main.category || "").includes("Eco") ? "Eco Line" :
+      String(main.category || "").includes("Lifestyle") ? "Lifestyle Line" :
+      "Core Line";
+
+    const sizeToggles = mainVariants.map((v:any) => {
+      const active = String(v.size) === selectedSize;
+      return `
+        <button onclick="setResultVariant('${escapeHtml(String(v.size))}')"
+          class="px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.35em] transition-all
+            ${active ? "bg-handora-green text-white shadow-lg shadow-handora-green/20" : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"}
+          ">
+          ${escapeHtml(String(v.size))}
+        </button>
+      `;
+    }).join("");
+
+    const addon = res.addon;
+    const addonPicked = res.addonPicked;
+    const addonLine =
+      addon
+        ? (String(addon.category || "").includes("Eco") ? "Eco Line" :
+           String(addon.category || "").includes("Lifestyle") ? "Lifestyle Line" :
+           "Add-on")
+        : "";
+
+    return `
+      <div class="text-left">
+        <div class="text-center">
+          <p class="text-[10px] font-black uppercase tracking-[0.6em] text-handora-green">Your Recommended Match</p>
+          <h2 class="mt-4 text-3xl md:text-5xl font-serif text-handora-dark">${escapeHtml(main.name)}</h2>
+          <p class="mt-3 text-slate-500">${escapeHtml(line)} • ${escapeHtml(main.keyIngredient)} • ${escapeHtml(main.scent)}</p>
+        </div>
+
+        <div class="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- MAIN CARD -->
+          <div class="lg:col-span-7 rounded-[44px] bg-white border border-slate-100 shadow-xl p-8">
+            <div class="flex items-start gap-6">
+              <img src="${main.img}" class="w-24 h-24 rounded-[28px] object-cover border border-slate-100 shadow-sm" />
+              <div class="min-w-0">
+                <div class="text-xs text-slate-400 font-black uppercase tracking-[0.35em]">${escapeHtml(main.category)}</div>
+                <div class="mt-2 text-sm text-slate-600 leading-relaxed">${escapeHtml(main.description || "")}</div>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Choose size</div>
+              <div class="mt-3 flex flex-wrap gap-2">${sizeToggles}</div>
+            </div>
+
+            <div class="mt-7 flex items-end justify-between gap-6">
+              <div>
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Price</div>
+                <div class="mt-2 text-3xl font-extrabold text-handora-green">
+                  ${formatVND(Number(selectedVariant?.price || 0))}
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <button onclick="viewResultProduct()"
+                  class="px-8 py-4 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.4em] text-slate-700 hover:bg-slate-50 transition-all">
+                  View Product
+                </button>
+                <button onclick="addResultToCart()"
+                  class="btn-shimmer text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-100">
+              <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Why this fits you</div>
+              <ul class="mt-4 space-y-2 text-sm text-slate-600">
+                ${(res.bullets || []).slice(0,3).map((t:string)=>`
+                  <li class="flex gap-3">
+                    <span class="w-2 h-2 rounded-full bg-handora-green mt-2"></span>
+                    <span>${escapeHtml(t)}</span>
+                  </li>
+                `).join("")}
+              </ul>
+            </div>
+          </div>
+
+          <!-- ADDON CARD -->
+          ${
+            addon
+              ? `
+            <div class="lg:col-span-5 rounded-[44px] bg-slate-50 border border-slate-200 p-8">
+              <div class="text-[10px] font-black uppercase tracking-[0.6em] text-slate-400">Add-on (optional)</div>
+              <h3 class="mt-3 text-2xl font-serif text-handora-dark">${escapeHtml(addon.name)}</h3>
+              <p class="mt-2 text-slate-500 text-sm">${escapeHtml(addonLine)} • ${escapeHtml(addon.keyIngredient || "")}</p>
+
+              <div class="mt-5 flex items-center gap-4">
+                <img src="${addon.img}" class="w-20 h-20 rounded-[24px] object-cover border border-slate-200" />
+                <div class="min-w-0">
+                  <div class="text-sm text-slate-600">${escapeHtml(addon.description || "")}</div>
+                  ${
+                    addonPicked
+                      ? `<div class="mt-3 text-2xl font-extrabold ${res.addonType === "refill" ? "text-handora-green" : "text-slate-700"}">
+                          ${formatVND(Number(addonPicked.price || 0))}
+                        </div>
+                        <div class="text-xs text-slate-400 font-black uppercase tracking-[0.35em]">${escapeHtml(addonPicked.size || "")}</div>`
+                      : ""
+                  }
+                </div>
+              </div>
+
+              <button onclick="addAddonBundle()"
+                class="mt-8 w-full btn-shimmer text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
+                Add Bundle
+              </button>
+            </div>
+          `
+              : ""
+          }
+        </div>
+
+        <div class="mt-10 text-center">
+          <button onclick="startQuiz()"
+            class="px-10 py-4 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.4em] text-slate-700 hover:bg-slate-50 transition-all">
+            Retake Quiz
+          </button>
         </div>
       </div>
-    `}
+    `;
+  };
+
+  // ----- screens -----
+  const screenIntro = `
+    <div class="text-center">
+      <p class="text-[10px] font-black uppercase tracking-[0.6em] text-handora-green">Skin & Washing Habit Quiz</p>
+      <h1 class="mt-5 text-4xl md:text-6xl font-serif text-handora-dark">
+        Find Your Best <span class="italic font-light text-handora-green">Vegan Hand Wash</span> Match
+      </h1>
+      <p class="mt-6 text-slate-500 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+        Answer a few quick questions to get a recommendation based on your daily washing habit and skin needs.
+      </p>
+      ${progressBar(0)}
+      <div class="mt-10">
+        <button onclick="startQuiz()" class="btn-shimmer text-white px-12 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
+          Start Quiz
+        </button>
+      </div>
+    </div>
+  `;
+
+  const screenQ1 = `
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-serif text-handora-dark">How often do you wash your hands each day?</h2>
+      <p class="mt-3 text-slate-500">Choose one option.</p>
+      ${progressBar(1)}
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+        ${radioBtn("wash_frequency", "Less than 5 times")}
+        ${radioBtn("wash_frequency", "5–10 times")}
+        ${radioBtn("wash_frequency", "More than 10 times")}
+      </div>
+      ${navBtns(1)}
+    </div>
+  `;
+
+  const screenQ2 = `
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-serif text-handora-dark">How does your skin feel after frequent handwashing?</h2>
+      <p class="mt-3 text-slate-500">Choose one option.</p>
+      ${progressBar(2)}
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+        ${radioBtn("skin_condition", "Normal and comfortable")}
+        ${radioBtn("skin_condition", "Slightly dry")}
+        ${radioBtn("skin_condition", "Very dry or tight")}
+        ${radioBtn("skin_condition", "Easily irritated or sensitive")}
+      </div>
+      ${navBtns(2)}
+    </div>
+  `;
+
+  const screenQ3 = `
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-serif text-handora-dark">Which scent do you prefer?</h2>
+      <p class="mt-3 text-slate-500">Choose one option.</p>
+      ${progressBar(3)}
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+        ${radioBtn("scent_preference", "Fresh citrus")}
+        ${radioBtn("scent_preference", "Mild herbal")}
+        ${radioBtn("scent_preference", "Light green tea")}
+        ${radioBtn("scent_preference", "No fragrance")}
+      </div>
+      ${navBtns(3)}
+    </div>
+  `;
+
+  const screenQ4 = `
+    <div class="text-center">
+      <h2 class="text-3xl md:text-4xl font-serif text-handora-dark">What matters most to you when choosing a hand wash?</h2>
+      <p class="mt-3 text-slate-500">Select up to 2 priorities.</p>
+      ${progressBar(4)}
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+        ${checkBtn("Gentle for frequent daily use")}
+        ${checkBtn("Moisturizing and comfortable skin feel")}
+        ${checkBtn("Fragrance-free option")}
+        ${checkBtn("Plant-based vegan ingredients")}
+        ${checkBtn("Refill-first sustainable packaging")}
+      </div>
+      ${navBtns(4)}
+    </div>
+  `;
+
+  const content =
+    step === 0 ? screenIntro :
+    step === 1 ? screenQ1 :
+    step === 2 ? screenQ2 :
+    step === 3 ? screenQ3 :
+    step === 4 ? screenQ4 :
+    renderResult();
+
+  return `
+    <section class="pt-48 pb-40">
+      <div class="container mx-auto px-8 max-w-5xl">
+        <div id="quiz-container" class="bg-white p-10 md:p-16 rounded-[70px] shadow-2xl border border-handora-light">
+          ${content}
+        </div>
+      </div>
+    </section>
+  `;
+};
+
+
+export const renderCart = (state: any) => {
+  const cart = Array.isArray(state.cart) ? state.cart : [];
+
+  const getItemSize = (item: any) =>
+    String(item?.size || item?.variant?.size || item?.selectedSize || "");
+
+  const getUnitPrice = (item: any) => {
+    // ưu tiên price theo variant nếu có
+    const vPrice = item?.variant?.price;
+    if (vPrice != null && !Number.isNaN(Number(vPrice))) return Number(vPrice);
+
+    const p = item?.price;
+    return !Number.isNaN(Number(p)) ? Number(p) : 0;
+  };
+
+  const getLineTotal = (item: any) => {
+    const qty = Number(item?.qty || 1);
+    return getUnitPrice(item) * (Number.isFinite(qty) ? qty : 1);
+  };
+
+  const total = cart.reduce((s: number, it: any) => s + getLineTotal(it), 0);
+
+  return `
+  <section class="pt-48 pb-40 container mx-auto px-8 max-w-5xl">
+    <!-- header -->
+    <div class="mb-14 text-center reveal-on-scroll">
+      <span class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white/80 border border-slate-200 text-[10px] font-black uppercase tracking-[0.55em] text-handora-green shadow-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-handora-green"></span>
+        Cart
+      </span>
+      <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">Your Ritual Items</h1>
+      <p class="mt-4 text-slate-400">
+        Review your selection, confirm size, and complete the ritual.
+      </p>
+    </div>
+
+    ${
+      cart.length === 0
+        ? `
+        <div class="rounded-[44px] border border-slate-200 bg-white/70 backdrop-blur p-14 text-center shadow-sm">
+          <p class="text-slate-400 italic text-xl">The ritual bag is currently empty.</p>
+          <button onclick="navigate('shop')" class="mt-10 px-12 py-5 rounded-full bg-handora-green text-white text-[10px] font-black uppercase tracking-[0.35em] shadow-lg hover:shadow-xl transition-all">
+            Explore Products
+          </button>
+        </div>
+        `
+        : `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- items -->
+          <div class="lg:col-span-8 space-y-5">
+            ${cart
+              .map((item: any, i: number) => {
+                const size = getItemSize(item);
+                const unit = getUnitPrice(item);
+                const qty = Number(item?.qty || 1);
+                const line = getLineTotal(item);
+
+                return `
+                <div class="cart-row reveal-on-scroll rounded-[44px] bg-white/80 backdrop-blur border border-slate-200 shadow-sm p-6 md:p-8">
+                  <div class="flex gap-6 items-center">
+                    <img src="${item.img}" class="w-20 h-20 md:w-24 md:h-24 rounded-3xl object-cover border border-slate-100" />
+
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-start justify-between gap-4">
+                        <div class="min-w-0">
+                          <p class="text-xl md:text-2xl font-serif text-handora-dark truncate">${item.name}</p>
+
+                          <div class="mt-2 flex flex-wrap items-center gap-2">
+                            ${
+                              size
+                                ? `<span class="size-pill">Size: <b>${size}</b></span>`
+                                : `<span class="size-pill opacity-60">Standard</span>`
+                            }
+                            <span class="meta-pill">Unit: <b>${formatVND(unit)}</b></span>
+                          </div>
+                        </div>
+
+                        <div class="text-right">
+                          <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Line</div>
+                          <div class="mt-1 text-lg font-extrabold text-handora-green whitespace-nowrap">
+                            ${formatVND(line)}
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- controls -->
+                      <div class="mt-5 flex items-center justify-between gap-4">
+                      
+
+                        <div class="qty-wrap" aria-label="Quantity">
+                          <button onclick="removeFromBag(${i})" class="qty-btn" title="Decrease">−</button>
+                          <div class="qty-value">${Number.isFinite(qty) ? qty : 1}</div>
+                          <button onclick="addToBag('${item.id}')" class="qty-btn is-plus" title="Increase">+</button>
+                        </div>
+
+                       <button onclick="removeLineByKey('${item.key}')" class="trash-btn">Remove</button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                `;
+              })
+              .join("")}
+          </div>
+
+          <!-- summary -->
+          <aside class="lg:col-span-4">
+            <div class="reveal-on-scroll rounded-[44px] bg-white/80 backdrop-blur border border-slate-200 shadow-sm p-8 sticky top-32">
+              <div class="text-[10px] font-black uppercase tracking-[0.55em] text-slate-400">Summary</div>
+              <div class="mt-6 space-y-3 text-slate-600">
+                <div class="flex justify-between">
+                  <span>Items</span>
+                  <b class="text-handora-dark">${cart.reduce((s: number, it: any) => s + Number(it?.qty || 1), 0)}</b>
+                </div>
+                <div class="flex justify-between">
+                  <span>Subtotal</span>
+                  <b class="text-handora-dark">${formatVND(total)}</b>
+                </div>              
+              </div>
+
+              <div class="mt-6 h-px bg-slate-200"></div>
+
+              <div class="mt-6 flex items-end justify-between">
+                <div>
+                  <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Total</div>
+                  <div class="mt-1 text-3xl font-serif text-handora-dark">${formatVND(total)}</div>
+                </div>
+              </div>
+
+              <button
+                onclick="handleCheckout()"
+                class="mt-8 w-full btn-shimmer text-white py-5 rounded-3xl text-[10px] font-black uppercase tracking-[0.35em] shadow-xl"
+              >
+                Complete Ritual
+              </button>
+
+              <button
+                onclick="navigate('shop')"
+                class="mt-3 w-full py-5 rounded-3xl bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all"
+              >
+                Continue Shopping
+              </button>
+            </div>
+          </aside>
+        </div>
+
+        <style>
+          /* pills */
+          .size-pill, .meta-pill{
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            padding:8px 12px;
+            border-radius:999px;
+            border:1px solid rgba(226,232,240,1);
+            background:rgba(248,250,252,0.85);
+            font-size:12px;
+            color:rgba(71,85,105,1);
+          }
+          .size-pill b, .meta-pill b{ color: rgba(15,23,42,1); }
+
+          /* qty control */
+          .qty-wrap{
+            display:flex;
+            align-items:center;
+            border:1px solid rgba(226,232,240,1);
+            background:rgba(248,250,252,0.9);
+            border-radius:999px;
+            padding:6px;
+            gap:6px;
+            min-width: 168px;
+            justify-content:space-between;
+          }
+          .qty-btn{
+            width:40px;height:40px;
+            border-radius:999px;
+            border:1px solid rgba(226,232,240,1);
+            background:white;
+            display:flex;align-items:center;justify-content:center;
+            font-weight:900;
+            color:rgba(71,85,105,1);
+            transition: transform .15s ease, box-shadow .15s ease;
+          }
+          .qty-btn:hover{ transform: scale(1.04); box-shadow:0 10px 25px rgba(15,23,42,.08); }
+          .qty-btn.is-plus{
+            background: rgba(74,124,89,1);
+            border-color: rgba(74,124,89,1);
+            color:white;
+          }
+          .qty-value{
+            width:44px;
+            text-align:center;
+            font-weight:900;
+            color:rgba(15,23,42,1);
+          }
+
+          /* remove buttons */
+          .remove-btn{
+            width:44px;height:44px;
+            border-radius:999px;
+            border:1px solid rgba(226,232,240,1);
+            background:rgba(248,250,252,0.9);
+            color: rgba(239,68,68,1);
+            font-weight:900;
+            display:flex;align-items:center;justify-content:center;
+            transition: transform .15s ease;
+          }
+          .remove-btn:hover{ transform: scale(1.04); }
+
+          .trash-btn{
+            padding:12px 14px;
+            border-radius:999px;
+            border:1px solid rgba(226,232,240,1);
+            background:white;
+            font-size:12px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:.18em;
+            color: rgba(100,116,139,1);
+            transition: background .15s ease, transform .15s ease;
+            white-space:nowrap;
+          }
+          .trash-btn:hover{ background: rgba(248,250,252,1); transform: translateY(-1px); }
+        </style>
+        `
+    }
   </section>
-`;
+  `;
+};
+
 
 // views/blogs.ts
 
@@ -1312,6 +2050,34 @@ export const renderBlog = (state: any) => {
 
 
 export const renderAdmin = (state: any) => {
+
+const escapeHtml = (s: string) =>
+  String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+const uniq = (arr: any[]) =>
+  Array.from(new Set(arr.map(x => String(x || "").trim()).filter(Boolean)));
+
+const productPool = Array.isArray(state.products) ? state.products : [];
+const categoryOptions = uniq(productPool.map((p: any) => p.category));
+const keyIngredientOptions = uniq(productPool.map((p: any) => p.keyIngredient));
+const scentOptions = uniq(productPool.map((p: any) => p.scent));
+const targetOptions = uniq(productPool.map((p: any) => p.target));
+
+const opt = (list: string[], selected?: string) =>
+  list
+    .map(
+      v =>
+        `<option value="${escapeHtml(v)}" ${
+          v === selected ? "selected" : ""
+        }>${escapeHtml(v)}</option>`
+    )
+    .join("");
+
   const tab = state.adminTab || "dashboard";
   const editingProduct = state.editingId
     ? state.products.find((p: any) => p.id === state.editingId)
@@ -1519,105 +2285,212 @@ export const renderAdmin = (state: any) => {
         }
 
         <!-- PRODUCTS -->
+${
+  tab === "products"
+    ? `
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <!-- FORM -->
+    <div class="lg:col-span-5">
+      <div class="rounded-[40px] bg-slate-50 border border-slate-200 p-8">
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl md:text-3xl font-serif text-handora-dark">
+            ${state.editingId ? "Edit Product" : "Add New Product"}
+          </h2>
+          <span class="px-4 py-2 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.45em] text-slate-500">
+            Products
+          </span>
+        </div>
+
         ${
-          tab === "products"
-            ? `
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <!-- FORM -->
-            <div class="lg:col-span-5">
-              <div class="rounded-[40px] bg-slate-50 border border-slate-200 p-8">
-                <div class="flex items-center justify-between">
-                  <h2 class="text-2xl md:text-3xl font-serif text-handora-dark">
-                    ${state.editingId ? "Edit Product" : "Add New Product"}
-                  </h2>
-                  <span class="px-4 py-2 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.45em] text-slate-500">
-                    Products
-                  </span>
-                </div>
-
-                <form onsubmit="saveProduct(event)" class="mt-7 grid grid-cols-1 gap-5">
-                  <input id="p-name" type="text" placeholder="Product Name" required
-                    value="${editingProduct?.name || ""}"
-                    class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
-
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input id="p-price" type="number" step="0.01" placeholder="Giá (VND)" required
-                      value="${editingProduct?.price || ""}"
-                      class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
-
-                    <select id="p-category"
-                      class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
-                      <option value="Hand Rituals" ${editingProduct?.category === "Hand Rituals" ? "selected" : ""}>Hand Rituals</option>
-                      <option value="Skin Therapy" ${editingProduct?.category === "Skin Therapy" ? "selected" : ""}>Skin Therapy</option>
-                    </select>
-                  </div>
-
-                  <textarea id="p-desc" placeholder="Brief Description" required
-                    class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none h-32 focus:ring-2 ring-handora-green/20"
-                  >${editingProduct?.desc || ""}</textarea>
-
-                  <div class="flex items-center gap-4">
-                    <label class="flex-grow bg-white border-2 border-dashed border-slate-200 rounded-2xl px-6 py-4 text-center cursor-pointer hover:bg-slate-50 transition-all">
-                      <span class="text-[10px] font-black uppercase text-slate-400 tracking-[0.35em]">Upload Product Image</span>
-                      <input type="file" onchange="handleImageUpload(event)" accept="image/*" class="hidden">
-                    </label>
-                    ${state.tempImg || editingProduct?.img ? `<img src="${state.tempImg || editingProduct?.img}" class="w-16 h-16 rounded-2xl object-cover shadow-md border border-white" />` : ""}
-                  </div>
-
-                  <div class="flex gap-3 pt-2">
-                    <button type="submit" class="flex-grow btn-shimmer text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
-                      ${state.editingId ? "Update" : "Create"}
-                    </button>
-                    ${
-                      state.editingId
-                        ? `<button type="button" onclick="editProduct(null); renderApp();"
-                             class="px-6 py-4 rounded-2xl bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.35em] text-slate-600 hover:bg-slate-50 transition-all">
-                             Cancel
-                           </button>`
-                        : ""
-                    }
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <!-- LIST -->
-            <div class="lg:col-span-7">
-              <div class="flex items-end justify-between mb-5">
-                <h3 class="text-2xl md:text-3xl font-serif text-handora-dark">Manage Products</h3>
-                <p class="text-slate-400 text-sm">${productsCount} items</p>
-              </div>
-
-              <div class="space-y-3">
-                ${state.products.map((p: any) => `
-                  <div class="group flex justify-between items-center p-5 bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                    <div class="flex items-center gap-4">
-                      <img src="${p.img}" class="w-14 h-14 object-cover rounded-2xl border border-slate-100" />
-                      <div>
-                        <div class="font-extrabold text-handora-dark">${p.name}</div>
-                        <div class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-400 mt-1">
-                          ${p.category} • ${formatVND(p.price)}
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex gap-2">
-                      <button onclick="editProduct('${p.id}'); renderApp();"
-                        class="px-4 py-2 rounded-full bg-slate-100 text-handora-green text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-200 transition-all">
-                        Edit
-                      </button>
-                      <button onclick="deleteProduct('${p.id}');"
-                        class="px-4 py-2 rounded-full bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-red-100 transition-all">
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        `
+          // init adminVariants for "new product" scenario
+          (!Array.isArray(state.adminVariants) || state.adminVariants.length === 0)
+            ? (() => {
+                state.adminVariants = [{ size: "250ml", price: 69000 }];
+                return "";
+              })()
             : ""
         }
+
+        <form onsubmit="saveProduct(event)" class="mt-7 grid grid-cols-1 gap-5">
+          <input id="p-name" type="text" placeholder="Name" required
+            value="${escapeHtml(editingProduct?.name || "")}"
+            class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20" />
+
+          <!-- SELECTS from INITIAL_PRODUCTS / state.products -->
+          <select id="p-category" required
+            class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
+            <option value="">Select category…</option>
+            ${opt(categoryOptions, editingProduct?.category)}
+          </select>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select id="p-keyIngredient" required
+              class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
+              <option value="">Key ingredient…</option>
+              ${opt(keyIngredientOptions, editingProduct?.keyIngredient)}
+            </select>
+
+            <select id="p-scent"
+              class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
+              <option value="">Scent…</option>
+              ${opt(scentOptions, editingProduct?.scent)}
+            </select>
+          </div>
+
+          <select id="p-target"
+            class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
+            <option value="">Target…</option>
+            ${opt(targetOptions, editingProduct?.target)}
+          </select>
+
+          <textarea id="p-description" placeholder="Description" required
+            class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none h-32 focus:ring-2 ring-handora-green/20"
+          >${escapeHtml(editingProduct?.description || "")}</textarea>
+
+          <input id="p-tags" type="text" placeholder="Tags (comma separated) e.g. Vegan, Daily Use"
+            value="${escapeHtml(Array.isArray(editingProduct?.tags) ? editingProduct.tags.join(", ") : "")}"
+            class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20" />
+
+          <!-- VARIANTS EDITOR (modern) -->
+          <div class="rounded-[28px] bg-slate-50 border border-slate-200 p-6">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Variants</div>
+                <div class="mt-1 text-sm font-extrabold text-handora-dark">Sizes & prices</div>
+              </div>
+
+              <button type="button"
+                onclick="syncVariantsFromDOM(); addVariantRow();"
+                class="px-4 py-2 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.35em] text-slate-700 hover:bg-slate-50 transition-all">
+                + Add
+              </button>
+            </div>
+
+            <div class="mt-4 space-y-3">
+              ${(state.adminVariants || []).map((v: any, idx: number) => `
+                <div data-variant-row="1" class="flex items-center gap-3">
+                  <input data-variant-size="1" type="text" placeholder="Size (e.g. 250ml / 500ml / 1L / Set)"
+                    value="${escapeHtml(v.size || "")}"
+                    class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 ring-handora-green/20" />
+
+                  <input data-variant-price="1" type="number" step="1" placeholder="Price"
+                    value="${Number(v.price || 0)}"
+                    class="w-44 bg-white border border-slate-200 rounded-2xl px-4 py-3 outline-none focus:ring-2 ring-handora-green/20" />
+
+                  <button type="button"
+                    onclick="syncVariantsFromDOM(); removeVariantRow(${idx});"
+                    class="w-12 h-12 rounded-2xl bg-red-50 text-red-500 border border-red-100 font-black hover:bg-red-100 transition-all"
+                    title="Remove">
+                    ×
+                  </button>
+                </div>
+              `).join("")}
+            </div>
+
+            <p class="mt-3 text-xs text-slate-400">
+              Add multiple sizes & pricing. At least 1 variant is required.
+            </p>
+          </div>
+
+          <!-- IMAGE -->
+          <div class="flex items-center gap-4">
+            <label class="flex-grow bg-white border-2 border-dashed border-slate-200 rounded-2xl px-6 py-4 text-center cursor-pointer hover:bg-slate-50 transition-all">
+              <span class="text-[10px] font-black uppercase text-slate-400 tracking-[0.35em]">Upload Product Image</span>
+              <input type="file" onchange="handleImageUpload(event)" accept="image/*" class="hidden">
+            </label>
+            ${state.tempImg || editingProduct?.img ? `<img src="${state.tempImg || editingProduct?.img}" class="w-16 h-16 rounded-2xl object-cover shadow-md border border-white" />` : ""}
+          </div>
+
+          <div class="flex gap-3 pt-2">
+            <button type="submit"
+              class="flex-grow btn-shimmer text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.4em] shadow-xl">
+              ${state.editingId ? "Update" : "Create"}
+            </button>
+
+            ${
+              state.editingId
+                ? `<button type="button" onclick="editProduct(null); renderApp();"
+                     class="px-6 py-4 rounded-2xl bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.35em] text-slate-600 hover:bg-slate-50 transition-all">
+                     Cancel
+                   </button>`
+                : ""
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- LIST -->
+    <div class="lg:col-span-7">
+      <div class="flex items-end justify-between mb-5">
+        <h3 class="text-2xl md:text-3xl font-serif text-handora-dark">Manage Products</h3>
+        <p class="text-slate-400 text-sm">${productsCount} items</p>
+      </div>
+
+      <div class="space-y-3">
+        ${state.products.map((p: any) => {
+          const variants = Array.isArray(p.variants) ? p.variants : [];
+          const prices = variants.map((v: any) => Number(v.price || 0)).filter((n: any) => !Number.isNaN(n));
+          const min = prices.length ? Math.min(...prices) : 0;
+          const max = prices.length ? Math.max(...prices) : 0;
+
+          const priceLabel =
+            variants.length === 0
+              ? "No variants"
+              : (min === max ? formatVND(min) : `${formatVND(min)} – ${formatVND(max)}`);
+
+          const tags = Array.isArray(p.tags) ? p.tags : [];
+
+          return `
+            <div class="group p-5 bg-white rounded-[28px] border border-slate-100 shadow-sm hover:shadow-md transition-all">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-4 min-w-0">
+                  <img src="${p.img}" class="w-14 h-14 object-cover rounded-2xl border border-slate-100 shrink-0" />
+                  <div class="min-w-0">
+                    <div class="font-extrabold text-handora-dark truncate">${escapeHtml(p.name || "—")}</div>
+                    <div class="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mt-1">
+                      ${escapeHtml(p.category || "—")} • ${priceLabel}
+                    </div>
+                    <div class="mt-2 text-xs text-slate-500 line-clamp-2">
+                      ${escapeHtml((p.description || "").toString())}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex gap-2 shrink-0 whitespace-nowrap">
+                  <button onclick="editProduct('${p.id}'); renderApp();"
+                    class="px-4 py-2 rounded-full bg-slate-100 text-handora-green text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-200 transition-all">
+                    Edit
+                  </button>
+                  <button onclick="deleteProduct('${p.id}');"
+                    class="px-4 py-2 rounded-full bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-red-100 transition-all">
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+              <div class="mt-4 flex flex-wrap gap-2">
+                ${p.keyIngredient ? `<span class="px-3 py-1 rounded-full bg-handora-light text-handora-green text-[10px] font-black uppercase tracking-[0.2em]">Key: ${escapeHtml(p.keyIngredient)}</span>` : ""}
+                ${p.scent ? `<span class="px-3 py-1 rounded-full bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-[0.2em]">Scent: ${escapeHtml(p.scent)}</span>` : ""}
+                ${p.target ? `<span class="px-3 py-1 rounded-full bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-[0.2em]">Target: ${escapeHtml(p.target)}</span>` : ""}
+                ${tags.slice(0, 6).map((t: string) => `
+                  <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-[0.2em]">
+                    ${escapeHtml(t)}
+                  </span>
+                `).join("")}
+                ${tags.length > 6 ? `<span class="text-xs text-slate-400 italic">+${tags.length - 6} more</span>` : ""}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  </div>
+`
+    : ""
+}
+
+
 
         <!-- BLOGS -->
         ${
