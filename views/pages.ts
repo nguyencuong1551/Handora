@@ -1,6 +1,14 @@
 import banner from "/Images/banner.png";
 import banner1 from "/Images/banner1.png";
 
+const formatVND = (n: any) =>
+  Number(n || 0).toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    maximumFractionDigits: 0
+  });
+
+
 export const renderHome = (state: any) => `
   <div class="overflow-x-hidden">
     <!-- HERO -->
@@ -142,7 +150,7 @@ export const renderHome = (state: any) => `
             ${p.name}
           </h3>
           <p class="text-lg font-light text-handora-green whitespace-nowrap">
-            $${Number(p.price).toFixed(2)}
+${formatVND(p.price)}
           </p>
         </div>
 
@@ -288,12 +296,12 @@ export const renderHome = (state: any) => `
         100% { transform: translateY(0); opacity: .4; }
       }
       /* safe line clamp if not installed */
-      .line-clamp-3{
-        display:-webkit-box;
-        -webkit-line-clamp:3;
-        -webkit-box-orient:vertical;
-        overflow:hidden;
-      }
+       .line-clamp-3{
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
     </style>
   </div>
 `;
@@ -462,22 +470,67 @@ export const renderShop = (state: any) => {
             ${filtered
               .map(
                 (p: any) => `
-              <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full">
-                <div class="aspect-[4/5] overflow-hidden relative">
-                  <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
-                </div>
-                <div class="p-10 flex flex-col flex-grow">
-                  <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-2xl font-serif text-slate-800">${p.name}</h3>
-                    <p class="text-lg font-light text-handora-green">$${Number(p.price).toFixed(2)}</p>
-                  </div>
-                  <p class="text-slate-400 text-sm mb-10">${p.desc}</p>
-                  <button onclick="addToBag('${p.id}')"
-                    class="w-full border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all mt-auto">
-                    Add to Bag
-                  </button>
-                </div>
-              </div>
+          <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full border border-slate-100">
+  <!-- IMAGE -->
+  <div class="aspect-[4/5] overflow-hidden relative">
+    <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+
+    <!-- gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+   
+
+    <!-- OPTIONAL BADGE -->
+    <div class="absolute left-5 bottom-5 px-4 py-2 rounded-full bg-white/75 backdrop-blur border border-white/60 text-[10px] font-black uppercase tracking-[0.35em] text-slate-700 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+      ${p.category || "Ritual"}
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="p-8 flex flex-col flex-grow">
+    <!-- title + price -->
+    <div class="flex items-start justify-between gap-4">
+      <h3 class="text-2xl font-serif text-slate-800 leading-snug min-h-[3.25rem]">
+        ${p.name}
+      </h3>
+      <div class="text-right">
+        <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Price</div>
+        <div class="mt-1 text-lg font-extrabold text-handora-green whitespace-nowrap">
+          ${formatVND(p.price)}
+        </div>
+      </div>
+    </div>
+
+    <!-- desc -->
+    <p class="mt-3 text-slate-500 text-sm line-clamp-3 min-h-[4.5rem]">
+      ${p.desc}
+    </p>
+
+    <!-- actions -->
+    <div class="mt-auto pt-6 flex items-center gap-3">
+      <button
+        onclick="addToBag('${p.id}')"
+        class="flex-1 border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
+      >
+        Add to Bag
+      </button>
+
+      <button
+        onclick="toggleFavorite('${p.id}')"
+        class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-all"
+        title="Toggle favorite"
+        aria-label="Toggle favorite"
+      >
+        ${
+          (state.favorites || []).includes(String(p.id))
+            ? `<span class="text-red-500 text-xl leading-none">♥</span>`
+            : `<span class="text-slate-400 text-xl leading-none">♡</span>`
+        }
+      </button>
+    </div>
+  </div>
+</div>
+
             `
               )
               .join("")}
@@ -744,7 +797,7 @@ export const renderCart = (state: any) => `
                   <img src="${item.img}" class="w-20 h-20 rounded-2xl object-cover" />
                   <div>
                     <p class="text-xl font-serif">${item.name}</p>
-                    <p class="text-sm text-slate-500">Unit: $${Number(item.price).toFixed(2)}</p>
+                    <p class="text-sm text-slate-500">Unit: ${formatVND(item.price)}</p>
                   </div>
                </div>
                <div class="flex items-center gap-3">
@@ -755,7 +808,7 @@ export const renderCart = (state: any) => `
           </div>
         `).join('')}
         <div class="pt-12 text-right">
-           <p class="text-4xl font-serif mb-8 text-handora-dark">Total: $${state.cart.reduce((s: number, i: any) => s + (i.price * (i.qty || 1)), 0).toFixed(2)}</p>
+           <p class="text-4xl font-serif mb-8 text-handora-dark">Total: ${formatVND(state.cart.reduce((s: number, i: any) => s + (i.price * (i.qty || 1)), 0))}</p>
            <button onclick="handleCheckout()" class="btn-shimmer text-white px-14 py-6 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-xl">Complete Ritual</button>
         </div>
       </div>
@@ -1243,7 +1296,7 @@ export const renderAdmin = (state: any) => {
     const email = o.customer?.email || "—";
     const phone = o.customer?.phone || "—";
     const address = o.customer?.address || o.address || "—";
-    const total = Number(o.total || 0).toFixed(2);
+    const total = Number(o.total || 0);
     const isFake = !!o.isFake;
 
     return `
@@ -1286,7 +1339,7 @@ export const renderAdmin = (state: any) => {
               <div>
                 <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Total</div>
                 <div class="mt-1 text-lg font-extrabold ${isFake ? "text-red-500" : "text-handora-green"}">
-                  $${total}
+                  ${formatVND(total)}
                 </div>
               </div>
             </div>
@@ -1386,7 +1439,7 @@ export const renderAdmin = (state: any) => {
                     class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
 
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input id="p-price" type="number" step="0.01" placeholder="Price ($)" required
+                    <input id="p-price" type="number" step="0.01" placeholder="Giá (VND)" required
                       value="${editingProduct?.price || ""}"
                       class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:ring-2 ring-handora-green/20">
 
@@ -1441,7 +1494,7 @@ export const renderAdmin = (state: any) => {
                       <div>
                         <div class="font-extrabold text-handora-dark">${p.name}</div>
                         <div class="text-[11px] font-black uppercase tracking-[0.35em] text-slate-400 mt-1">
-                          ${p.category} • $${Number(p.price).toFixed(2)}
+                          ${p.category} • ${formatVND(p.price)}
                         </div>
                       </div>
                     </div>

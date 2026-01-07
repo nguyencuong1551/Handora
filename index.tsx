@@ -21,6 +21,8 @@ import blog6 from "/Images/sp6.png";
 // --- TYPES & GLOBALS ---
 declare global {
   interface Window {
+toggleFavorite: (id: string) => void;
+
     navigate: (page: string) => void;
     addToBag: (id: string) => void;
     removeFromBag: (index: number) => void;
@@ -62,10 +64,10 @@ setShopSort: (v: string) => void;
 
 // --- DATA ---
 const INITIAL_PRODUCTS = [
-  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 18.00, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: sp1, tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
-  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 16.00, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: sp2, tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
-  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 17.50, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: sp3, tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
-  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 22.00, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: sp4, tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
+  { id: '1', name: 'Pomelo Peel Wash', category: 'Hand Rituals', price: 180000, desc: 'Natural pomelo extracts gently cleanse while maintaining essential moisture.', img: sp1, tag: 'Refreshing', ingredients: ['Cold-pressed Pomelo', 'Vitamin E'] },
+  { id: '2', name: 'Green Tea Revitalizer', category: 'Hand Rituals', price: 160000, desc: 'Antioxidant-rich soap that protects sensitive skin with botanical barrier.', img: sp2, tag: 'Detoxifying', ingredients: ['Matcha Leaf', 'Glycerin'] },
+  { id: '3', name: 'Aloe Vera Calm', category: 'Hand Rituals', price: 175000, desc: 'Instant hydration boost with organic, succulent aloe vera juices.', img: sp3, tag: 'Soothing', ingredients: ['Inner Fillet Aloe', 'Cucumber'] },
+  { id: '4', name: 'Lavender Hand Balm', category: 'Skin Therapy', price: 220000, desc: 'Soothe your mind and nourish your hands with calming lavender essence.', img: sp4, tag: 'Nocturnal', ingredients: ['Organic Lavender', 'Shea Butter'] }
 ];
 
 
@@ -139,6 +141,9 @@ const INITIAL_BLOGS = [
   }
 ];
 
+const favKeyFor = (email?: string) =>
+  `handora_favorites_${String(email || "guest").toLowerCase()}`;
+
 let state: any = {
   currentPage: 'home',
   cart: [],
@@ -153,6 +158,8 @@ let state: any = {
   products: JSON.parse(localStorage.getItem('handora_products') || JSON.stringify(INITIAL_PRODUCTS)),
   editingId: null,
   tempImg: '',
+favorites: [],
+
 
   // shop filters
 shopSearch: '',
@@ -254,6 +261,25 @@ const renderAppPreserveInput = (focusId: string) => {
     }
   }
 };
+
+window.toggleFavorite = (id: string) => {
+  if (!state.user) {
+    window.openAuth();
+    return;
+  }
+
+  const idStr = String(id);
+  const favs: string[] = Array.isArray(state.favorites) ? state.favorites : [];
+
+  const exists = favs.includes(idStr);
+  const next = exists ? favs.filter(x => x !== idStr) : [idStr, ...favs];
+
+  state.favorites = next;
+  localStorage.setItem(favKeyFor(state.user.email), JSON.stringify(next));
+
+  renderApp();
+};
+
 
 // expose renderApp and state to global window so inline onclick handlers can access them
 window.renderApp = renderApp as any;
@@ -422,6 +448,40 @@ window.deleteBlog = (id: string) => {
   }
 };
 
+window.showToast = (
+  msg: string,
+  type: "info" | "error" | "success" = "info"
+) => {
+  const old = document.getElementById("handora-toast");
+  if (old) old.remove();
+
+  const colors = {
+    info: "bg-handora-dark",
+    success: "bg-handora-green",
+    error: "bg-red-500"
+  };
+
+  const t = document.createElement("div");
+  t.id = "handora-toast";
+  t.innerText = msg;
+  t.className = `
+    fixed right-6 top-6 z-[9999]
+    ${colors[type]}
+    text-white text-[13px] font-bold
+    px-5 py-3 rounded-2xl shadow-2xl
+    animate-[toastIn_.28s_cubic-bezier(.16,1,.3,1)]
+  `;
+
+  document.body.appendChild(t);
+
+  setTimeout(() => {
+    t.classList.add("animate-[toastOut_.2s_ease-in]");
+    setTimeout(() => t.remove(), 180);
+  }, 2000);
+};
+
+
+
 // --- GLOBAL ACTIONS ---
 window.addToBag = (id: string) => {
   const idStr = String(id);
@@ -534,7 +594,7 @@ const createOrderFromCart = () => {
 window.handleCheckout = () => {
   // If cart empty, don't proceed
   if (!state.cart || state.cart.length === 0) {
-    alert("Your ritual bag is empty.");
+  showToast("Your ritual bag is empty.", "error");
     return;
   }
 
@@ -552,7 +612,7 @@ window.handleCheckout = () => {
     return;
   }
 
-  alert("Order placed. Nature is on the way.");
+  showToast("Order placed successfully 🌿", "success");
   state.cart = [];
   updateCartUI();
   state.pendingCheckout = false;
@@ -581,7 +641,7 @@ window.handleAuth = (e: Event) => {
   if (found) {
     const ok = found.password === btoa(pass);
     if (!ok) {
-      alert('Wrong password.');
+showToast("Incorrect password.", "error");
       return;
     }
   } else {
@@ -589,7 +649,7 @@ window.handleAuth = (e: Event) => {
     // if not admin email, you can choose to block; for now keep simple demo:
     const isAdminTest = email.toLowerCase().includes('admin');
     if (!isAdminTest) {
-      alert("Account not found. Please register first.");
+showToast("Account not found. Please register first.", "error");
       return;
     }
   }
@@ -603,6 +663,9 @@ window.handleAuth = (e: Event) => {
   phone: found?.phone || '',
   address: found?.address || ''
 };
+state.favorites = JSON.parse(
+  localStorage.getItem(favKeyFor(state.user.email)) || "[]"
+);
 
 
   // Update Navbar for logged in user
@@ -840,7 +903,7 @@ window.runAI = async (skinType: string) => {
       `;
     }
   } catch (e) {
-    alert("AI service unavailable.");
+showToast("AI service is temporarily unavailable.", "error");
     state.quizLoading = false;
     renderApp();
   }
