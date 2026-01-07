@@ -155,7 +155,20 @@ free from harsh chemicals and suitable for all skin types.
 
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-  ${(state.products || []).slice(0, 4).map((p: any, i: number) => `
+
+
+${(() => {
+  const favs: string[] = Array.isArray(state.favorites) ? state.favorites.map(String) : [];
+  const isFav = (p: any) => favs.includes(String(p.id));
+
+  const homeProducts = [...(state.products || [])].sort((a: any, b: any) => {
+    const af = isFav(a) ? 1 : 0;
+    const bf = isFav(b) ? 1 : 0;
+    if (af !== bf) return bf - af; // fav lên trước
+    return 0; // trong nhóm giữ nguyên thứ tự
+  });
+
+  return homeProducts.slice(0, 4).map((p: any, i: number) => `
     <div
       class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full border border-slate-100"
       style="transition-delay:${i * 120}ms"
@@ -223,7 +236,12 @@ free from harsh chemicals and suitable for all skin types.
         </div>
       </div>
     </div>
-  `).join("")}
+  
+  `).join("");
+})()}
+
+
+
 </div>
 
 
@@ -380,6 +398,12 @@ export const renderShop = (state: any) => {
   const q = String(state.shopSearch || "").trim().toLowerCase();
   const category = state.shopCategory || "All";
 
+  const favs: string[] = Array.isArray(state.favorites)
+    ? state.favorites.map(String)
+    : [];
+  const isFav = (p: any) => favs.includes(String(p.id));
+
+  // 1️⃣ FILTER
   let filtered = [...(state.products || [])].filter((p: any) => {
     const name = String(p.name || "").toLowerCase();
     const desc = String(p.desc || "").toLowerCase();
@@ -392,7 +416,15 @@ export const renderShop = (state: any) => {
     return matchQuery && matchCat;
   });
 
+  // 2️⃣ SORT (❤️ FAVORITE → SORT OPTION)
   filtered.sort((a: any, b: any) => {
+    const af = isFav(a) ? 1 : 0;
+    const bf = isFav(b) ? 1 : 0;
+
+    // ❤️ favorites lên trước
+    if (af !== bf) return bf - af;
+
+    // ⬇️ trong cùng nhóm mới sort theo option
     const sa = String(a.name || "").toLowerCase();
     const sb = String(b.name || "").toLowerCase();
     const pa = Number(a.price || 0);
@@ -420,13 +452,16 @@ export const renderShop = (state: any) => {
 
   return `
   <section class="pt-44 pb-40 container mx-auto px-8">
+
     <!-- HEADER -->
     <div class="text-center mb-14 reveal-on-scroll">
       <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/80 border border-slate-200 text-[10px] font-black uppercase tracking-[0.55em] text-handora-green shadow-sm">
         <span class="w-1.5 h-1.5 rounded-full bg-handora-green"></span>
         Shop
       </span>
-      <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">The Ritual Collection</h1>
+      <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">
+        The Ritual Collection
+      </h1>
       <p class="max-w-2xl mx-auto mt-5 text-slate-400">
         Curated botanicals for daily hand rituals — cleanse, calm, and restore.
       </p>
@@ -436,28 +471,22 @@ export const renderShop = (state: any) => {
     <div class="max-w-5xl mx-auto mb-12 reveal-on-scroll">
       <div class="rounded-[28px] bg-white/80 backdrop-blur border border-slate-200 shadow-sm p-4 md:p-5">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-          <!-- Search -->
-          <div class="md:col-span-6">
-            <div class="flex items-center gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4 focus-within:ring-2 ring-handora-green/20">
-              <svg class="w-5 h-5 text-slate-400" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M10.5 19a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M16.8 16.8 22 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-             <input
-  id="shop-search"
-  type="text"
-  placeholder="Search by name, category, description..."
-  value="${state.shopSearch || ""}"
-  oninput="setShopSearch(this.value)"
-  onkeydown="if(event.key==='Enter'){ event.preventDefault(); return false; }"
-  class="w-full bg-transparent outline-none text-slate-700 placeholder:text-slate-400"
-/>
 
+          <!-- SEARCH -->
+          <div class="md:col-span-6">
+            <div class="flex items-center gap-3 bg-white border border-slate-200 rounded-2xl px-5 py-4">
+              <input
+                id="shop-search"
+                type="text"
+                placeholder="Search products..."
+                value="${state.shopSearch || ""}"
+                oninput="setShopSearch(this.value)"
+                class="w-full bg-transparent outline-none text-slate-700"
+              />
               ${
                 state.shopSearch
-                  ? `<button type="button"
-                      onclick="setShopSearch('')"
-                      class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-[0.25em] hover:bg-slate-200 transition-all">
+                  ? `<button onclick="setShopSearch('')"
+                      class="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-black uppercase">
                       Clear
                     </button>`
                   : ``
@@ -465,64 +494,39 @@ export const renderShop = (state: any) => {
             </div>
           </div>
 
-          <!-- Category select (pretty box) -->
+          <!-- CATEGORY -->
           <div class="md:col-span-3">
-            <div class="relative">
-              <select
-                onchange="setShopCategory(this.value)"
-                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-4 pr-12 outline-none focus:ring-2 ring-handora-green/20 text-slate-800 font-semibold shadow-[0_1px_0_rgba(15,23,42,0.03)]"
-              >
-                <option value="All" ${state.shopCategory === "All" ? "selected" : ""}>All Categories</option>
-                <option value="Hand Rituals" ${state.shopCategory === "Hand Rituals" ? "selected" : ""}>Hand Rituals</option>
-                <option value="Skin Therapy" ${state.shopCategory === "Skin Therapy" ? "selected" : ""}>Skin Therapy</option>
-              </select>
-
-              <!-- right icon -->
-              <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
-                <div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">
-                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <select
+              onchange="setShopCategory(this.value)"
+              class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4"
+            >
+              <option value="All" ${state.shopCategory === "All" ? "selected" : ""}>All Categories</option>
+              <option value="Hand Rituals" ${state.shopCategory === "Hand Rituals" ? "selected" : ""}>Hand Rituals</option>
+              <option value="Skin Therapy" ${state.shopCategory === "Skin Therapy" ? "selected" : ""}>Skin Therapy</option>
+            </select>
           </div>
 
-          <!-- Sort select (pretty box) -->
+          <!-- SORT -->
           <div class="md:col-span-3">
-            <div class="relative">
-              <select
-                onchange="setShopSort(this.value)"
-                class="w-full appearance-none bg-white border border-slate-200 rounded-2xl px-5 py-4 pr-12 outline-none focus:ring-2 ring-handora-green/20 text-slate-800 font-semibold shadow-[0_1px_0_rgba(15,23,42,0.03)]"
-              >
-                <option value="default" ${state.shopSort === "default" ? "selected" : ""}>Sort: Default</option>
-                <option value="price_asc" ${state.shopSort === "price_asc" ? "selected" : ""}>Price: Low → High</option>
-                <option value="price_desc" ${state.shopSort === "price_desc" ? "selected" : ""}>Price: High → Low</option>
-                <option value="name_asc" ${state.shopSort === "name_asc" ? "selected" : ""}>Name: A → Z</option>
-                <option value="name_desc" ${state.shopSort === "name_desc" ? "selected" : ""}>Name: Z → A</option>
-              </select>
-
-              <!-- right icon -->
-              <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
-                <div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">
-                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <select
+              onchange="setShopSort(this.value)"
+              class="w-full bg-white border border-slate-200 rounded-2xl px-5 py-4"
+            >
+              <option value="default" ${state.shopSort === "default" ? "selected" : ""}>Sort: Default</option>
+              <option value="price_asc" ${state.shopSort === "price_asc" ? "selected" : ""}>Price ↑</option>
+              <option value="price_desc" ${state.shopSort === "price_desc" ? "selected" : ""}>Price ↓</option>
+              <option value="name_asc" ${state.shopSort === "name_asc" ? "selected" : ""}>Name A → Z</option>
+              <option value="name_desc" ${state.shopSort === "name_desc" ? "selected" : ""}>Name Z → A</option>
+            </select>
           </div>
         </div>
 
-        <!-- Footer row -->
-        <div class="flex items-center justify-between mt-4 px-1">
-          <p class="text-slate-400 text-sm">${filtered.length} items</p>
-
+        <div class="flex justify-between mt-4 text-sm text-slate-400">
+          <span>${filtered.length} items</span>
           ${
             hasFilters
-              ? `<button type="button"
-                  onclick="setShopSearch(''); setShopCategory('All'); setShopSort('default');"
-                  class="px-5 py-2 rounded-full bg-white border border-slate-200 text-[10px] font-black uppercase tracking-[0.35em] text-slate-600 hover:bg-slate-50 transition-all">
+              ? `<button onclick="setShopSearch(''); setShopCategory('All'); setShopSort('default');"
+                  class="text-[10px] font-black uppercase">
                   Reset Filters
                 </button>`
               : ``
@@ -533,82 +537,55 @@ export const renderShop = (state: any) => {
 
     ${
       filtered.length === 0
-        ? `<div class="text-center text-slate-400 py-16 reveal-on-scroll">No products found.</div>`
+        ? `<p class="text-center text-slate-400">No products found.</p>`
         : `
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            ${filtered
-              .map(
-                (p: any) => `
-          <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all reveal-on-scroll flex flex-col h-full border border-slate-100">
-  <!-- IMAGE -->
-  <div class="aspect-[4/5] overflow-hidden relative">
-    <img src="${p.img}" class="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          ${filtered.map((p: any) => `
+            <div class="group bg-white rounded-[50px] overflow-hidden shadow-sm hover:shadow-2xl transition-all flex flex-col border border-slate-100">
+              <div class="aspect-[4/5] relative overflow-hidden">
+                <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
 
-    <!-- gradient overlay -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <!-- FAVORITE -->
+                <button
+                  onclick="toggleFavorite('${p.id}')"
+                  class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/80 flex items-center justify-center"
+                >
+                  ${
+                    isFav(p)
+                      ? `<span class="text-red-500 text-xl">♥</span>`
+                      : `<span class="text-slate-400 text-xl">♡</span>`
+                  }
+                </button>
+              </div>
 
-   
+              <div class="p-8 flex flex-col flex-grow">
+                <div class="flex justify-between gap-3">
+                  <h3 class="text-2xl font-serif text-slate-800">${p.name}</h3>
+                  <div class="text-handora-green font-extrabold">
+                    ${formatVND(p.price)}
+                  </div>
+                </div>
 
-    <!-- OPTIONAL BADGE -->
-    <div class="absolute left-5 bottom-5 px-4 py-2 rounded-full bg-white/75 backdrop-blur border border-white/60 text-[10px] font-black uppercase tracking-[0.35em] text-slate-700 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
-      ${p.category || "Ritual"}
-    </div>
-  </div>
+                <p class="mt-3 text-slate-500 text-sm line-clamp-3">${p.desc}</p>
 
-  <!-- CONTENT -->
-  <div class="p-8 flex flex-col flex-grow">
-    <!-- title + price -->
-    <div class="flex items-start justify-between gap-4">
-      <h3 class="text-2xl font-serif text-slate-800 leading-snug min-h-[3.25rem]">
-        ${p.name}
-      </h3>
-      <div class="text-right">
-        <div class="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400">Price</div>
-        <div class="mt-1 text-lg font-extrabold text-handora-green whitespace-nowrap">
-          ${formatVND(p.price)}
+                <div class="mt-auto pt-6 flex gap-3">
+                  <button
+                    onclick="addToBag('${p.id}')"
+                    class="flex-1 border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
+                  >
+                    Add to Bag
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join("")}
         </div>
-      </div>
-    </div>
-
-    <!-- desc -->
-    <p class="mt-3 text-slate-500 text-sm line-clamp-3 min-h-[4.5rem]">
-      ${p.desc}
-    </p>
-
-    <!-- actions -->
-    <div class="mt-auto pt-6 flex items-center gap-3">
-      <button
-        onclick="addToBag('${p.id}')"
-        class="flex-1 border-2 border-handora-green/20 text-handora-green py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-handora-green hover:text-white transition-all"
-      >
-        Add to Bag
-      </button>
-
-      <button
-        onclick="toggleFavorite('${p.id}')"
-        class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-all"
-        title="Toggle favorite"
-        aria-label="Toggle favorite"
-      >
-        ${
-          (state.favorites || []).includes(String(p.id))
-            ? `<span class="text-red-500 text-xl leading-none">♥</span>`
-            : `<span class="text-slate-400 text-xl leading-none">♡</span>`
-        }
-      </button>
-    </div>
-  </div>
-</div>
-
-            `
-              )
-              .join("")}
-          </div>
         `
     }
   </section>
   `;
 };
+
 
 
 export const renderAbout = (state: any) => `
