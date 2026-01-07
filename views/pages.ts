@@ -82,7 +82,7 @@ export const renderHome = (state: any) => `
             </span>
 
             <h2 class="text-4xl font-serif text-handora-dark leading-none">
-              Cleanse. Calm.
+              
               <span class="italic text-handora-green">
                 Gentle Care For<br>
                 Frequent<br>
