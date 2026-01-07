@@ -113,16 +113,16 @@ const TEAM = [
 const INITIAL_BLOGS = [
   {
     id: 'b1',
-    title: 'The Gentle Art of Hand Rituals',
-    excerpt: 'How a short, mindful hand-care ritual can reset your day and soothe the senses.',
-    content: `In a world rushing forward, slow rituals anchor us. This piece explores a simple three-step hand ritual using citrus and botanical cleansers to refresh, followed by balm to seal in moisture. Learn how scent, texture, and rhythm combine to create a small daily ceremony that supports wellbeing.`,
+    title: 'The Role of Vegan Ingredients in Daily Hand Care',
+    excerpt: 'An overview of plant-based ingredients commonly used in gentle hand wash and how they support everyday skin comfort.',
+    content: `An overview of plant-based ingredients commonly used in gentle hand wash and how they support everyday skin comfort.`,
     img: blog6 
   },
   {
     id: 'b2',
-    title: 'Matcha & Calm: Using Antioxidants in Daily Care',
-    excerpt: 'Matcha extracts and green formulations for tired hands — benefits and how to use them.',
-    content: `Green tea derivatives bring antioxidant power to topical care. We discuss concentrations, pairing with humectants, and a simple evening balm ritual to fortify and soothe.`,
+    title: 'Why Gentle Hand Wash Matters for Frequent Daily Use',
+    excerpt: 'Explore how mild formulations help protect hands during frequent washing throughout the day.',
+    content: `Explore how mild formulations help protect hands during frequent washing throughout the day.`,
     img: blog5
   },
   {

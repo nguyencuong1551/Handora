@@ -29,13 +29,14 @@ export const renderHome = (state: any) => `
           Botanical Engineering
         </span>
 
-        <h1 class="text-7xl md:text-9xl font-serif text-slate-900 leading-tight mb-10">
-          Vegan <span class="italic font-light text-handora-green">Essence</span>,<br/>
-          Modern Rituals.
+        <h1 class="text-7xl md:text-8xl font-serif text-slate-900 leading-tight mb-10">
+          Gentle <span class="italic font-light text-handora-green">Vegan</span>,<br/>
+          Care for Everyday Hands.
         </h1>
 
         <p class="max-w-2xl mx-auto text-slate-600 text-lg md:text-xl leading-relaxed mb-12">
-          Skin-safe, cruelty-free hand care designed for everyday comfort — with refill-first sustainability.
+          Skin safe, plant-based hand wash designed for frequent daily use 
+free from harsh chemicals and suitable for all skin types.
         </p>
 
         <div class="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -43,7 +44,7 @@ export const renderHome = (state: any) => `
             Shop Now
           </button>
           <button onclick="navigate('quiz')" class="glass px-14 py-5 rounded-full text-slate-800 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-white transition-all shadow-xl">
-            AI Skin Consult
+            Skin & Washing Habit Quiz
           </button>
         </div>
 
@@ -71,60 +72,87 @@ export const renderHome = (state: any) => `
       </div>
     </section>
 
-    <!-- RITUAL STRIP -->
-    <section class="py-24 bg-white">
-      <div class="container mx-auto px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div class="lg:col-span-5 reveal-on-scroll">
-            <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">A Daily Ritual</span>
-            <h2 class="text-6xl font-serif text-handora-dark leading-none">
-              Cleanse. Calm. <span class="italic text-handora-green">Restore.</span>
-            </h2>
-            <p class="mt-8 text-slate-500 text-lg leading-relaxed">
-              A minimal hand-care system designed for frequent use — without stripping your skin’s natural balance.
-            </p>
-            <div class="mt-10 flex gap-3">
-              <button onclick="navigate('shop')" class="px-10 py-4 rounded-full bg-handora-green text-white text-[10px] font-black uppercase tracking-[0.35em] shadow-lg hover:shadow-xl transition-all">
-                Explore Products
-              </button>
-              <button onclick="navigate('about')" class="px-10 py-4 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all">
-                Learn More
-              </button>
-            </div>
-          </div>
+   <!-- RITUAL STRIP -->
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-5 reveal-on-scroll">
+        <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">
+          Daily Vegan Hand Care
+        </span>
 
-          <div class="lg:col-span-7">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              ${[
-                ["🌿", "Vegan & Ethical", "100% vegan and cruelty-free, made with respect for life."],
-                ["🤍", "Skin-Friendly", "Gentle formulas for comfortable daily use."],
-                ["♻️", "Sustainable", "Refill-oriented packaging to reduce plastic."]
-              ].map((x, i) => `
-                <div class="reveal-on-scroll p-8 rounded-[36px] bg-handora-light/35 border border-slate-200 shadow-sm hover:shadow-md transition-all"
-                     style="transition-delay:${i * 120}ms">
-                  <div class="text-4xl mb-6">${x[0]}</div>
-                  <div class="text-xl font-bold text-slate-800 mb-3">${x[1]}</div>
-                  <div class="text-slate-500 leading-relaxed">${x[2]}</div>
-                </div>
-              `).join("")}
-            </div>
-          </div>
+ <h2 class="text-4xl font-serif text-handora-dark leading-none">
+  Cleanse. Calm.
+  <span class="italic text-handora-green">
+    Gentle Care For<br>
+    Frequent<br>
+    Handwashing
+  </span>
+</h2>
+
+
+        <!-- 🔁 CHỈ THAY TEXT -->
+        <p class="mt-8 text-slate-500 text-lg leading-relaxed">
+          A gentle, vegan hand wash system designed for frequent daily use formulated
+          to cleanse effectively without disrupting the skin’s natural balance.
+        </p>
+
+        <div class="mt-10 flex gap-3">
+          <button onclick="navigate('shop')"
+            class="px-10 py-4 rounded-full bg-handora-green text-white text-[10px] font-black uppercase tracking-[0.35em] shadow-lg hover:shadow-xl transition-all">
+            Explore Products
+          </button>
+          <button onclick="navigate('about')"
+            class="px-10 py-4 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-[0.35em] hover:bg-slate-50 transition-all">
+            Learn More
+          </button>
         </div>
       </div>
-    </section>
+
+      <div class="lg:col-span-7">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          ${[
+            // 🔁 card 1
+            ["🌿", "Vegan & Ethical", "100% vegan and cruelty-free, responsibly formulated for everyday hygiene."],
+
+            // 🔁 card 2
+            ["🤍", "Skin-Friendly", "Designed for multiple washes per day without causing dryness or irritation."],
+
+            // giữ nguyên card 3
+            ["♻️", "Sustainable", "Refill-oriented packaging to reduce plastic."]
+          ].map((x, i) => `
+            <div class="reveal-on-scroll p-8 rounded-[36px] bg-handora-light/35 border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                 style="transition-delay:${i * 120}ms">
+              <div class="text-4xl mb-6">${x[0]}</div>
+              <div class="text-xl font-bold text-slate-800 mb-3">${x[1]}</div>
+              <div class="text-slate-500 leading-relaxed">${x[2]}</div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- FEATURED PRODUCTS (animated cards) -->
-    <section class="py-28 bg-handora-light/40">
+    <section class="py-16 bg-handora-light/40">
       <div class="container mx-auto px-8">
-        <div class="text-center mb-16 reveal-on-scroll">
-          <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">Featured</span>
-          <h2 class="text-6xl md:text-7xl font-serif text-handora-dark">
-            Best-Selling <span class="italic text-handora-green">Rituals</span>
-          </h2>
-          <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto">
-            A few essentials our customers keep coming back to.
-          </p>
-        </div>
+      <div class="text-center mb-10 reveal-on-scroll">
+  <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">
+    Featured
+  </span>
+
+  <!-- 🔁 chỉ thay text -->
+  <h2 class="text-6xl md:text-7xl font-serif text-handora-dark">
+    Best Selling <span class="italic text-handora-green">Daily Hand Care</span>
+  </h2>
+
+  <!-- 🔁 chỉ thay text -->
+  <p class="mt-6 text-slate-500 text-lg max-w-2xl mx-auto">
+    Our most popular vegan hand care products for everyday hygiene
+  </p>
+</div>
+
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
   ${(state.products || []).slice(0, 4).map((p: any, i: number) => `
@@ -210,7 +238,7 @@ export const renderHome = (state: any) => `
     </section>
 
     <!-- HOW IT WORKS (timeline) -->
-    <section class="py-28 bg-white">
+    <section class="py-16 bg-white">
       <div class="container mx-auto px-8">
         <div class="text-center mb-16 reveal-on-scroll">
           <span class="text-[10px] font-black uppercase tracking-[0.8em] text-handora-green mb-6 block">How it Works</span>
@@ -219,24 +247,37 @@ export const renderHome = (state: any) => `
           </h2>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          ${[
-            ["01", "Choose your ritual", "Pick a gentle wash and a therapy balm that fits your daily routine."],
-            ["02", "Use daily, safely", "Formulated for frequent use — designed to respect your skin barrier."],
-            ["03", "Refill & reduce waste", "Refill-oriented packaging for responsible consumption."]
-          ].map((s, i) => `
-            <div class="reveal-on-scroll rounded-[40px] border border-slate-200 bg-white p-10 shadow-sm hover:shadow-md transition-all"
-                 style="transition-delay:${i * 110}ms">
-              <div class="flex items-center justify-between">
-                <div class="text-[10px] font-black uppercase tracking-[0.45em] text-slate-400">Step</div>
-                <div class="text-3xl font-serif text-handora-green">${s[0]}</div>
-              </div>
-              <h3 class="mt-6 text-3xl font-serif text-slate-800">${s[1]}</h3>
-              <p class="mt-4 text-slate-500 leading-relaxed">${s[2]}</p>
-              <div class="mt-8 h-[2px] w-12 bg-handora-green/30"></div>
-            </div>
-          `).join("")}
-        </div>
+       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+  ${[
+    [
+      "01",
+      "Choose your hand wash",
+      "Select a gentle vegan hand wash that fits your daily hygiene routine."
+    ],
+    [
+      "02",
+      "Use daily with confidence",
+      "Formulated for frequent daily use while maintaining the skin’s natural barrier."
+    ],
+    [
+      "03",
+      "Refill and reduce waste",
+      "Refill-first packaging designed to support sustainable daily consumption."
+    ]
+  ].map((s, i) => `
+    <div class="reveal-on-scroll rounded-[40px] border border-slate-200 bg-white p-10 shadow-sm hover:shadow-md transition-all"
+         style="transition-delay:${i * 110}ms">
+      <div class="flex items-center justify-between">
+        <div class="text-[10px] font-black uppercase tracking-[0.45em] text-slate-400">Step</div>
+        <div class="text-3xl font-serif text-handora-green">${s[0]}</div>
+      </div>
+      <h3 class="mt-6 text-3xl font-serif text-slate-800">${s[1]}</h3>
+      <p class="mt-4 text-slate-500 leading-relaxed">${s[2]}</p>
+      <div class="mt-8 h-[2px] w-12 bg-handora-green/30"></div>
+    </div>
+  `).join("")}
+</div>
+
 
         <div class="text-center mt-16 reveal-on-scroll">
           <button onclick="navigate('quiz')" class="btn-shimmer px-14 py-5 rounded-full text-white font-bold text-[10px] uppercase tracking-[0.4em] shadow-2xl">
@@ -247,7 +288,7 @@ export const renderHome = (state: any) => `
     </section>
 
     <!-- BLOG TEASER -->
-    <section class="py-28 bg-handora-dark text-white relative overflow-hidden">
+    <section class="py-16 bg-handora-dark text-white relative overflow-hidden">
       <div class="absolute inset-0 opacity-20">
         <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-handora-green/40 blur-3xl animate-[float_12s_ease-in-out_infinite]"></div>
         <div class="absolute -bottom-28 -right-28 w-[520px] h-[520px] rounded-full bg-white/20 blur-3xl animate-[float_15s_ease-in-out_infinite]"></div>
@@ -256,12 +297,12 @@ export const renderHome = (state: any) => `
       <div class="container mx-auto px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div class="lg:col-span-6 reveal-on-scroll">
-            <span class="text-[10px] font-black uppercase tracking-[0.8em] text-white/70 mb-6 block">Journal</span>
+            <span class="text-[10px] font-black uppercase tracking-[0.8em] text-white/70 mb-6 block">Blog</span>
             <h2 class="text-6xl md:text-7xl font-serif leading-none">
-              Ritual Notes for <span class="italic text-handora-green">Better Care</span>
+              Hand Care <span class="italic text-handora-green">Journal</span>
             </h2>
             <p class="mt-8 text-white/70 text-lg leading-relaxed max-w-xl">
-              Short reads about ingredients, routines, and sustainable daily habits.
+              Short articles about vegan ingredients, gentle hand care routines.
             </p>
             <div class="mt-10">
               <button onclick="navigate('blogs')" class="px-12 py-5 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-black uppercase tracking-[0.35em] hover:bg-white/15 transition-all">
@@ -305,7 +346,7 @@ export const renderHome = (state: any) => `
               Shop Now
             </button>
             <button onclick="navigate('quiz')" class="px-14 py-5 rounded-full bg-white border border-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-[0.4em] hover:bg-slate-50 transition-all shadow-sm">
-              AI Skin Consult
+              Skin & Washing Habit Quiz
             </button>
           </div>
         </div>
