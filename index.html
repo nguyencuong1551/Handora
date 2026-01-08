@@ -380,6 +380,48 @@
       .sound-on{ animation: none; }
       .sound-btn, .sound-icon{ transition: none; }
     }
+
+/* ===== HANDORA Light Luxury Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 7px; /* mỏng hơn */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(242, 248, 242, 0.85);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #2a4536,
+    #3e6a52,
+    #2a4536
+  ); /* xanh nhạt hơn, ít đen */
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,255,255,0.6); /* viền mảnh hơn */
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.25),
+    0 4px 14px rgba(26,46,33,0.28); /* shadow nhẹ hơn */
+
+  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #315443,
+    #4a7c59,
+    #315443
+  );
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.35),
+    0 8px 22px rgba(26,46,33,0.38);
+}
+
+    
   </style>
 
   <script type="importmap">
@@ -390,6 +432,7 @@
       "react/": "https://esm.sh/react@^19.2.3/"
     }
   }
+  
   </script>
 </head>
 
@@ -719,22 +762,23 @@
 <script>
 (() => {
   const audio = document.getElementById("bg-audio");
-  const btn = document.getElementById("sound-toggle");
-  const icon = document.getElementById("sound-icon");
+  const btn   = document.getElementById("sound-toggle");
+  const icon  = document.getElementById("sound-icon");
   if (!audio || !btn || !icon) return;
 
   const KEY = "handora_audio_enabled";
-  if (localStorage.getItem(KEY) === null) localStorage.setItem(KEY, "1");
+  const VOL = 0.55;
 
-  let enabled = localStorage.getItem(KEY) === "1";
+  let enabled  = localStorage.getItem(KEY);
+  enabled = enabled === null ? true : (enabled === "1");
+
   let unlocked = false;
-  let trying = false;
+  let trying   = false;
+  let listenersAdded = false;
 
   const setButtonState = () => {
     btn.classList.toggle("sound-on", enabled);
     btn.classList.toggle("sound-muted", !enabled);
-
-    // swap icon
     icon.innerHTML = enabled
       ? `
         <path d="M11 5L6.5 8.5H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2.5L11 19V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -748,68 +792,110 @@
       `;
   };
 
-  // prime autoplay muted (allowed)
-  const prime = async () => {
+  const primeMuted = async () => {
     try {
-      audio.volume = 0.55;
-      audio.muted = true;
-      await audio.play();
+      audio.preload = "auto";
+      audio.volume = VOL;
+      audio.muted = true;          // luôn preload ở muted
+      audio.playsInline = true;
+      audio.load();
+      await audio.play();          // muted autoplay thường OK
     } catch {}
   };
 
-  const playIfAllowed = async () => {
-    if (!enabled) {
-      audio.muted = true;
-      return;
-    }
+  const unlock = () => {
+    if (!enabled) return;
     if (unlocked || trying) return;
-
     trying = true;
-    try {
-      audio.volume = 0.55;
-      audio.muted = false;   // IMPORTANT: unmute inside gesture handler
-      await audio.play();
-      unlocked = true;
-    } catch {
-      // if still blocked, keep muted; next gesture will retry
-      audio.muted = true;
-    } finally {
-      trying = false;
-    }
+
+    audio.volume = VOL;
+    audio.muted = false;
+
+    Promise.resolve(audio.play())
+      .then(() => {
+        unlocked = true;
+        removeGesture();
+      })
+      .catch(() => {
+        // vẫn bị chặn => quay lại muted và chờ gesture tiếp theo
+        audio.muted = true;
+      })
+      .finally(() => {
+        trying = false;
+      });
   };
 
-  // === THE KEY FIX ===
-  // Use wheel/touchstart/pointerdown/keydown as "activation" events.
-  // Register in CAPTURE to run as early as possible.
-  const activationEvents = ["wheel", "touchstart", "pointerdown", "keydown", "mousedown"];
-  const onActivate = () => playIfAllowed();
+  // ✅ các event "hợp lệ" hay dùng để unlock audio
+  // (bỏ scroll/wheel/mousemove vì không đáng tin)
+  const gestureEvents = [
+    "pointerdown",
+    "pointerup",
+    "mousedown",
+    "mouseup",
+    "touchstart",
+    "touchend",
+    "click",
+    "dblclick",
+    "keydown",
+    "keyup"
+  ];
 
-  activationEvents.forEach(ev => {
-    window.addEventListener(ev, onActivate, { passive: true, capture: true });
+  const addGesture = () => {
+    if (listenersAdded) return;
+    listenersAdded = true;
+    gestureEvents.forEach(ev => {
+      document.addEventListener(ev, unlock, { passive: true });
+    });
+  };
+
+  const removeGesture = () => {
+    if (!listenersAdded) return;
+    listenersAdded = false;
+    gestureEvents.forEach(ev => {
+      document.removeEventListener(ev, unlock);
+    });
+  };
+
+  // Khi user quay lại tab: nếu đã enable thì thử play lại (best-effort)
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && enabled && unlocked) {
+      // nếu OS pause audio khi background, cố resume
+      audio.muted = false;
+      audio.volume = VOL;
+      audio.play().catch(() => {});
+    }
   });
 
-  // Scroll event is optional (not reliable) - keep it as backup.
-  window.addEventListener("scroll", onActivate, { passive: true, capture: true });
-
   // Toggle button
-  btn.addEventListener("click", async (e) => {
+  btn.addEventListener("click", (e) => {
     e.preventDefault();
+
     enabled = !enabled;
     localStorage.setItem(KEY, enabled ? "1" : "0");
-    unlocked = false; // allow re-unlock
+
+    unlocked = false; // bắt buộc unlock lại để đảm bảo gesture context
     setButtonState();
 
     if (enabled) {
-      await playIfAllowed();  // click is definitely activation
+      addGesture();
+      unlock();       // click chính là gesture => thử bật luôn
     } else {
       audio.muted = true;
+      addGesture();   // vẫn giữ listener để nếu user bật lại thì unlock được
     }
   });
 
+  // Init
   setButtonState();
-  prime();
+  addGesture();
+  primeMuted();
+
+  if (!enabled) audio.muted = true;
 })();
 </script>
+
+
+
 
 
 
