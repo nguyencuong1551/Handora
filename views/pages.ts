@@ -595,10 +595,10 @@ export const renderShop = (state: any) => {
         Shop
       </span>
       <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">
-        The Ritual Collection
+HANDORA Daily Vegan Hand Wash Collection
       </h1>
       <p class="max-w-2xl mx-auto mt-5 text-slate-400">
-        Curated botanicals for daily hand rituals — cleanse, calm, and restore.
+        Curated vegan formulations for gentle, everyday hand hygiene.
       </p>
     </div>
 
@@ -1098,7 +1098,8 @@ export const renderAbout = (state: any) => `
           The <span class="italic text-handora-green">Collective</span>
         </h2>
         <p class="mt-8 text-slate-400 text-lg md:text-xl font-serif italic max-w-3xl mx-auto leading-relaxed">
-          A small group of specialists shaping every ritual — from extraction science to circular design.
+          The HANDORA Team
+A dedicated team shaping product quality, brand strategy, and customer experience.
         </p>
       </div>
 
@@ -1783,8 +1784,7 @@ export const renderBlogs = (state: any) => {
               </span>
 
               <h1 class="text-5xl md:text-6xl font-serif text-handora-dark leading-tight mt-6">
-                Botanical <span class="italic font-light text-handora-green">Stories</span>,<br/>
-                Slow <span class="italic font-light text-handora-green">Rituals</span>.
+                <span class="italic font-light text-handora-green">HANDORA</span> CARE JOURNAL 
               </h1>
 
               <p class="text-slate-500 text-base md:text-lg mt-5 leading-relaxed max-w-2xl">
@@ -1797,19 +1797,12 @@ A place where we document formulas, routines, and ingredient notes — so you ca
                   class="btn-shimmer px-9 py-4 rounded-2xl text-white text-[10px] font-black uppercase tracking-[0.4em] shadow-xl"
                 >
                   Explore Featured
-                </button>
-
-                <button
-                  onclick="navigate('shop')"
-                  class="px-9 py-4 rounded-2xl bg-slate-100 text-slate-700 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-slate-200 transition-all"
-                >
-                  Shop Rituals
-                </button>
+                </button>               
               </div>
 
               <div class="mt-6 flex items-center gap-5 text-slate-400 text-sm">
-                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-handora-green"></span> Science</div>
-                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-handora-accent"></span> Ritual</div>
+                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-handora-green"></span> Handcare</div>
+                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-handora-accent"></span> Ingredients</div>
                 <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-slate-300"></span> Sustainability</div>
               </div>
             </div>
