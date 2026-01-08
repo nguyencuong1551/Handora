@@ -1,5 +1,5 @@
-import banner from "/Images/banner.png";
-import banner1 from "/Images/banner1.png";
+import banner from "/Images/banner.jpg";
+import banner1 from "/Images/banner1.jpg";
 
 const formatVND = (n: any) =>
   Number(n || 0).toLocaleString("vi-VN", {
