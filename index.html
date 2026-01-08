@@ -283,7 +283,7 @@
     }
     .group:hover .logo-glow::before{ opacity:.9; filter: blur(8px); }
 
-    /* ====== NEW: premium sound button ====== */
+    /* ====== premium sound button ====== */
     .sound-btn{
       position: relative;
       width: 44px;
@@ -352,76 +352,135 @@
     }
     .sound-on{
       border-color: rgba(74,124,89,0.22);
+      animation: soundPulse 2.6s ease-in-out infinite;
     }
     .sound-on .sound-icon{
       color: rgba(74,124,89,0.95);
       transform: scale(1.04);
     }
-    .sound-on::before{
-      opacity: 0.95;
-    }
-    .sound-on{
-      animation: soundPulse 2.6s ease-in-out infinite;
-    }
+    .sound-on::before{ opacity: 0.95; }
 
     /* muted state */
     .sound-muted .sound-icon{
       color: rgba(26,46,33,0.55);
-      opacity: .85;
+      opacity: .9;
     }
-    .sound-muted::before{
-      opacity: .35;
+    .sound-muted::before{ opacity: .35; }
+    .sound-muted .sound-icon{ transform: scale(0.98); }
+
+    /* ===== NEW: animation đẹp để chú ý khi đang tắt ===== */
+    @keyframes handoraHint {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-2px) scale(1.02); }
+    }
+    @keyframes handoraGlow {
+      0%, 100% { box-shadow: 0 10px 30px rgba(26,46,33,0.10), inset 0 0 0 1px rgba(255,255,255,0.6); }
+      50%      { box-shadow: 0 16px 44px rgba(26,46,33,0.14), 0 0 0 1px rgba(74,124,89,0.18), 0 0 22px rgba(74,124,89,0.18), inset 0 0 0 1px rgba(255,255,255,0.7); }
+    }
+    .sound-muted{
+      animation: handoraHint 2.8s ease-in-out infinite, handoraGlow 3.2s ease-in-out infinite;
     }
     .sound-muted .sound-icon{
-      transform: scale(0.98);
+      filter: drop-shadow(0 0 10px rgba(74,124,89,0.18));
     }
 
     @media (prefers-reduced-motion: reduce){
       .sound-on{ animation: none; }
       .sound-btn, .sound-icon{ transition: none; }
+      .sound-muted{ animation: none; }
     }
 
-/* ===== HANDORA Light Luxury Scrollbar ===== */
-::-webkit-scrollbar {
-  width: 7px; /* mỏng hơn */
+    /* ===== HANDORA Light Luxury Scrollbar ===== */
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: rgba(242, 248, 242, 0.85); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #2a4536, #3e6a52, #2a4536);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25), 0 4px 14px rgba(26,46,33,0.28);
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #315443, #4a7c59, #315443);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35), 0 8px 22px rgba(26,46,33,0.38);
+    }
+    * { scrollbar-width: thin; scrollbar-color: #4a7c59 rgba(242,248,242,0.85); }
+
+
+    /* ===== HANDORA: luxury attention when OFF ===== */
+
+/* subtle float + glow (quiet luxury) */
+@keyframes handoraOffFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
 }
 
-::-webkit-scrollbar-track {
-  background: rgba(242, 248, 242, 0.85);
+@keyframes handoraOffGlow {
+  0%, 100% {
+    box-shadow:
+      0 10px 30px rgba(26,46,33,0.10),
+      inset 0 0 0 1px rgba(255,255,255,0.62);
+  }
+  50% {
+    box-shadow:
+      0 18px 52px rgba(26,46,33,0.14),
+      0 0 0 1px rgba(74,124,89,0.22),
+      0 0 20px rgba(74,124,89,0.16),
+      inset 0 0 0 1px rgba(255,255,255,0.72);
+  }
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    #2a4536,
-    #3e6a52,
-    #2a4536
-  ); /* xanh nhạt hơn, ít đen */
-  border-radius: 999px;
-
-  border: 1px solid rgba(255,255,255,0.6); /* viền mảnh hơn */
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.25),
-    0 4px 14px rgba(26,46,33,0.28); /* shadow nhẹ hơn */
-
-  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+/* light sweep highlight */
+@keyframes handoraSweep {
+  0%   { transform: translateX(-120%) rotate(18deg); opacity: 0; }
+  12%  { opacity: .55; }
+  28%  { opacity: 0; }
+  100% { transform: translateX(180%) rotate(18deg); opacity: 0; }
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    #315443,
-    #4a7c59,
-    #315443
-  );
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.35),
-    0 8px 22px rgba(26,46,33,0.38);
+/* apply to OFF state */
+.sound-muted.sound-btn{
+  animation:
+    handoraOffFloat 3.2s ease-in-out infinite,
+    handoraOffGlow  3.8s ease-in-out infinite;
 }
 
-    
+/* make the inner aura more "alive" but subtle */
+.sound-muted.sound-btn::before{
+  opacity: .55;
+  filter: blur(12px);
+}
+
+/* premium sweep streak (very subtle, not cheesy) */
+.sound-muted.sound-btn::after{
+  opacity: .22; /* base */
+}
+
+.sound-muted.sound-btn::after{
+  /* add a moving highlight layer using a pseudo overlay via background-image */
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,0)) ,
+    linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  background-size: auto, 120px 100%;
+  background-position: 0 0, -140px 0;
+  animation: handoraSweep 7.5s ease-in-out infinite;
+}
+
+/* icon: muted but still refined */
+.sound-muted .sound-icon{
+  opacity: .92;
+  color: rgba(26,46,33,0.60);
+  filter:
+    drop-shadow(0 0 12px rgba(74,124,89,0.18))
+    drop-shadow(0 0 26px rgba(74,124,89,0.10));
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .sound-muted.sound-btn{ animation: none; }
+  .sound-muted.sound-btn::after{ animation: none; }
+}
+
   </style>
 
   <script type="importmap">
@@ -432,6 +491,7 @@
       "react/": "https://esm.sh/react@^19.2.3/"
     }
   }
+
   
   </script>
 </head>
@@ -444,7 +504,6 @@
         <div class="logo-glow w-10 h-10 rounded-full overflow-hidden group-hover:rotate-12 group-hover:scale-105 transition-transform">
           <img src="Images/logo.jpg" alt="HANDORA logo" class="w-full h-full object-cover" loading="lazy" />
         </div>
-
         <span class="handora-wordmark hidden md:block" data-text="HANDORA">HANDORA</span>
       </div>
 
@@ -458,11 +517,9 @@
       <div class="flex items-center gap-6">
         <!-- Sound toggle (premium) -->
         <button id="sound-toggle" class="sound-btn" aria-label="Toggle sound" title="Sound">
-          <!-- icon swaps by JS -->
           <svg id="sound-icon" class="sound-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <!-- default icon will be replaced by JS -->
             <path d="M11 5L6.5 8.5H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2.5L11 19V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            <path d="M15 9a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M17.5 6.5a7 7 0 0 1 0 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
           </svg>
         </button>
 
@@ -486,8 +543,8 @@
   <!-- Main Content -->
   <main id="app-root" class="min-h-screen"></main>
 
-  <!-- Ambient Audio: autoplay muted để browser cho phép preload/play; unmute khi có gesture -->
-  <audio id="bg-audio" preload="auto" loop autoplay muted playsinline>
+  <!-- Ambient Audio: mặc định TẮT (không autoplay). Chỉ play khi user bấm nút sound -->
+  <audio id="bg-audio" preload="auto" loop playsinline>
     <source src="/Images/music.mp3" type="audio/mpeg" />
   </audio>
 
@@ -758,7 +815,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <!-- ====== NEW AUDIO ENGINE (gesture unlock + premium toggle) ====== -->
+<!-- ====== AUDIO ENGINE: always OFF, click to play (NO localStorage) ====== -->
 <script>
 (() => {
   const audio = document.getElementById("bg-audio");
@@ -766,19 +823,10 @@
   const icon  = document.getElementById("sound-icon");
   if (!audio || !btn || !icon) return;
 
-  const KEY = "handora_audio_enabled";
   const VOL = 0.55;
+  let enabled = false; // ✅ luôn OFF khi vào trang
 
-  let enabled  = localStorage.getItem(KEY);
-  enabled = enabled === null ? true : (enabled === "1");
-
-  let unlocked = false;
-  let trying   = false;
-  let listenersAdded = false;
-
-  const setButtonState = () => {
-    btn.classList.toggle("sound-on", enabled);
-    btn.classList.toggle("sound-muted", !enabled);
+  const renderIcon = () => {
     icon.innerHTML = enabled
       ? `
         <path d="M11 5L6.5 8.5H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2.5L11 19V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -792,109 +840,109 @@
       `;
   };
 
-  const primeMuted = async () => {
-    try {
-      audio.preload = "auto";
-      audio.volume = VOL;
-      audio.muted = true;          // luôn preload ở muted
-      audio.playsInline = true;
-      audio.load();
-      await audio.play();          // muted autoplay thường OK
-    } catch {}
+  const setButtonState = () => {
+    btn.classList.toggle("sound-on", enabled);
+    btn.classList.toggle("sound-muted", !enabled);
+    renderIcon();
   };
 
-  const unlock = () => {
-    if (!enabled) return;
-    if (unlocked || trying) return;
-    trying = true;
+  const stopAudio = () => {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.muted = true;
+  };
 
+  const startAudio = () => {
     audio.volume = VOL;
     audio.muted = false;
-
-    Promise.resolve(audio.play())
-      .then(() => {
-        unlocked = true;
-        removeGesture();
-      })
-      .catch(() => {
-        // vẫn bị chặn => quay lại muted và chờ gesture tiếp theo
-        audio.muted = true;
-      })
-      .finally(() => {
-        trying = false;
-      });
-  };
-
-  // ✅ các event "hợp lệ" hay dùng để unlock audio
-  // (bỏ scroll/wheel/mousemove vì không đáng tin)
-  const gestureEvents = [
-    "pointerdown",
-    "pointerup",
-    "mousedown",
-    "mouseup",
-    "touchstart",
-    "touchend",
-    "click",
-    "dblclick",
-    "keydown",
-    "keyup"
-  ];
-
-  const addGesture = () => {
-    if (listenersAdded) return;
-    listenersAdded = true;
-    gestureEvents.forEach(ev => {
-      document.addEventListener(ev, unlock, { passive: true });
+    audio.play().catch(() => {
+      enabled = false;
+      stopAudio();
+      setButtonState();
     });
   };
 
-  const removeGesture = () => {
-    if (!listenersAdded) return;
-    listenersAdded = false;
-    gestureEvents.forEach(ev => {
-      document.removeEventListener(ev, unlock);
-    });
-  };
+  // Init: luôn tắt
+  audio.preload = "auto";
+  audio.playsInline = true;
+  stopAudio();
+  setButtonState();
 
-  // Khi user quay lại tab: nếu đã enable thì thử play lại (best-effort)
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden && enabled && unlocked) {
-      // nếu OS pause audio khi background, cố resume
-      audio.muted = false;
-      audio.volume = VOL;
-      audio.play().catch(() => {});
-    }
-  });
-
-  // Toggle button
+  // Toggle on click
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-
     enabled = !enabled;
-    localStorage.setItem(KEY, enabled ? "1" : "0");
 
-    unlocked = false; // bắt buộc unlock lại để đảm bảo gesture context
+    if (enabled) startAudio();
+    else stopAudio();
+
     setButtonState();
-
-    if (enabled) {
-      addGesture();
-      unlock();       // click chính là gesture => thử bật luôn
-    } else {
-      audio.muted = true;
-      addGesture();   // vẫn giữ listener để nếu user bật lại thì unlock được
-    }
   });
-
-  // Init
-  setButtonState();
-  addGesture();
-  primeMuted();
-
-  if (!enabled) audio.muted = true;
 })();
 </script>
 
 
+
+<script>
+(() => {
+  const btn = document.getElementById("sound-toggle");
+  if (!btn) return;
+
+  let fired = false;
+
+  const isTypingField = (el) => {
+    if (!el) return false;
+    const tag = (el.tagName || "").toLowerCase();
+    return tag === "input" || tag === "textarea" || tag === "select" || el.isContentEditable;
+  };
+
+  const shouldIgnoreTarget = (e) => {
+    const t = e?.target;
+    return t && btn.contains(t); // đụng nút loa thì bỏ qua
+  };
+
+  const shouldIgnoreKey = (e) => {
+    // tránh auto bật khi user đang gõ text lung tung
+    // chỉ coi vài phím như "tương tác"
+    const allowed = ["Enter", " ", "Spacebar", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    return !allowed.includes(e.key);
+  };
+
+  const tryAutoEnableSound = (e) => {
+    if (fired) return;
+
+    // đang gõ form → bỏ qua
+    if (isTypingField(document.activeElement)) return;
+
+    // event có target và chạm vào nút loa → bỏ qua
+    if (shouldIgnoreTarget(e)) return;
+
+    // keydown: chỉ trigger với phím cho phép
+    if (e && e.type === "keydown" && shouldIgnoreKey(e)) return;
+
+    // chỉ bật khi đang mute
+    if (!btn.classList.contains("sound-muted")) {
+      fired = true;
+      return;
+    }
+
+    btn.click();   // bật nhạc
+    fired = true;  // chỉ bật 1 lần
+  };
+
+  // ✅ nhiều thao tác như click
+  const opts = { passive: true, capture: true };
+
+  window.addEventListener("click", tryAutoEnableSound, opts);
+  window.addEventListener("touchstart", tryAutoEnableSound, opts);
+
+  // thêm các thao tác khác
+  window.addEventListener("pointerdown", tryAutoEnableSound, opts); // chuột/touch/pen
+  window.addEventListener("wheel", tryAutoEnableSound, opts);       // lăn chuột
+  window.addEventListener("scroll", tryAutoEnableSound, opts);      // kéo scroll bar / trackpad
+  window.addEventListener("keydown", tryAutoEnableSound, { capture: true }); // keydown không passive được ổn định mọi nơi
+})();
+</script>
 
 
 
