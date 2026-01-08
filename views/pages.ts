@@ -1095,10 +1095,9 @@ export const renderAbout = (state: any) => `
           Management
         </span>
         <h2 class="text-7xl md:text-8xl font-serif text-handora-dark leading-none">
-          The <span class="italic text-handora-green">Collective</span>
+          The <span class="italic text-handora-green">Handora</span> Team
         </h2>
-        <p class="mt-8 text-slate-400 text-lg md:text-xl font-serif italic max-w-3xl mx-auto leading-relaxed">
-          The HANDORA Team
+        <p class="mt-8 text-slate-400 text-lg md:text-xl font-serif italic max-w-3xl mx-auto leading-relaxed">          
 A dedicated team shaping product quality, brand strategy, and customer experience.
         </p>
       </div>
