@@ -873,7 +873,7 @@ export const renderAbout = (state: any) => `
         About <span class="italic font-light text-handora-green">Us</span>
       </h1>
       <p class="text-2xl md:text-4xl font-serif italic text-slate-400 max-w-3xl mx-auto leading-relaxed">
-        Blending ancient plant intelligence with modern ethical standards.
+        Developing gentle, vegan hand care solutions for modern daily hygiene.
       </p>
     </section>
 
