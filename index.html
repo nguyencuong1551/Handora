@@ -282,6 +282,104 @@
         0 0 42px rgba(201,218,143,.55);
     }
     .group:hover .logo-glow::before{ opacity:.9; filter: blur(8px); }
+
+    /* ====== NEW: premium sound button ====== */
+    .sound-btn{
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(74,124,89,0.12);
+      box-shadow:
+        0 10px 30px rgba(26,46,33,0.10),
+        inset 0 0 0 1px rgba(255,255,255,0.6);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transform: translateZ(0);
+      transition: transform .25s cubic-bezier(0.16,1,0.3,1), box-shadow .35s cubic-bezier(0.16,1,0.3,1), background .35s;
+      overflow: hidden;
+    }
+    .sound-btn::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 30%, rgba(201,218,143,.55), rgba(74,124,89,.30) 45%, rgba(26,46,33,0) 70%);
+      filter: blur(10px);
+      opacity: 0.55;
+      transition: opacity .35s ease, filter .35s ease;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .sound-btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,0));
+      opacity: .35;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .sound-btn:hover{
+      transform: translateY(-2px);
+      box-shadow:
+        0 16px 40px rgba(26,46,33,0.14),
+        0 0 0 1px rgba(201,218,143,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.9);
+    }
+    .sound-btn:hover::before{ opacity: .85; filter: blur(12px); }
+    .sound-btn:active{ transform: translateY(0) scale(.98); }
+
+    .sound-icon{
+      position: relative;
+      z-index: 1;
+      width: 18px;
+      height: 18px;
+      color: rgba(26,46,33,0.78);
+      transition: transform .35s cubic-bezier(0.16,1,0.3,1), color .35s, opacity .35s;
+    }
+
+    /* ring pulse when sound ON (subtle) */
+    @keyframes soundPulse {
+      0% { box-shadow: 0 0 0 0 rgba(74,124,89,0.0); }
+      50%{ box-shadow: 0 0 0 10px rgba(74,124,89,0.10); }
+      100%{ box-shadow: 0 0 0 18px rgba(74,124,89,0.0); }
+    }
+    .sound-on{
+      border-color: rgba(74,124,89,0.22);
+    }
+    .sound-on .sound-icon{
+      color: rgba(74,124,89,0.95);
+      transform: scale(1.04);
+    }
+    .sound-on::before{
+      opacity: 0.95;
+    }
+    .sound-on{
+      animation: soundPulse 2.6s ease-in-out infinite;
+    }
+
+    /* muted state */
+    .sound-muted .sound-icon{
+      color: rgba(26,46,33,0.55);
+      opacity: .85;
+    }
+    .sound-muted::before{
+      opacity: .35;
+    }
+    .sound-muted .sound-icon{
+      transform: scale(0.98);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .sound-on{ animation: none; }
+      .sound-btn, .sound-icon{ transition: none; }
+    }
   </style>
 
   <script type="importmap">
@@ -304,7 +402,6 @@
           <img src="Images/logo.jpg" alt="HANDORA logo" class="w-full h-full object-cover" loading="lazy" />
         </div>
 
-        <!-- FIX: add data-text for halo -->
         <span class="handora-wordmark hidden md:block" data-text="HANDORA">HANDORA</span>
       </div>
 
@@ -316,6 +413,16 @@
       </div>
 
       <div class="flex items-center gap-6">
+        <!-- Sound toggle (premium) -->
+        <button id="sound-toggle" class="sound-btn" aria-label="Toggle sound" title="Sound">
+          <!-- icon swaps by JS -->
+          <svg id="sound-icon" class="sound-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M11 5L6.5 8.5H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2.5L11 19V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M15 9a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M17.5 6.5a7 7 0 0 1 0 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
+          </svg>
+        </button>
+
         <button id="cart-button" class="relative p-2 group" onclick="navigate('cart')">
           <svg class="w-6 h-6 text-slate-700 group-hover:text-handora-green transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -336,6 +443,11 @@
   <!-- Main Content -->
   <main id="app-root" class="min-h-screen"></main>
 
+  <!-- Ambient Audio: autoplay muted để browser cho phép preload/play; unmute khi có gesture -->
+  <audio id="bg-audio" preload="auto" loop autoplay muted playsinline>
+    <source src="/Images/music.mp3" type="audio/mpeg" />
+  </audio>
+
   <!-- Compact Footer -->
   <footer class="bg-handora-dark text-white pt-16 pb-10 px-8 relative overflow-hidden">
     <div class="absolute top-0 right-0 w-[420px] h-[420px] bg-handora-green/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
@@ -352,7 +464,7 @@
             HANDORA is a vegan hand wash brand focused on gentle daily hygiene.
             We provide science-based solutions with skin-safe formulations,
             designed for frequent use and sustainable consumption.
-          </p>   
+          </p>
 
           <div class="flex gap-6 items-center opacity-60">
             <div class="text-center">
@@ -371,78 +483,61 @@
         </div>
 
         <!-- Nav -->
-<div class="lg:col-span-2">
-  <h4 class="font-bold uppercase tracking-widest text-[10px] mb-5 text-handora-accent">
-    Ritual Nav
-  </h4>
+        <div class="lg:col-span-2">
+          <h4 class="font-bold uppercase tracking-widest text-[10px] mb-5 text-handora-accent">
+            Ritual Nav
+          </h4>
 
-  <ul class="space-y-3 text-white/55 text-[11px] font-semibold uppercase tracking-[0.18em]">
-    <li><button onclick="navigate('shop')" class="hover:text-white">Collection</button></li>
-    <li><button onclick="navigate('shop')" class="hover:text-white">Products</button></li>
-    <li><button onclick="navigate('blogs')" class="hover:text-white">Blogs</button></li>
-    <li><button onclick="navigate('about')" class="hover:text-white">About Us</button></li>
-    <li><button onclick="navigate('quiz')" class="hover:text-white">Skin & Washing Habit Quiz</button></li>
-    <li><button onclick="clearAllStorage()" class="hover:text-white bg-transparent border-0 p-0">Shipping</button></li>
-  </ul>
+          <ul class="space-y-3 text-white/55 text-[11px] font-semibold uppercase tracking-[0.18em]">
+            <li><button onclick="navigate('shop')" class="hover:text-white">Collection</button></li>
+            <li><button onclick="navigate('shop')" class="hover:text-white">Products</button></li>
+            <li><button onclick="navigate('blogs')" class="hover:text-white">Blogs</button></li>
+            <li><button onclick="navigate('about')" class="hover:text-white">About Us</button></li>
+            <li><button onclick="navigate('quiz')" class="hover:text-white">Skin & Washing Habit Quiz</button></li>
+            <li><button onclick="clearAllStorage()" class="hover:text-white bg-transparent border-0 p-0">Shipping</button></li>
+          </ul>
 
-<!-- Social (glow highlight – premium) -->
-<div class="mt-5 pt-5 border-t border-white/10">
-  <a
-    href="https://www.facebook.com/Handora.vn"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="group relative flex items-center gap-3
-           text-white/60 hover:text-white transition-all duration-500"
-    aria-label="Handora on Facebook"
-  >
-    <!-- Glow halo -->
-    <span
-      class="absolute -inset-2 rounded-xl opacity-0
-             bg-[radial-gradient(circle_at_30%_30%,rgba(201,218,143,0.35),rgba(74,124,89,0.25),transparent_70%)]
-             blur-xl transition-opacity duration-500
-             group-hover:opacity-100"
-      aria-hidden="true"
-    ></span>
+          <!-- Social -->
+          <div class="mt-5 pt-5 border-t border-white/10">
+            <a
+              href="https://www.facebook.com/Handora.vn"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group relative flex items-center gap-3 text-white/60 hover:text-white transition-all duration-500"
+              aria-label="Handora on Facebook"
+            >
+              <span
+                class="absolute -inset-2 rounded-xl opacity-0
+                       bg-[radial-gradient(circle_at_30%_30%,rgba(201,218,143,0.35),rgba(74,124,89,0.25),transparent_70%)]
+                       blur-xl transition-opacity duration-500
+                       group-hover:opacity-100"
+                aria-hidden="true"
+              ></span>
 
-    <!-- Icon -->
-    <span
-      class="relative w-9 h-9 rounded-full flex items-center justify-center
-             bg-white/10 border border-white/20
-             text-white/70
-             shadow-[0_0_0_1px_rgba(201,218,143,0.25)]
-             transition-all duration-500
-             group-hover:bg-white
-             group-hover:text-handora-dark
-             group-hover:shadow-[0_0_18px_rgba(201,218,143,0.55),0_0_32px_rgba(74,124,89,0.35)]"
-    >
-      <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.1V12h2.1V9.8c0-2.1 1.2-3.3 3.1-3.3.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.3V12h2.2l-.4 2.9h-1.8v7A10 10 0 0022 12z"/>
-      </svg>
-    </span>
+              <span
+                class="relative w-9 h-9 rounded-full flex items-center justify-center
+                       bg-white/10 border border-white/20 text-white/70
+                       shadow-[0_0_0_1px_rgba(201,218,143,0.25)]
+                       transition-all duration-500
+                       group-hover:bg-white group-hover:text-handora-dark
+                       group-hover:shadow-[0_0_18px_rgba(201,218,143,0.55),0_0_32px_rgba(74,124,89,0.35)]"
+              >
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2.1V12h2.1V9.8c0-2.1 1.2-3.3 3.1-3.3.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.3V12h2.2l-.4 2.9h-1.8v7A10 10 0 0022 12z"/>
+                </svg>
+              </span>
 
-    <!-- Text -->
-    <div class="relative leading-tight">
-      <div
-        class="text-[9px] font-black uppercase tracking-[0.32em]
-               transition-colors duration-500
-               group-hover:text-handora-accent"
-      >
-        Facebook
-      </div>
-      <div
-        class="text-[9px] italic text-white/35
-               transition-colors duration-500
-               group-hover:text-white/75"
-      >
-        /handora.vn
-      </div>
-    </div>
-  </a>
-</div>
-
-
-</div>
-
+              <div class="relative leading-tight">
+                <div class="text-[9px] font-black uppercase tracking-[0.32em] transition-colors duration-500 group-hover:text-handora-accent">
+                  Facebook
+                </div>
+                <div class="text-[9px] italic text-white/35 transition-colors duration-500 group-hover:text-white/75">
+                  /handora.vn
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <!-- Store -->
         <div class="lg:col-span-6">
@@ -617,9 +712,106 @@
   </div>
 
   <script>
-    // footer year
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+
+  <!-- ====== NEW AUDIO ENGINE (gesture unlock + premium toggle) ====== -->
+<script>
+(() => {
+  const audio = document.getElementById("bg-audio");
+  const btn = document.getElementById("sound-toggle");
+  const icon = document.getElementById("sound-icon");
+  if (!audio || !btn || !icon) return;
+
+  const KEY = "handora_audio_enabled";
+  if (localStorage.getItem(KEY) === null) localStorage.setItem(KEY, "1");
+
+  let enabled = localStorage.getItem(KEY) === "1";
+  let unlocked = false;
+  let trying = false;
+
+  const setButtonState = () => {
+    btn.classList.toggle("sound-on", enabled);
+    btn.classList.toggle("sound-muted", !enabled);
+
+    // swap icon
+    icon.innerHTML = enabled
+      ? `
+        <path d="M11 5L6.5 8.5H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2.5L11 19V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M15 9a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M17.5 6.5a7 7 0 0 1 0 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
+      `
+      : `
+        <path d="M11 5L6.5 8.5H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h2.5L11 19V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M16.5 9.5l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M21.5 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      `;
+  };
+
+  // prime autoplay muted (allowed)
+  const prime = async () => {
+    try {
+      audio.volume = 0.55;
+      audio.muted = true;
+      await audio.play();
+    } catch {}
+  };
+
+  const playIfAllowed = async () => {
+    if (!enabled) {
+      audio.muted = true;
+      return;
+    }
+    if (unlocked || trying) return;
+
+    trying = true;
+    try {
+      audio.volume = 0.55;
+      audio.muted = false;   // IMPORTANT: unmute inside gesture handler
+      await audio.play();
+      unlocked = true;
+    } catch {
+      // if still blocked, keep muted; next gesture will retry
+      audio.muted = true;
+    } finally {
+      trying = false;
+    }
+  };
+
+  // === THE KEY FIX ===
+  // Use wheel/touchstart/pointerdown/keydown as "activation" events.
+  // Register in CAPTURE to run as early as possible.
+  const activationEvents = ["wheel", "touchstart", "pointerdown", "keydown", "mousedown"];
+  const onActivate = () => playIfAllowed();
+
+  activationEvents.forEach(ev => {
+    window.addEventListener(ev, onActivate, { passive: true, capture: true });
+  });
+
+  // Scroll event is optional (not reliable) - keep it as backup.
+  window.addEventListener("scroll", onActivate, { passive: true, capture: true });
+
+  // Toggle button
+  btn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    enabled = !enabled;
+    localStorage.setItem(KEY, enabled ? "1" : "0");
+    unlocked = false; // allow re-unlock
+    setButtonState();
+
+    if (enabled) {
+      await playIfAllowed();  // click is definitely activation
+    } else {
+      audio.muted = true;
+    }
+  });
+
+  setButtonState();
+  prime();
+})();
+</script>
+
+
 
   <script type="module" src="./index.tsx"></script>
 </body>
