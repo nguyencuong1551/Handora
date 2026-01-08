@@ -1487,9 +1487,9 @@ export const renderCart = (state: any) => {
         <span class="w-1.5 h-1.5 rounded-full bg-handora-green"></span>
         Cart
       </span>
-      <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">Your Ritual Items</h1>
+      <h1 class="text-6xl md:text-7xl font-serif mt-8 text-handora-dark">Your Shopping Cart</h1>
       <p class="mt-4 text-slate-400">
-        Review your selection, confirm size, and complete the ritual.
+        Review your selected products, adjust quantities, and proceed to checkout.
       </p>
     </div>
 
@@ -1591,7 +1591,7 @@ export const renderCart = (state: any) => {
                 onclick="handleCheckout()"
                 class="mt-8 w-full btn-shimmer text-white py-5 rounded-3xl text-[10px] font-black uppercase tracking-[0.35em] shadow-xl"
               >
-                Complete Ritual
+                Complete
               </button>
 
               <button
